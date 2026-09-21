@@ -222,6 +222,45 @@
             }
             isPlaying = !isPlaying;
         }
-    </script>
+    </script> // 1. นำ URL ที่ได้มาใส่ในตัวแปรนี้
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwhH0TT33GiC_lj0V1ty4FFE4k-qCZ3j8ccq8uIux1HO0u2ekII4wS7XjLVff60I6kg/exec";
+
+        // 2. ฟังก์ชันสำหรับส่งข้อมูลไปบันทึกที่ Google Sheet
+        function saveStudentData(score) {
+            const fname = document.getElementById('fname').value;
+            const lname = document.getElementById('lname').value;
+
+            // แสดงหน้าต่างโหลด
+            Swal.fire({
+                title: 'กำลังบันทึกข้อมูล...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                }
+            });
+
+            // เตรียมข้อมูลสำหรับส่งไปหลังบ้าน
+            const formData = new URLSearchParams();
+            formData.append('action', 'save_score');
+            formData.append('fname', fname);
+            formData.append('lname', lname);
+            formData.append('score', score); // สมมติว่าส่งคะแนนมาด้วย
+
+            // ยิงข้อมูลไปที่ Google Apps Script
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === 'success') {
+                    Swal.fire('สำเร็จ!', 'บันทึกข้อมูลลงระบบเรียบร้อยแล้ว', 'success');
+                }
+            })
+            .catch(error => {
+                Swal.fire('เกิดข้อผิดพลาด', 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่', 'error');
+                console.error('Error:', error);
+            });
+        }
 </body>
 </html>
