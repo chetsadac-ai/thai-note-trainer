@@ -120,13 +120,33 @@
                 <h2 class="text-2xl font-bold mb-4 text-blue-700"><i class="fas fa-chalkboard-teacher"></i> ขั้นที่ 1: สาธิตทักษะ (Demonstration)</h2>
                 <p class="mb-4 text-gray-700 text-lg">การอ่านโน้ตเพลงไทย 1 ห้องเพลงจะมี 4 จังหวะย่อย โดยเราจะเน้นการปฏิบัติที่ <b>ตำแหน่ง 2 (จังหวะยก)</b> และ <b>ตำแหน่ง 4 (จังหวะตก)</b></p>
                 
-                <div class="bg-white p-8 rounded-2xl shadow-sm border text-center text-3xl font-mono tracking-widest relative mb-6">
-                    | <span class="cursor-pointer hover:bg-gray-100 rounded-lg px-2 transition" onclick="showFeedback('ตำแหน่งที่ 1: ไม่ต้องทำอะไร')">ด</span> 
-                    <span class="cursor-pointer bg-blue-100 hover:bg-blue-500 hover:text-white text-blue-600 font-bold rounded-lg px-2 transition" onclick="showFeedback('ตำแหน่งที่ 2 (จังหวะยก): กางมือออก 👐')">ร</span> 
-                    <span class="cursor-pointer hover:bg-gray-100 rounded-lg px-2 transition" onclick="showFeedback('ตำแหน่งที่ 3: ไม่ต้องทำอะไร')">ม</span> 
-                    <span class="cursor-pointer bg-red-100 hover:bg-thaiRed hover:text-white text-thaiRed font-bold rounded-lg px-2 transition" onclick="showFeedback('ตำแหน่งที่ 4 (จังหวะตกหลัก): ปรบมือ! 👏')">ฟ</span> |
-                    <div class="text-sm text-gray-400 mt-4 tracking-widest font-sans">  1 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 3 &nbsp;&nbsp;&nbsp; 4  </div>
+                <!-- แก้ไขการจัดวางตัวโน้ตและตัวเลขให้ตรงกันเป๊ะด้วย Flexbox -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border flex justify-center items-center text-4xl font-mono mb-6">
+                    <div class="text-gray-400 mx-1 md:mx-3">|</div>
+                    
+                    <div class="flex flex-col items-center mx-2 md:mx-4">
+                        <span class="cursor-pointer hover:bg-gray-100 rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 1: ไม่ต้องทำอะไร')">ด</span>
+                        <span class="text-base text-gray-400 mt-3 font-sans font-medium">1</span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center mx-2 md:mx-4">
+                        <span class="cursor-pointer bg-blue-100 hover:bg-blue-500 hover:text-white text-blue-600 font-bold rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 2 (จังหวะยก): กางมือออก 👐')">ร</span>
+                        <span class="text-base text-gray-400 mt-3 font-sans font-medium">2</span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center mx-2 md:mx-4">
+                        <span class="cursor-pointer hover:bg-gray-100 rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 3: ไม่ต้องทำอะไร')">ม</span>
+                        <span class="text-base text-gray-400 mt-3 font-sans font-medium">3</span>
+                    </div>
+                    
+                    <div class="flex flex-col items-center mx-2 md:mx-4">
+                        <span class="cursor-pointer bg-red-100 hover:bg-thaiRed hover:text-white text-thaiRed font-bold rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 4 (จังหวะตกหลัก): ปรบมือ! 👏')">ฟ</span>
+                        <span class="text-base text-gray-400 mt-3 font-sans font-medium">4</span>
+                    </div>
+                    
+                    <div class="text-gray-400 mx-1 md:mx-3">|</div>
                 </div>
+
                 <div id="demo-feedback" class="text-center text-lg text-primary font-bold min-h-[2rem] bg-blue-50 py-2 rounded-lg">👆 ลองคลิกที่ตัวโน้ตด้านบนเพื่อดูวิธีการปฏิบัติ</div>
                 
                 <button onclick="nav('step23', document.querySelectorAll('.menu-item')[2])" class="mt-8 px-6 py-3 bg-blue-600 text-white rounded-xl btn-glass font-bold">ไปฝึกปฏิบัติในขั้นที่ 2-3 ต่อ <i class="fas fa-arrow-right ml-2"></i></button>
