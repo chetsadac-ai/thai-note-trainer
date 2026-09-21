@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thai Note Trainer - เว็บฝึกอ่านโน้ตเพลงไทย</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: url('https://images.unsplash.com/photo-1507676184212-d0330a1c6e1e') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            color: #333;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            padding: 20px;
+        }
+        .hidden-section { display: none !important; }
+        
+        /* สไตล์สำหรับ Simulator */
+        .simulator-container {
+            border-top: 8px solid #b21e24;
+            border-bottom: 8px solid #dca331;
+            border-radius: 12px;
+            background: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .notation-row {
+            display: grid; grid-template-columns: repeat(8, 1fr);
+            border: 2px solid #b21e24; border-radius: 8px; margin-top: 15px;
+        }
+        .room { border-right: 1px solid #e0d8c3; display: flex; height: 50px; align-items: center;}
+        .room:last-child { border-right: none; }
+        .beat { flex: 1; text-align: center; font-weight: bold; font-size: 18px; transition: 0.1s;}
+        .beat.active { background-color: #ffe0b2; color: #d84315; transform: scale(1.1); }
+        .beat.active-clap { background-color: #b21e24; color: white; transform: scale(1.15); }
+    </style>
+</head>
+<body>
+
+    <!-- หน้า Login -->
+    <div id="login-page" class="min-h-screen flex items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full text-center">
+            <h1 class="text-3xl font-bold text-blue-600 mb-2">Thai Note Trainer</h1>
+            <p class="text-sm text-gray-600 mb-6 border-b pb-4">
+                ชั้นมัธยมศึกษาปีที่ 4 | แผนการเรียนศิลปกรรม (ดนตรีไทย)<br>โรงเรียนเตรียมอุดมศึกษา ภาคเหนือ
+            </p>
+            <input type="text" id="fname" placeholder="ชื่อ" class="w-full mb-3 px-4 py-2 border rounded-xl" required>
+            <input type="text" id="lname" placeholder="นามสกุล" class="w-full mb-4 px-4 py-2 border rounded-xl" required>
+            <button onclick="loginUser()" class="w-full bg-blue-600 text-white py-2 rounded-xl font-bold hover:bg-blue-700">เข้าสู่บทเรียน</button>
+        </div>
+    </div>
+
+    <!-- หน้าหลัก (แอปพลิเคชัน) -->
+    <div id="main-app" class="hidden-section flex flex-col md:flex-row min-h-screen p-4 gap-4">
+        
+        <!-- เมนูด้านซ้าย -->
+        <aside class="glass-panel w-full md:w-64 h-fit sticky top-4">
+            <h2 class="font-bold text-xl mb-4 text-center text-blue-600">เมนูหลัก</h2>
+            <nav class="flex flex-col space-y-2">
+                <button onclick="nav('home')" class="p-2 text-left hover:bg-blue-100 rounded">🏠 หน้าแรก</button>
+                <button onclick="nav('simulator')" class="p-2 text-left hover:bg-red-50 text-red-700 font-semibold rounded">🎹 เครื่องฝึกอ่านและปรบมือ</button>
+                <button onclick="logout()" class="p-2 text-left text-red-500 hover:bg-red-100 rounded mt-8">🚪 ออกจากระบบ</button>
+            </nav>
+        </aside>
+
+        <!-- เนื้อหาด้านขวา -->
+        <main class="flex-1 glass-panel">
+            
+            <div id="sec-home">
+                <h2 class="text-2xl font-bold mb-4">ยินดีต้อนรับสู่ Thai Note Trainer 🎵</h2>
+                <p>เลือกเมนู "เครื่องฝึกอ่านและปรบมือ" ด้านซ้ายเพื่อเริ่มการฝึกทักษะ (ขั้นที่ 3) ตามรูปแบบ Davies ได้เลยค่ะ (รองรับการทัชสกรีนบน iPad และ iPhone)</p>
+            </div>
+
+            <!-- ห้องปฏิบัติการ Simulator -->
+            <div id="sec-simulator" class="hidden-section">
+                <div class="simulator-container mx-auto">
+                    <h2 class="text-2xl font-bold text-red-600 mb-2">👏 ห้องปฏิบัติการ ฝึกอ่านและปรบมือ</h2>
+                    <p class="text-gray-600 mb-4">กดปุ่มเล่น แล้วฝึกนับจังหวะ (1-2-3-4) พร้อมปรบมือตรงกับ "แถบสีแดง"</p>
+                    
+                    <button id="playBtn" onclick="togglePlay()" class="bg-red-600 text-white px-8 py-3 rounded-xl font-bold text-lg hover:bg-red-700 transition shadow-lg">▶️ เริ่มฝึกซ้อม</button>
+
+                    <!-- ตารางโน้ต -->
+                    <div id="notationTable" class="mt-6"></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="fixed bottom-0 w-full text-center p-2 text-sm text-gray-600 bg-white/70 backdrop-blur-sm">
+        © 2026 Copyright | พัฒนาโดย เจษฎา จันทร์พุฒิ
+    </footer>
+
+    <!-- JavaScript สำหรับควบคุมเว็บ -->
+    <script>
+        // ข้อมูลโน้ตเพลง (ตัวอย่าง 1 บรรทัด 8 ห้อง)
+        const songData = ["-", "-", "-", "ด", "-", "-", "-", "ร", "-", "-", "-", "ม", "-", "-", "-", "ฟ", "-", "-", "-", "ซ", "-", "-", "-", "ล", "-", "-", "-", "ท", "-", "-", "-", "ด̇"];
+        
+        let audioCtx;
+        let isPlaying = false;
+        let currentBeatIndex = -1;
+        let timerId;
+
+        // ฟังก์ชันเข้าสู่ระบบ
+        function loginUser() {
+            const fname = document.getElementById('fname').value;
+            const lname = document.getElementById('lname').value;
+            if(fname && lname) {
+                document.getElementById('login-page').classList.add('hidden-section');
+                document.getElementById('main-app').classList.remove('hidden-section');
+                renderTable(); // วาดตารางโน้ตเตรียมไว้
+            } else {
+                Swal.fire('แจ้งเตือน', 'กรุณากรอกชื่อและนามสกุลให้ครบถ้วนค่ะ', 'warning');
+            }
+        }
+
+        // ฟังก์ชันออกจากระบบ
+        function logout() {
+            if(isPlaying) togglePlay(); // ปิดเสียงก่อนออก
+            document.getElementById('fname').value = "";
+            document.getElementById('lname').value = "";
+            document.getElementById('main-app').classList.add('hidden-section');
+            document.getElementById('login-page').classList.remove('hidden-section');
+        }
+
+        // ฟังก์ชันสลับหน้าจอ
+        function nav(section) {
+            if(section !== 'simulator' && isPlaying) togglePlay(); // ถ้าเปลี่ยนหน้าให้ปิดเสียง
+            document.getElementById('sec-home').classList.add('hidden-section');
+            document.getElementById('sec-simulator').classList.add('hidden-section');
+            document.getElementById(`sec-${section}`).classList.remove('hidden-section');
+        }
+
+        // วาดตารางโน้ตดนตรีไทย
+        function renderTable() {
+            const table = document.getElementById("notationTable");
+            table.innerHTML = "";
+            const rowDiv = document.createElement("div");
+            rowDiv.className = "notation-row";
+            
+            for (let r = 0; r < 8; r++) {
+                const roomDiv = document.createElement("div");
+                roomDiv.className = "room";
+                for (let b = 0; b < 4; b++) {
+                    const beatIndex = (r * 4) + b;
+                    const beatSpan = document.createElement("span");
+                    beatSpan.className = "beat";
+                    beatSpan.id = "beat-" + beatIndex;
+                    beatSpan.innerText = songData[beatIndex].replace("̇", ""); 
+                    roomDiv.appendChild(beatSpan);
+                }
+                rowDiv.appendChild(roomDiv);
+            }
+            table.appendChild(rowDiv);
+        }
+
+        // สร้างเสียงเคาะจังหวะ
+        function playMetronome(isClap) {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            
+            if (isClap) {
+                osc.type = 'square'; // เสียงปรบมือ/กรับ
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime); 
+            } else {
+                osc.type = 'triangle'; // เสียงเคาะธรรมดา
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            }
+            osc.start(); 
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        // ควบคุมการเล่น Simulator
+        function togglePlay() {
+            const btn = document.getElementById("playBtn");
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            if (isPlaying) {
+                clearInterval(timerId);
+                if (currentBeatIndex >= 0) {
+                    document.getElementById("beat-" + currentBeatIndex).classList.remove("active", "active-clap");
+                }
+                currentBeatIndex = -1;
+                btn.innerText = "▶️ เริ่มฝึกซ้อม";
+                btn.classList.replace('bg-yellow-500', 'bg-red-600');
+            } else {
+                btn.innerText = "⏹️ หยุดการฝึกซ้อม";
+                btn.classList.replace('bg-red-600', 'bg-yellow-500');
+                
+                // วนลูปเล่นโน้ต ความเร็ว 60 BPM (1000ms ต่อจังหวะ)
+                timerId = setInterval(() => {
+                    if (currentBeatIndex >= 0) {
+                        document.getElementById("beat-" + currentBeatIndex).classList.remove("active", "active-clap");
+                    }
+                    currentBeatIndex++;
+                    if (currentBeatIndex >= songData.length) currentBeatIndex = 0; 
+
+                    const isClapBeat = (currentBeatIndex % 4 === 3); // จังหวะตก ตำแหน่งที่ 4
+                    const currentSpan = document.getElementById("beat-" + currentBeatIndex);
+                    
+                    if (isClapBeat) currentSpan.classList.add("active-clap");
+                    else currentSpan.classList.add("active");
+                    
+                    playMetronome(isClapBeat);
+                }, 1000);
+            }
+            isPlaying = !isPlaying;
+        }
+    </script>
+</body>
+</html>
