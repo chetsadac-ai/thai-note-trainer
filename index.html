@@ -36,12 +36,10 @@
         .btn-glass { transition: all 0.3s ease; border-radius: 12px; }
         .btn-glass:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
         
-        /* Smooth Fade Animation */
         .view-section { display: none; opacity: 0; transition: opacity 0.4s ease-in-out; }
         .view-section.active { display: block; opacity: 1; animation: smoothFadeIn 0.5s ease forwards; }
         @keyframes smoothFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* CSS Simulator */
         .simulator-container {
             background-color: #fff; width: 100%; border-radius: 15px; padding: 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
@@ -58,7 +56,6 @@
             font-size: 20px; font-weight: 600; transition: 0.15s; border-radius: 4px; margin: 2px;
         }
         
-        /* สไตล์สีของจังหวะต่างๆ */
         .beat.active-tracker { background-color: #f3f4f6; color: #666; transform: scale(1.05); } 
         .beat.active-upbeat { background-color: theme('colors.primary'); color: white; transform: scale(1.15); box-shadow: 0 2px 8px rgba(74,144,226,0.4); } 
         .beat.active-clap { background-color: theme('colors.thaiRed'); color: white; transform: scale(1.15); box-shadow: 0 2px 8px rgba(178,30,36,0.4); } 
@@ -68,7 +65,6 @@
         .dot-below { position: relative; }
         .dot-below::after { content: '•'; position: absolute; bottom: -15px; font-size: 24px; }
         
-        /* Menu */
         .menu-item { transition: all 0.2s; border-left: 4px solid transparent; }
         .menu-item:hover { background-color: #f0f7ff; border-left-color: #4A90E2; padding-left: 1rem; }
         .menu-active { background-color: #e6f2ff; border-left-color: #4A90E2; font-weight: bold; color: #4A90E2; padding-left: 1rem; }
@@ -82,17 +78,13 @@
 </head>
 <body>
 
-    <!-- Main Application -->
     <div class="min-h-screen flex flex-col md:flex-row p-2 md:p-4 gap-4">
         
-        <!-- Sidebar Menu -->
         <aside class="glass-panel w-full md:w-72 h-fit md:sticky md:top-4 flex flex-col p-4">
             <h1 class="text-2xl font-bold text-center text-blue-600 mb-2 font-cursive tracking-wide">Thai Note Trainer</h1>
             <p class="text-xs text-center text-gray-500 mb-6 pb-4 border-b">รูปแบบการสอนทักษะปฏิบัติ Davies</p>
-            
             <nav class="flex flex-col space-y-1">
                 <button onclick="nav('home', this)" class="menu-item menu-active p-3 text-left rounded-r-lg"><i class="fas fa-home w-6"></i> หน้าแรก</button>
-                
                 <div class="mt-4 mb-2 text-xs font-bold text-gray-400 uppercase tracking-wider pl-3">บทเรียน (Davies 5 Steps)</div>
                 <button onclick="nav('step1', this)" class="menu-item p-3 text-left rounded-r-lg"><i class="fas fa-chalkboard-teacher w-6"></i> ขั้น 1: สาธิตทักษะ</button>
                 <button onclick="nav('step23', this)" class="menu-item p-3 text-left rounded-r-lg text-thaiRed"><i class="fas fa-drum w-6"></i> ขั้น 2-3: ปฏิบัติทักษะย่อย</button>
@@ -101,10 +93,8 @@
             </nav>
         </aside>
 
-        <!-- Content Area -->
         <main class="flex-1 glass-panel p-6 relative overflow-hidden">
             
-            <!-- Home -->
             <div id="sec-home" class="view-section active">
                 <h2 class="text-3xl font-bold mb-4">ยินดีต้อนรับสู่เว็บฝึกอ่านโน้ต 🎵</h2>
                 <p class="text-lg text-gray-600 mb-6">เว็บไซต์นี้พัฒนาขึ้นเพื่อศึกษาผลของการใช้เว็บฝึกอ่านโน้ตเพลงไทย ตามรูปแบบการสอนทักษะปฏิบัติของ Davies สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 4 แผนการเรียนศิลปกรรม (ดนตรีไทย) โรงเรียนเตรียมอุดมศึกษา ภาคเหนือ</p>
@@ -115,11 +105,9 @@
                 <button onclick="nav('step1', document.querySelectorAll('.menu-item')[1])" class="px-8 py-3 bg-primary text-white rounded-xl btn-glass font-bold shadow-lg text-lg">เข้าสู่บทเรียน ขั้นที่ 1 <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
-            <!-- Step 1: สาธิตทักษะ -->
             <div id="sec-step1" class="view-section">
                 <h2 class="text-2xl font-bold mb-4 text-blue-700"><i class="fas fa-chalkboard-teacher"></i> ขั้นที่ 1: สาธิตทักษะ (Demonstration)</h2>
                 <p class="mb-4 text-gray-700 text-lg">การอ่านโน้ตเพลงไทย 1 ห้องเพลงจะมี 4 จังหวะย่อย โดยเราจะเน้นการปฏิบัติที่ <b>ตำแหน่ง 2 (จังหวะยก)</b> และ <b>ตำแหน่ง 4 (จังหวะตก)</b></p>
-                
                 <div class="bg-white p-6 rounded-2xl shadow-sm border flex justify-center items-center text-4xl font-mono mb-6">
                     <div class="text-gray-400 mx-1 md:mx-3">|</div>
                     <div class="flex flex-col items-center mx-2 md:mx-4">
@@ -144,7 +132,6 @@
                 <button onclick="nav('step23', document.querySelectorAll('.menu-item')[2])" class="mt-8 px-6 py-3 bg-blue-600 text-white rounded-xl btn-glass font-bold">ไปฝึกปฏิบัติในขั้นที่ 2-3 ต่อ <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
-            <!-- Step 2-3: เครื่องฝึกอ่าน (Simulator) -->
             <div id="sec-step23" class="view-section">
                 <div class="flex justify-between items-end mb-4">
                     <div>
@@ -155,11 +142,8 @@
                         </p>
                     </div>
                 </div>
-                
                 <div class="simulator-container">
                     <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-6 bg-gray-50 p-4 rounded-xl border">
-                        
-                        <!-- เมนูเลือกแบบฝึกหัด -->
                         <div class="w-full md:w-auto">
                             <select id="songSelect" onchange="loadSong()" class="p-2 border border-gray-300 rounded-lg font-sans w-full bg-white shadow-sm font-semibold text-gray-700 outline-none focus:border-blue-500">
                                 <optgroup label="🔢 แบบฝึกจังหวะ (ตัวเลข)">
@@ -179,7 +163,6 @@
                                 <i class="fas fa-info-circle mr-1"></i> <span id="songDescription">...</span>
                             </div>
                         </div>
-
                         <div class="flex items-center gap-2 text-thaiRed font-bold w-full md:w-auto">
                             ความเร็ว: <input type="range" id="bpmSlider" min="40" max="300" value="60" oninput="updateBPM()"> <span id="bpmDisplay" class="w-8 text-center">60</span> BPM
                         </div>
@@ -195,7 +178,6 @@
                 <button onclick="nav('step4', document.querySelectorAll('.menu-item')[3])" class="mt-6 px-6 py-3 bg-secondary text-white rounded-xl btn-glass font-bold shadow-md w-full md:w-auto">ดูเทคนิควิธีการ (ขั้นที่ 4) <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
-            <!-- Step 4: เทคนิควิธีการ -->
             <div id="sec-step4" class="view-section">
                 <h2 class="text-2xl font-bold mb-4 text-secondary"><i class="fas fa-lightbulb"></i> ขั้นที่ 4: เทคนิควิธีการ (Feedback & Tips)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -219,7 +201,6 @@
                 <button onclick="nav('step5', document.querySelectorAll('.menu-item')[4])" class="mt-8 px-6 py-3 bg-green-600 text-white rounded-xl btn-glass font-bold">ไปเล่นเกมเชื่อมโยงทักษะ (ขั้นที่ 5) <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
-            <!-- Step 5: เชื่อมโยงทักษะ (เกมจับคู่) -->
             <div id="sec-step5" class="view-section">
                 <h2 class="text-2xl font-bold mb-2 text-green-600"><i class="fas fa-music"></i> ขั้นที่ 5: เชื่อมโยงทักษะ (Integration)</h2>
                 <p class="text-gray-600 mb-6">ทบทวนความจำระดับตัวโน้ต เพื่อให้เชื่อมโยงจังหวะและสายตาได้รวดเร็วขึ้น</p>
@@ -232,12 +213,10 @@
                     <button onclick="initGame()" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg font-bold hover:bg-gray-300 transition">🔄 สุ่มกระดานใหม่</button>
                 </div>
             </div>
-
         </main>
     </div>
 
     <script>
-        // ================= NAVIGATION =================
         function nav(sectionId, element = null) {
             if (sectionId !== 'step23' && isPlaying) togglePlay(); 
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
@@ -249,7 +228,6 @@
         }
         function showFeedback(text) { document.getElementById('demo-feedback').innerText = "👉 " + text; }
 
-        // ================= SIMULATOR (Data) =================
         const songs = {
             ex1: ["1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4"],
             ex2: ["-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4"],
@@ -279,7 +257,7 @@
             chanDiao: "เป้าหมาย: ฝึกอ่านโน้ตเพลงแขกบรเทศ ชั้นเดียว พร้อมเคาะจังหวะ (อัตราจังหวะรวดเร็ว)"
         };
 
-        // พจนานุกรมสำหรับอ่านออกเสียงภาษาไทย
+        // พจนานุกรมคำอ่าน
         const thaiPronunciation = {
             "1": "หนึ่ง", "2": "สอง", "3": "สาม", "4": "สี่",
             "ด": "โด", "ร": "เร", "ม": "มี", "ฟ": "ฟา", "ซ": "ซอล", "ล": "ลา", "ท": "ที"
@@ -292,8 +270,7 @@
             const selectedKey = document.getElementById("songSelect").value;
             currentSong = songs[selectedKey];
             document.getElementById("songDescription").innerText = songDescriptions[selectedKey];
-            renderTable(); 
-            if (isPlaying) togglePlay(); 
+            renderTable(); if (isPlaying) togglePlay(); 
         }
 
         function renderTable() {
@@ -319,10 +296,10 @@
             }
         }
 
-        // --- สร้างเสียงปรบมือ (Synthetic Clap) ---
+        // --- เสียงปรบมือจำลอง ---
         function playSyntheticClap() {
             if (!audioCtx) return;
-            const bufferSize = audioCtx.sampleRate * 0.1; // 100ms
+            const bufferSize = audioCtx.sampleRate * 0.1; 
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const data = buffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) { data[i] = (Math.random() * 2 - 1); }
@@ -330,27 +307,36 @@
             const noise = audioCtx.createBufferSource();
             noise.buffer = buffer;
             const filter = audioCtx.createBiquadFilter();
-            filter.type = 'bandpass'; filter.frequency.value = 1500; filter.Q.value = 1;
+            filter.type = 'bandpass'; filter.frequency.value = 1200; filter.Q.value = 1.5;
             
             const gain = audioCtx.createGain();
-            gain.gain.setValueAtTime(1, audioCtx.currentTime);
+            gain.gain.setValueAtTime(1.5, audioCtx.currentTime); // เพิ่มความดังเสียงปรบมือ
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
             
             noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
             noise.start();
         }
 
-        // --- ระบบเสียงพูดภาษาไทย ---
+        // --- ระบบออกเสียงพูด (TTS) ที่ได้รับการปรับจูน ---
         function speakThai(word) {
             if (!('speechSynthesis' in window)) return;
-            window.speechSynthesis.cancel(); // ล้างคิวเก่าที่พูดไม่จบเพื่อให้ทันจังหวะ
+            
+            // ยกเลิกคิวเก่าถ้าค้างอยู่ เพื่อให้ออกเสียงทันจังหวะ
+            if(window.speechSynthesis.pending) {
+                window.speechSynthesis.cancel();
+            }
+
             const utterance = new SpeechSynthesisUtterance(word);
             utterance.lang = 'th-TH'; 
             
-            // ปรับความเร็วเสียงพูดตาม BPM
-            if (bpm > 180) utterance.rate = 2.5;
-            else if (bpm > 120) utterance.rate = 2.0;
-            else if (bpm > 80) utterance.rate = 1.5;
+            // บังคับหาเสียงภาษาไทย (เพื่อแก้ปัญหาบางเบราว์เซอร์อ่านตัวเลขเป็นภาษาอังกฤษ)
+            const voices = window.speechSynthesis.getVoices();
+            const thaiVoice = voices.find(v => v.lang === 'th-TH' || v.lang === 'th');
+            if (thaiVoice) utterance.voice = thaiVoice;
+            
+            // ปรับความเร็วตาม BPM
+            if (bpm >= 150) utterance.rate = 2.0;
+            else if (bpm >= 100) utterance.rate = 1.5;
             else utterance.rate = 1.2;
             
             window.speechSynthesis.speak(utterance);
@@ -366,6 +352,7 @@
         }
 
         function playMelodyNote(noteString) {
+            if (!audioCtx || !noteString || noteString === "-") return; 
             const freq = noteFrequencies[noteString]; if (!freq) return;
             const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
@@ -390,7 +377,7 @@
                 if (currentBeatIndex >= currentSong.length) currentBeatIndex = 0; 
                 
                 const currentNote = currentSong[currentBeatIndex];
-                const position = currentBeatIndex % 4; // ค่าจะเป็น 0, 1, 2, 3 (แทนตำแหน่งที่ 1, 2, 3, 4)
+                const position = currentBeatIndex % 4; // 0=ตำแหน่ง 1, 1=ตำแหน่ง 2, 2=ตำแหน่ง 3, 3=ตำแหน่ง 4
                 const currentSpan = document.getElementById("beat-" + currentBeatIndex);
                 
                 let isClap = false;
@@ -398,7 +385,7 @@
 
                 if (position === 3) {
                     currentSpan.classList.add("active-clap"); 
-                    isClap = true; // ตรงกับตัวที่ 4 แน่นอน
+                    isClap = true;
                 } else if (position === 1) {
                     currentSpan.classList.add("active-upbeat"); 
                     isUpbeat = true;
@@ -409,20 +396,19 @@
                 // 1. เล่นเสียงเคาะจังหวะทั่วไป (จังหวะ 1, 2, 3)
                 if (!isClap) playMetronome(isUpbeat); 
                 
-                // 2. เล่นเสียงปรบมือ (เฉพาะตำแหน่ง 4)
+                // 2. เล่นเสียงปรบมือดังๆ (เฉพาะตำแหน่ง 4)
                 if (isClap) playSyntheticClap();
 
                 // 3. ระบบอ่านออกเสียง และเล่นดนตรี
                 if(document.getElementById("melodyToggle").checked) {
                     if (currentNote !== "-") {
-                        // ลบจุดออกเพื่อหาตัวอักษรตั้งต้นไปเทียบใน Dictionary
                         let cleanNote = currentNote.replace("̇", "").replace("̣", "");
                         let spokenWord = thaiPronunciation[cleanNote] || currentNote;
                         
-                        // ออกเสียงภาษาไทย
+                        // ออกเสียงอ่านภาษาไทย (ทั้งตัวเลขและตัวโน้ต)
                         speakThai(spokenWord);
                         
-                        // ถ้าเป็นตัวโน้ต (ไม่ใช่ตัวเลข) ให้เล่นเสียงดนตรีเมโลดี้ด้วย
+                        // ถ้าเป็นตัวโน้ต (ไม่ใช่ตัวเลข 1 2 3 4) ให้เล่นเสียงเมโลดี้ควบคู่ไปด้วย
                         if (isNaN(cleanNote)) {
                             playMelodyNote(currentNote);
                         }
@@ -436,6 +422,12 @@
             const btn = document.getElementById("playBtn");
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            // จำเป็นต้องมีเพื่อปลดล็อกระบบเสียงพูดในครั้งแรกที่ผู้ใช้กดปุ่ม
+            if ('speechSynthesis' in window && !isPlaying) {
+                let unlockMsg = new SpeechSynthesisUtterance('');
+                window.speechSynthesis.speak(unlockMsg);
+            }
             
             if (isPlaying) {
                 clearInterval(simTimerId); 
@@ -452,7 +444,6 @@
             isPlaying = !isPlaying;
         }
 
-        // ================= GAME =================
         function initGame() {
             document.getElementById('game-board').innerHTML = ''; document.getElementById('game-score').innerText = '0';
             let deck = [{id:1,v:'ด'},{id:1,v:'โด'},{id:2,v:'ร'},{id:2,v:'เร'},{id:3,v:'ม'},{id:3,v:'มี'},{id:4,v:'ฟ'},{id:4,v:'ฟา'}].sort(()=>Math.random()-0.5);
@@ -473,6 +464,13 @@
                 };
                 document.getElementById('game-board').appendChild(b);
             });
+        }
+        
+        // เคล็ดลับดึงเสียงภาษาไทยมารอไว้ก่อน
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = function() {
+                window.speechSynthesis.getVoices();
+            };
         }
 
         window.onload = () => { loadSong(); initGame(); };
