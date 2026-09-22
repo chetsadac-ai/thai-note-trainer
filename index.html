@@ -122,31 +122,25 @@
                 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border flex justify-center items-center text-4xl font-mono mb-6">
                     <div class="text-gray-400 mx-1 md:mx-3">|</div>
-                    
                     <div class="flex flex-col items-center mx-2 md:mx-4">
                         <span class="cursor-pointer hover:bg-gray-100 rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 1: ไม่ต้องทำอะไร')">ด</span>
                         <span class="text-base text-gray-400 mt-3 font-sans font-medium">1</span>
                     </div>
-                    
                     <div class="flex flex-col items-center mx-2 md:mx-4">
                         <span class="cursor-pointer bg-blue-100 hover:bg-blue-500 hover:text-white text-blue-600 font-bold rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 2 (จังหวะยก): กางมือออก 👐')">ร</span>
                         <span class="text-base text-gray-400 mt-3 font-sans font-medium">2</span>
                     </div>
-                    
                     <div class="flex flex-col items-center mx-2 md:mx-4">
                         <span class="cursor-pointer hover:bg-gray-100 rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 3: ไม่ต้องทำอะไร')">ม</span>
                         <span class="text-base text-gray-400 mt-3 font-sans font-medium">3</span>
                     </div>
-                    
                     <div class="flex flex-col items-center mx-2 md:mx-4">
                         <span class="cursor-pointer bg-red-100 hover:bg-thaiRed hover:text-white text-thaiRed font-bold rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 4 (จังหวะตกหลัก): ปรบมือ! 👏')">ฟ</span>
                         <span class="text-base text-gray-400 mt-3 font-sans font-medium">4</span>
                     </div>
-                    
                     <div class="text-gray-400 mx-1 md:mx-3">|</div>
                 </div>
                 <div id="demo-feedback" class="text-center text-lg text-primary font-bold min-h-[2rem] bg-blue-50 py-2 rounded-lg">👆 ลองคลิกที่ตัวโน้ตด้านบนเพื่อดูวิธีการปฏิบัติ</div>
-                
                 <button onclick="nav('step23', document.querySelectorAll('.menu-item')[2])" class="mt-8 px-6 py-3 bg-blue-600 text-white rounded-xl btn-glass font-bold">ไปฝึกปฏิบัติในขั้นที่ 2-3 ต่อ <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
@@ -181,8 +175,6 @@
                                     <option value="chanDiao">แบบฝึกโน้ตที่ 3: เพลงแขกบรเทศ</option>
                                 </optgroup>
                             </select>
-                            
-                            <!-- กล่องแสดงคำอธิบาย -->
                             <div class="mt-2 p-2 bg-blue-50 text-blue-800 rounded-lg text-sm border border-blue-200">
                                 <i class="fas fa-info-circle mr-1"></i> <span id="songDescription">...</span>
                             </div>
@@ -192,7 +184,7 @@
                             ความเร็ว: <input type="range" id="bpmSlider" min="40" max="300" value="60" oninput="updateBPM()"> <span id="bpmDisplay" class="w-8 text-center">60</span> BPM
                         </div>
                         <label class="flex items-center gap-2 cursor-pointer bg-white px-3 py-2 rounded border shadow-sm w-full md:w-auto justify-center">
-                            <input type="checkbox" id="melodyToggle" checked class="accent-thaiRed w-4 h-4"> 🎵 เปิดเสียงดนตรี/ตัวเลข
+                            <input type="checkbox" id="melodyToggle" checked class="accent-thaiRed w-4 h-4"> 🎵 เปิดเสียงอ่านและดนตรี
                         </label>
                     </div>
 
@@ -231,13 +223,11 @@
             <div id="sec-step5" class="view-section">
                 <h2 class="text-2xl font-bold mb-2 text-green-600"><i class="fas fa-music"></i> ขั้นที่ 5: เชื่อมโยงทักษะ (Integration)</h2>
                 <p class="text-gray-600 mb-6">ทบทวนความจำระดับตัวโน้ต เพื่อให้เชื่อมโยงจังหวะและสายตาได้รวดเร็วขึ้น</p>
-                
                 <div class="bg-white p-6 rounded-2xl border shadow-sm text-center">
                     <div class="flex justify-between items-center mb-6">
                         <h3 class="text-xl font-bold text-gray-800">เกมจับคู่โน้ตมหาสนุก 🎵</h3>
                         <div class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full font-bold">จับคู่ได้: <span id="game-score">0</span>/4</div>
                     </div>
-                    
                     <div id="game-board" class="grid grid-cols-4 gap-3 md:gap-4 max-w-2xl mx-auto mb-6"></div>
                     <button onclick="initGame()" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg font-bold hover:bg-gray-300 transition">🔄 สุ่มกระดานใหม่</button>
                 </div>
@@ -261,22 +251,10 @@
 
         // ================= SIMULATOR (Data) =================
         const songs = {
-            ex1: [
-                "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4",
-                "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4"
-            ],
-            ex2: [
-                "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4",
-                "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4"
-            ],
-            ex3: [
-                "-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4",
-                "-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4"
-            ],
-            ex4: [
-                "-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4",
-                "-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4"
-            ],
+            ex1: ["1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4"],
+            ex2: ["-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4"],
+            ex3: ["-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4"],
+            ex4: ["-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4"],
             ex5: [
                 "-","2","-","4", "1","2","-","4", "-","-","3","4", "-","-","3","4", "-","-","3","4", "-","-","3","4", "1","2","3","4", "-","2","-","4",
                 "-","2","-","4", "1","2","-","4", "-","-","3","4", "-","-","3","4", "-","-","3","4", "-","-","3","4", "1","2","3","4", "-","2","-","4",
@@ -285,20 +263,9 @@
                 "-","-","-","-", "-","2","-","4", "-","-","3","4", "1","2","-","4", "-","2","-","4", "1","2","-","4", "1","2","3","4", "1","2","-","4",
                 "-","-","-","-", "-","2","-","4", "-","-","3","4", "1","2","-","4", "-","2","-","4", "1","2","-","4", "-","2","-","4", "1","2","3","4"
             ],
-            basic: [
-                "-","-","-","ด", "-","-","-","ร", "-","-","-","ม", "-","-","-","ฟ", 
-                "-","-","-","ซ", "-","-","-","ล", "-","-","-","ท", "-","-","-","ด̇"
-            ],
-            yawa: [
-                "-","-","-","ม", "-","ซ̇","-","ม", "-","ซ̇","-","ม", "-","ม","-","ม", 
-                "-","-","-","ร", "-","ม","-","ร", "-","ม","-","ร", "-","ร","-","ร", 
-                "-","-","-","ด", "-","ร","-","ด", "-","ร","-","ด", "-","ด","-","ด",
-                "-","-","-","ล̣", "-","ด","-","ล̣", "-","ด","-","ล̣", "-","ล̣","-","ล̣"
-            ],
-            chanDiao: [
-                "ด̇","ล","ล","ล", "ด̇","ล","ล","ล", "ด̇","ซ","ซ","ซ", "ด̇","ล","ซ","ม", 
-                "ซ","ม","ร","ด", "ม","ร","ซ","ม", "ซ","ล","ด̇","ร̇", "ด̇","ม̇","ร̇","ด̇"
-            ]
+            basic: ["-","-","-","ด", "-","-","-","ร", "-","-","-","ม", "-","-","-","ฟ", "-","-","-","ซ", "-","-","-","ล", "-","-","-","ท", "-","-","-","ด̇"],
+            yawa: ["-","-","-","ม", "-","ซ̇","-","ม", "-","ซ̇","-","ม", "-","ม","-","ม", "-","-","-","ร", "-","ม","-","ร", "-","ม","-","ร", "-","ร","-","ร", "-","-","-","ด", "-","ร","-","ด", "-","ร","-","ด", "-","ด","-","ด", "-","-","-","ล̣", "-","ด","-","ล̣", "-","ด","-","ล̣", "-","ล̣","-","ล̣"],
+            chanDiao: ["ด̇","ล","ล","ล", "ด̇","ล","ล","ล", "ด̇","ซ","ซ","ซ", "ด̇","ล","ซ","ม", "ซ","ม","ร","ด", "ม","ร","ซ","ม", "ซ","ล","ด̇","ร̇", "ด̇","ม̇","ร̇","ด̇"]
         };
 
         const songDescriptions = {
@@ -312,11 +279,15 @@
             chanDiao: "เป้าหมาย: ฝึกอ่านโน้ตเพลงแขกบรเทศ ชั้นเดียว พร้อมเคาะจังหวะ (อัตราจังหวะรวดเร็ว)"
         };
 
+        // พจนานุกรมสำหรับอ่านออกเสียงภาษาไทย
+        const thaiPronunciation = {
+            "1": "หนึ่ง", "2": "สอง", "3": "สาม", "4": "สี่",
+            "ด": "โด", "ร": "เร", "ม": "มี", "ฟ": "ฟา", "ซ": "ซอล", "ล": "ลา", "ท": "ที"
+        };
         const noteFrequencies = { "ด":261.63, "ร":293.66, "ม":329.63, "ฟ":349.23, "ซ":392.00, "ล":440.00, "ท":493.88, "ด̇":523.25, "ร̇":587.33, "ม̇":659.25, "ซ̇":783.99, "ล̣":220.00 };
         
         let currentSong = songs.ex1, audioCtx, isPlaying = false, currentBeatIndex = -1, simTimerId, bpm = 60;
 
-        // ================= SIMULATOR (Functions) =================
         function loadSong() {
             const selectedKey = document.getElementById("songSelect").value;
             currentSong = songs[selectedKey];
@@ -348,44 +319,38 @@
             }
         }
 
-        // --- เพิ่มฟังก์ชันสร้างเสียงปรบมือแบบเสมือนจริง ---
+        // --- สร้างเสียงปรบมือ (Synthetic Clap) ---
         function playSyntheticClap() {
             if (!audioCtx) return;
-            const bufferSize = audioCtx.sampleRate * 0.1; // ความยาว 100ms
+            const bufferSize = audioCtx.sampleRate * 0.1; // 100ms
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const data = buffer.getChannelData(0);
-            
-            // สร้างคลื่นเสียงแบบ White Noise
             for (let i = 0; i < bufferSize; i++) { data[i] = (Math.random() * 2 - 1); }
             
             const noise = audioCtx.createBufferSource();
             noise.buffer = buffer;
-
-            // กรองเสียงให้โทนคล้ายการปรบมือ
             const filter = audioCtx.createBiquadFilter();
-            filter.type = 'bandpass';
-            filter.frequency.value = 1000;
-            filter.Q.value = 1;
-
+            filter.type = 'bandpass'; filter.frequency.value = 1500; filter.Q.value = 1;
+            
             const gain = audioCtx.createGain();
             gain.gain.setValueAtTime(1, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-
+            
             noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
             noise.start();
         }
 
-        // --- เพิ่มฟังก์ชันออกเสียงพูดตัวเลข ---
-        function speakNumber(numStr) {
+        // --- ระบบเสียงพูดภาษาไทย ---
+        function speakThai(word) {
             if (!('speechSynthesis' in window)) return;
             window.speechSynthesis.cancel(); // ล้างคิวเก่าที่พูดไม่จบเพื่อให้ทันจังหวะ
+            const utterance = new SpeechSynthesisUtterance(word);
+            utterance.lang = 'th-TH'; 
             
-            const utterance = new SpeechSynthesisUtterance(numStr);
-            utterance.lang = 'th-TH'; // กำหนดให้พูดภาษาไทย
-            
-            // ปรับความเร็วเสียงพูดให้สัมพันธ์กับ BPM
-            if (bpm > 180) utterance.rate = 2.0;
-            else if (bpm > 120) utterance.rate = 1.5;
+            // ปรับความเร็วเสียงพูดตาม BPM
+            if (bpm > 180) utterance.rate = 2.5;
+            else if (bpm > 120) utterance.rate = 2.0;
+            else if (bpm > 80) utterance.rate = 1.5;
             else utterance.rate = 1.2;
             
             window.speechSynthesis.speak(utterance);
@@ -395,16 +360,12 @@
             if (!audioCtx) return;
             const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
-            if (isUpbeat) {
-                osc.type = 'triangle'; osc.frequency.setValueAtTime(600, audioCtx.currentTime); gain.gain.setValueAtTime(0.1, audioCtx.currentTime); 
-            } else { 
-                osc.type = 'triangle'; osc.frequency.setValueAtTime(400, audioCtx.currentTime); gain.gain.setValueAtTime(0.05, audioCtx.currentTime); 
-            }
+            if (isUpbeat) { osc.type = 'triangle'; osc.frequency.setValueAtTime(600, audioCtx.currentTime); gain.gain.setValueAtTime(0.1, audioCtx.currentTime); } 
+            else { osc.type = 'triangle'; osc.frequency.setValueAtTime(400, audioCtx.currentTime); gain.gain.setValueAtTime(0.05, audioCtx.currentTime); }
             osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1); osc.stop(audioCtx.currentTime + 0.1);
         }
 
         function playMelodyNote(noteString) {
-            if (!audioCtx || !noteString || noteString === "-") return; 
             const freq = noteFrequencies[noteString]; if (!freq) return;
             const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
@@ -429,7 +390,7 @@
                 if (currentBeatIndex >= currentSong.length) currentBeatIndex = 0; 
                 
                 const currentNote = currentSong[currentBeatIndex];
-                const position = currentBeatIndex % 4; 
+                const position = currentBeatIndex % 4; // ค่าจะเป็น 0, 1, 2, 3 (แทนตำแหน่งที่ 1, 2, 3, 4)
                 const currentSpan = document.getElementById("beat-" + currentBeatIndex);
                 
                 let isClap = false;
@@ -437,7 +398,7 @@
 
                 if (position === 3) {
                     currentSpan.classList.add("active-clap"); 
-                    isClap = true;
+                    isClap = true; // ตรงกับตัวที่ 4 แน่นอน
                 } else if (position === 1) {
                     currentSpan.classList.add("active-upbeat"); 
                     isUpbeat = true;
@@ -445,18 +406,26 @@
                     currentSpan.classList.add("active-tracker"); 
                 }
                 
-                // เล่นเสียงเคาะให้จังหวะทั่วไป (จังหวะ 1, 2, 3)
+                // 1. เล่นเสียงเคาะจังหวะทั่วไป (จังหวะ 1, 2, 3)
                 if (!isClap) playMetronome(isUpbeat); 
                 
-                // เล่นเสียงปรบมือ (เฉพาะตำแหน่ง 4)
+                // 2. เล่นเสียงปรบมือ (เฉพาะตำแหน่ง 4)
                 if (isClap) playSyntheticClap();
 
-                // ถ้าระบบเปิดเสียง (Toggle checked) ให้ประมวลผลการอ่าน/เล่นดนตรี
+                // 3. ระบบอ่านออกเสียง และเล่นดนตรี
                 if(document.getElementById("melodyToggle").checked) {
-                    if (["1", "2", "3", "4"].includes(currentNote)) {
-                        speakNumber(currentNote); // ถ้าเป็นเลขให้พูดตัวเลข
-                    } else if (currentNote !== "-") {
-                        playMelodyNote(currentNote); // ถ้าเป็นตัวโน้ตให้เล่นเสียงดนตรี
+                    if (currentNote !== "-") {
+                        // ลบจุดออกเพื่อหาตัวอักษรตั้งต้นไปเทียบใน Dictionary
+                        let cleanNote = currentNote.replace("̇", "").replace("̣", "");
+                        let spokenWord = thaiPronunciation[cleanNote] || currentNote;
+                        
+                        // ออกเสียงภาษาไทย
+                        speakThai(spokenWord);
+                        
+                        // ถ้าเป็นตัวโน้ต (ไม่ใช่ตัวเลข) ให้เล่นเสียงดนตรีเมโลดี้ด้วย
+                        if (isNaN(cleanNote)) {
+                            playMelodyNote(currentNote);
+                        }
                     }
                 }
                 
@@ -475,7 +444,7 @@
                 }
                 currentBeatIndex = -1; 
                 btn.innerHTML = "▶️ เริ่มฝึกซ้อม Simulator"; btn.classList.replace('bg-thaiGold', 'bg-thaiRed');
-                window.speechSynthesis.cancel(); // สั่งหยุดพูดเมื่อกดปุ่มหยุด
+                window.speechSynthesis.cancel();
             } else { 
                 btn.innerHTML = "⏹️ หยุดการฝึกซ้อม"; btn.classList.replace('bg-thaiRed', 'bg-thaiGold'); 
                 startLoop(); 
