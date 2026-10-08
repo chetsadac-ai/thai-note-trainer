@@ -342,11 +342,11 @@
                     <h2 class="text-2xl arcade text-pRed">BOSS STAGE: SCORE ATTACK</h2>
                 </div>
                 
-                <!-- Added Instructions -->
+                <!-- คำอธิบายวิธีการเล่น -->
                 <div class="bg-pNavy text-white p-6 border-4 border-black mb-6">
                     <h3 class="arcade text-pYellow text-lg mb-3">HOW TO PLAY (วิธีเล่น)</h3>
                     <ul class="list-disc ml-6 space-y-2 font-thai font-bold text-lg">
-                        <li>รอจังหวะตัววิ่ง (Tracker) เคลื่อนที่มาถึง <span class="text-pRed">ตำแหน่งที่ 4 (จังหวะตก)</span></li>
+                        <li>รอจังหวะตัววิ่งเคลื่นที่มาถึง <span class="text-pRed">ตำแหน่งที่ 4 (จังหวะตก)</span></li>
                         <li>กด <b>SPACEBAR</b> หรือปุ่ม <b>[ CLAP ]</b> ด้านล่างให้ตรงจังหวะพอดีเพื่อเก็บแต้ม!</li>
                         <li>ระดับความท้าทาย: <b>ความเร็วเพลงจะเพิ่มขึ้นเรื่อยๆ</b> เตรียมตัวให้พร้อม!</li>
                     </ul>
@@ -392,7 +392,7 @@
     <!-- AUDIO ENGINE AND LOGIC -->
     <script>
         function nav(sectionId, element = null) {
-            // เช็คและหยุดการเล่นเมื่อเปลี่ยนหน้าต่าง
+            // หยุดการเล่นก่อนเปลี่ยนหน้าต่าง ป้องกันบั๊กค้าง
             if (sectionId !== 'step2' && sim2IsPlaying) toggleSim2(); 
             if (sectionId !== 'step3' && sim3IsPlaying) toggleSim3(); 
             if (sectionId !== 'step5' && chIsPlaying) toggleCh(); 
@@ -588,11 +588,11 @@
         let sim2Song = songs.ex1, sim2IsPlaying = false, sim2BeatIdx = -1, sim2TimerId, sim2BpmVal = 60;
 
         function loadSim2() {
+            if (sim2IsPlaying) toggleSim2(); // หยุดเกมก่อนเปลี่ยนเพลงเสมอเพื่อรีเซ็ตหน้าจอ
             const key = document.getElementById("sim2Select").value;
             sim2Song = songs[key];
             document.getElementById("sim2Desc").innerText = songDescriptions[key];
             renderTable("sim2Table", sim2Song, "sim2-beat-"); 
-            if (sim2IsPlaying) toggleSim2(); 
         }
 
         function updateSim2BPM() { 
@@ -603,7 +603,10 @@
 
         function startSim2Loop() {
             sim2TimerId = setInterval(() => {
-                if (sim2BeatIdx >= 0) document.getElementById("sim2-beat-" + sim2BeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                if (sim2BeatIdx >= 0) {
+                    let oldSpan = document.getElementById("sim2-beat-" + sim2BeatIdx);
+                    if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                }
                 
                 sim2BeatIdx++; 
                 if (sim2BeatIdx >= sim2Song.length) sim2BeatIdx = 0; 
@@ -615,9 +618,11 @@
                 let isClap = (pos === 3);
                 let isUpbeat = (pos === 1);
 
-                if (isClap) span.classList.add("active-clap"); 
-                else if (isUpbeat) span.classList.add("active-upbeat"); 
-                else span.classList.add("active-tracker"); 
+                if (span) {
+                    if (isClap) span.classList.add("active-clap"); 
+                    else if (isUpbeat) span.classList.add("active-upbeat"); 
+                    else span.classList.add("active-tracker"); 
+                }
                 
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
@@ -635,11 +640,19 @@
             const btn = document.getElementById("sim2Btn");
             if (sim2IsPlaying) {
                 clearInterval(sim2TimerId); 
-                if (sim2BeatIdx >= 0) document.getElementById("sim2-beat-" + sim2BeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                if (sim2BeatIdx >= 0) {
+                    let el = document.getElementById("sim2-beat-" + sim2BeatIdx);
+                    if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                }
                 sim2BeatIdx = -1; 
                 btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
                 window.speechSynthesis.cancel();
             } else { 
+                if (sim2BeatIdx >= 0) {
+                    let el = document.getElementById("sim2-beat-" + sim2BeatIdx);
+                    if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                }
+                sim2BeatIdx = -1;
                 btn.innerText = 'STOP'; btn.classList.replace('bg-pBlue', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
                 startSim2Loop(); 
             }
@@ -650,11 +663,11 @@
         let sim3Song = songs.basic, sim3IsPlaying = false, sim3BeatIdx = -1, sim3TimerId, sim3BpmVal = 60;
 
         function loadSim3() {
+            if (sim3IsPlaying) toggleSim3(); // หยุดเกมก่อนเปลี่ยนเพลงเสมอเพื่อรีเซ็ตหน้าจอ
             const key = document.getElementById("sim3Select").value;
             sim3Song = songs[key];
             document.getElementById("sim3Desc").innerText = songDescriptions[key];
             renderTable("sim3Table", sim3Song, "sim3-beat-"); 
-            if (sim3IsPlaying) toggleSim3(); 
         }
 
         function updateSim3BPM() { 
@@ -665,7 +678,10 @@
 
         function startSim3Loop() {
             sim3TimerId = setInterval(() => {
-                if (sim3BeatIdx >= 0) document.getElementById("sim3-beat-" + sim3BeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                if (sim3BeatIdx >= 0) {
+                    let oldSpan = document.getElementById("sim3-beat-" + sim3BeatIdx);
+                    if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                }
                 
                 sim3BeatIdx++; 
                 if (sim3BeatIdx >= sim3Song.length) sim3BeatIdx = 0; 
@@ -677,9 +693,11 @@
                 let isClap = (pos === 3);
                 let isUpbeat = (pos === 1);
 
-                if (isClap) span.classList.add("active-clap"); 
-                else if (isUpbeat) span.classList.add("active-upbeat"); 
-                else span.classList.add("active-tracker"); 
+                if (span) {
+                    if (isClap) span.classList.add("active-clap"); 
+                    else if (isUpbeat) span.classList.add("active-upbeat"); 
+                    else span.classList.add("active-tracker"); 
+                }
                 
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
@@ -697,11 +715,19 @@
             const btn = document.getElementById("sim3Btn");
             if (sim3IsPlaying) {
                 clearInterval(sim3TimerId); 
-                if (sim3BeatIdx >= 0) document.getElementById("sim3-beat-" + sim3BeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                if (sim3BeatIdx >= 0) {
+                    let el = document.getElementById("sim3-beat-" + sim3BeatIdx);
+                    if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                }
                 sim3BeatIdx = -1; 
                 btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
                 window.speechSynthesis.cancel();
             } else { 
+                if (sim3BeatIdx >= 0) {
+                    let el = document.getElementById("sim3-beat-" + sim3BeatIdx);
+                    if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                }
+                sim3BeatIdx = -1;
                 btn.innerText = 'STOP'; btn.classList.replace('bg-pBlue', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
                 startSim3Loop(); 
             }
@@ -714,10 +740,12 @@
         let hasClapped = false;
 
         function loadCh() {
+            if (chIsPlaying) toggleCh(); // หยุดเกมก่อนเปลี่ยนเพลงเสมอเพื่อหลีกเลี่ยงบั๊กตาราง
+
             const key = document.getElementById("chSelect").value;
             chSong = songs[key];
             
-            // ปรับความเร็วอัตโนมัติแบบไต่ระดับเพื่อความท้าทาย
+            // ปรับความเร็วอัตโนมัติแบบไต่ระดับ
             if (key === 'jeanJaiYor') {
                 document.getElementById('chBpm').value = 200;
             } else if (key === 'domKai') {
@@ -725,10 +753,11 @@
             } else if (key === 'kangKaw') {
                 document.getElementById('chBpm').value = 300;
             }
-            updateChBPM(); 
+            
+            chBpmVal = document.getElementById("chBpm").value; 
+            document.getElementById("chBpmVal").innerText = chBpmVal; 
 
             renderTable("chTable", chSong, "ch-beat-"); 
-            if (chIsPlaying) toggleCh(); 
         }
 
         function updateChBPM() { 
@@ -814,10 +843,13 @@
                     if (prevPos === 3 && !hasClapped) {
                         chMisses++; 
                         const fb = document.getElementById("chFeedback");
-                        fb.innerText = 'MISS!';
-                        fb.className = "h-10 mt-6 arcade text-center text-pRed text-xl drop-shadow-[2px_2px_0px_#000]";
+                        if (fb) {
+                            fb.innerText = 'MISS!';
+                            fb.className = "h-10 mt-6 arcade text-center text-pRed text-xl drop-shadow-[2px_2px_0px_#000]";
+                        }
                     }
-                    document.getElementById("ch-beat-" + chBeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                    let oldSpan = document.getElementById("ch-beat-" + chBeatIdx);
+                    if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
                 }
                 
                 hasClapped = false;
@@ -832,9 +864,11 @@
                 let isClap = (pos === 3);
                 let isUpbeat = (pos === 1);
 
-                if (isClap) span.classList.add("active-clap"); 
-                else if (isUpbeat) span.classList.add("active-upbeat"); 
-                else span.classList.add("active-tracker"); 
+                if (span) {
+                    if (isClap) span.classList.add("active-clap"); 
+                    else if (isUpbeat) span.classList.add("active-upbeat"); 
+                    else span.classList.add("active-tracker"); 
+                }
                 
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
@@ -850,13 +884,19 @@
             const btn = document.getElementById("chBtn");
             if (chIsPlaying) {
                 clearInterval(chTimerId); 
-                if (chBeatIdx >= 0) document.getElementById("ch-beat-" + chBeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                if (chBeatIdx >= 0) {
+                    let el = document.getElementById("ch-beat-" + chBeatIdx);
+                    if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                }
                 chBeatIdx = -1; 
                 btn.innerText = 'FIGHT!'; btn.classList.replace('bg-pYellow', 'bg-pRed'); btn.classList.replace('text-black', 'text-white');
                 document.getElementById("chFeedback").innerText = "ABORTED";
                 document.getElementById("chFeedback").className = "h-10 mt-6 arcade text-center text-white text-lg";
             } else { 
-                if (chBeatIdx >= 0) document.getElementById("ch-beat-" + chBeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                if (chBeatIdx >= 0) {
+                    let el = document.getElementById("ch-beat-" + chBeatIdx);
+                    if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                }
                 chBeatIdx = -1;
                 btn.innerText = 'STOP'; btn.classList.replace('bg-pRed', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
                 document.getElementById("chFeedback").innerText = "GET READY...";
