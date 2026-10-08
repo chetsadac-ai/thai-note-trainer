@@ -5,22 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thai Note Trainer - เครื่องฝึกอ่านโน้ตดนตรีไทย</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Srisakdi:wght@400;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Sarabun', 'sans-serif'], cursive: ['Srisakdi', 'cursive'] },
+                    fontFamily: { 
+                        /* ตั้งค่าฟอนต์หลักเป็น Arabica */
+                        sans: ['Arabica', 'sans-serif'], 
+                        cursive: ['Arabica', 'cursive'] 
+                    },
                     colors: { primary: '#4A90E2', secondary: '#F39C12', pastel: '#E6F2FF', thaiRed: '#b21e24', thaiGold: '#dca331' }
                 }
             }
         }
     </script>
     <style>
+        /* ประกาศการใช้ฟอนต์ Arabica */
+        @font-face {
+            font-family: 'Arabica';
+            src: local('Arabica');
+        }
         body {
-            font-family: 'Sarabun', sans-serif;
+            font-family: 'Arabica', sans-serif;
             background: url('https://images.unsplash.com/photo-1507676184212-d0330a1c6e1e?auto=format&fit=crop&q=80') no-repeat center center fixed;
             background-size: cover;
             min-height: 100vh;
@@ -75,7 +84,7 @@
             .room:nth-child(1), .room:nth-child(2), .room:nth-child(3), .room:nth-child(4) { border-bottom: 2px solid theme('colors.thaiRed'); }
         }
         
-        /* สไตล์พิเศษสำหรับปุ่มปรบมือ */
+        /* สไตล์พิเศษสำหรับปุ่มปรบมือเกม */
         .clap-btn-neutral { background-color: #e5e7eb; color: #4b5563; border-bottom: 6px solid #d1d5db; }
         .clap-btn-correct { background-color: #34d399; color: white; border-bottom: 6px solid #059669; transform: translateY(4px); }
         .clap-btn-wrong { background-color: #f87171; color: white; border-bottom: 6px solid #dc2626; transform: translateY(4px); }
@@ -85,9 +94,8 @@
 
     <div class="min-h-screen flex flex-col md:flex-row p-2 md:p-4 gap-4">
         
-        <!-- Sidebar Menu -->
         <aside class="glass-panel w-full md:w-72 h-fit md:sticky md:top-4 flex flex-col p-4">
-            <h1 class="text-2xl font-bold text-center text-blue-600 mb-2 font-cursive tracking-wide">Thai Note Trainer</h1>
+            <h1 class="text-2xl font-bold text-center text-blue-600 mb-2 tracking-wide">Thai Note Trainer</h1>
             <p class="text-xs text-center text-gray-500 mb-6 pb-4 border-b">รูปแบบการสอนทักษะปฏิบัติ Davies</p>
             <nav class="flex flex-col space-y-1">
                 <button onclick="nav('home', this)" class="menu-item menu-active p-3 text-left rounded-r-lg"><i class="fas fa-home w-6"></i> หน้าแรก</button>
@@ -95,11 +103,10 @@
                 <button onclick="nav('step1', this)" class="menu-item p-3 text-left rounded-r-lg"><i class="fas fa-chalkboard-teacher w-6"></i> ขั้น 1: สาธิตทักษะ</button>
                 <button onclick="nav('step23', this)" class="menu-item p-3 text-left rounded-r-lg text-thaiRed"><i class="fas fa-drum w-6"></i> ขั้น 2-3: ปฏิบัติทักษะย่อย</button>
                 <button onclick="nav('step4', this)" class="menu-item p-3 text-left rounded-r-lg"><i class="fas fa-lightbulb w-6"></i> ขั้น 4: เทคนิควิธีการ</button>
-                <button onclick="nav('step5', this)" class="menu-item p-3 text-left rounded-r-lg text-green-600"><i class="fas fa-music w-6"></i> ขั้น 5: เชื่อมโยงทักษะ</button>
+                <button onclick="nav('step5', this)" class="menu-item p-3 text-left rounded-r-lg text-green-600"><i class="fas fa-gamepad w-6"></i> ขั้น 5: เชื่อมโยงทักษะ</button>
             </nav>
         </aside>
 
-        <!-- Content Area -->
         <main class="flex-1 glass-panel p-6 relative overflow-hidden">
             
             <div id="sec-home" class="view-section active">
@@ -112,26 +119,27 @@
                 <button onclick="nav('step1', document.querySelectorAll('.menu-item')[1])" class="px-8 py-3 bg-primary text-white rounded-xl btn-glass font-bold shadow-lg text-lg">เข้าสู่บทเรียน ขั้นที่ 1 <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
+            <!-- Step 1 -->
             <div id="sec-step1" class="view-section">
                 <h2 class="text-2xl font-bold mb-4 text-blue-700"><i class="fas fa-chalkboard-teacher"></i> ขั้นที่ 1: สาธิตทักษะ (Demonstration)</h2>
                 <p class="mb-4 text-gray-700 text-lg">การอ่านโน้ตเพลงไทย 1 ห้องเพลงจะมี 4 จังหวะย่อย โดยเราจะเน้นการปฏิบัติที่ <b>ตำแหน่ง 2 (จังหวะยก)</b> และ <b>ตำแหน่ง 4 (จังหวะตก)</b></p>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border flex justify-center items-center text-4xl font-mono mb-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border flex justify-center items-center text-4xl mb-6">
                     <div class="text-gray-400 mx-1 md:mx-3">|</div>
                     <div class="flex flex-col items-center mx-2 md:mx-4">
                         <span class="cursor-pointer hover:bg-gray-100 rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 1: ไม่ต้องทำอะไร')">ด</span>
-                        <span class="text-base text-gray-400 mt-3 font-sans font-medium">1</span>
+                        <span class="text-base text-gray-400 mt-3 font-medium">1</span>
                     </div>
                     <div class="flex flex-col items-center mx-2 md:mx-4">
                         <span class="cursor-pointer bg-blue-100 hover:bg-blue-500 hover:text-white text-blue-600 font-bold rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 2 (จังหวะยก): กางมือออก 👐')">ร</span>
-                        <span class="text-base text-gray-400 mt-3 font-sans font-medium">2</span>
+                        <span class="text-base text-gray-400 mt-3 font-medium">2</span>
                     </div>
                     <div class="flex flex-col items-center mx-2 md:mx-4">
                         <span class="cursor-pointer hover:bg-gray-100 rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 3: ไม่ต้องทำอะไร')">ม</span>
-                        <span class="text-base text-gray-400 mt-3 font-sans font-medium">3</span>
+                        <span class="text-base text-gray-400 mt-3 font-medium">3</span>
                     </div>
                     <div class="flex flex-col items-center mx-2 md:mx-4">
                         <span class="cursor-pointer bg-red-100 hover:bg-thaiRed hover:text-white text-thaiRed font-bold rounded-lg px-3 py-1 transition" onclick="showFeedback('ตำแหน่งที่ 4 (จังหวะตกหลัก): ปรบมือ! 👏')">ฟ</span>
-                        <span class="text-base text-gray-400 mt-3 font-sans font-medium">4</span>
+                        <span class="text-base text-gray-400 mt-3 font-medium">4</span>
                     </div>
                     <div class="text-gray-400 mx-1 md:mx-3">|</div>
                 </div>
@@ -139,14 +147,13 @@
                 <button onclick="nav('step23', document.querySelectorAll('.menu-item')[2])" class="mt-8 px-6 py-3 bg-blue-600 text-white rounded-xl btn-glass font-bold">ไปฝึกปฏิบัติในขั้นที่ 2-3 ต่อ <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
-            <!-- Simulator Section -->
+            <!-- Step 2-3 Simulator (ซ้อมปฏิบัติ) -->
             <div id="sec-step23" class="view-section">
                 <div class="flex justify-between items-end mb-4">
                     <div>
-                        <h2 class="text-2xl font-bold text-thaiRed"><i class="fas fa-drum"></i> ขั้นที่ 2-3: ปฏิบัติทักษะย่อย</h2>
+                        <h2 class="text-2xl font-bold text-thaiRed"><i class="fas fa-drum"></i> ขั้นที่ 2-3: ปฏิบัติทักษะย่อย (โหมดฝึกซ้อม)</h2>
                         <p class="text-gray-600 mt-1">
-                            <span class="inline-block w-3 h-3 bg-blue-500 rounded-full mr-1"></span> <b>แถบสีฟ้า (ที่ 2):</b> จังหวะยก ให้ <u>กางมือออก</u><br>
-                            <span class="inline-block w-3 h-3 bg-red-600 rounded-full mr-1"></span> <b>แถบสีแดง (ที่ 4):</b> จังหวะตก ให้ <u>กดปุ่มปรบมือด้านล่าง</u>
+                            ฝึกกะจังหวะให้คุ้นชิน โดยการกดปุ่มด้านล่างให้ตรงกับ <b>แถบสีแดง (จังหวะตก)</b>
                         </p>
                     </div>
                 </div>
@@ -154,7 +161,7 @@
                 <div class="simulator-container">
                     <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-6 bg-gray-50 p-4 rounded-xl border">
                         <div class="w-full md:w-auto">
-                            <select id="songSelect" onchange="loadSong()" class="p-2 border border-gray-300 rounded-lg font-sans w-full bg-white shadow-sm font-semibold text-gray-700 outline-none focus:border-blue-500">
+                            <select id="songSelect" onchange="loadSong()" class="p-2 border border-gray-300 rounded-lg w-full bg-white shadow-sm font-semibold text-gray-700 outline-none focus:border-blue-500">
                                 <optgroup label="🔢 แบบฝึกจังหวะ (ตัวเลข)">
                                     <option value="ex1">แบบฝึกหัดที่ 1 (1 2 3 4)</option>
                                     <option value="ex2">แบบฝึกหัดที่ 2 (- - - 4)</option>
@@ -168,9 +175,6 @@
                                     <option value="chanDiao">แบบฝึกโน้ตที่ 3: เพลงแขกบรเทศ</option>
                                 </optgroup>
                             </select>
-                            <div class="mt-2 p-2 bg-blue-50 text-blue-800 rounded-lg text-sm border border-blue-200">
-                                <i class="fas fa-info-circle mr-1"></i> <span id="songDescription">...</span>
-                            </div>
                         </div>
                         <div class="flex items-center gap-2 text-thaiRed font-bold w-full md:w-auto">
                             ความเร็ว: <input type="range" id="bpmSlider" min="40" max="300" value="60" oninput="updateBPM()"> <span id="bpmDisplay" class="w-8 text-center">60</span> BPM
@@ -184,20 +188,18 @@
                     
                     <div id="notationTable"></div>
 
-                    <!-- พื้นที่เล่นเกมจับจังหวะ (ปุ่มปรบมือ) -->
+                    <!-- ปุ่มปรบมือ (ไม่มีนับคะแนน) -->
                     <div class="mt-8 bg-blue-50 p-6 rounded-2xl border-2 border-dashed border-blue-200">
-                        <h3 class="text-xl font-bold mb-4 text-blue-800">เกมทดสอบความแม่นยำ (Tap the rhythm)</h3>
-                        <p class="text-sm text-gray-500 mb-4">เมื่อจังหวะวิ่งถึงสีแดง ให้คลิกปุ่มด้านล่าง (หรือกด Spacebar บนคีย์บอร์ด)</p>
-                        
                         <button id="userClapBtn" onclick="userTapClap()" class="clap-btn-neutral w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out">
                             👏 กดปรบมือที่นี่ (Spacebar)
                         </button>
-                        
-                        <div id="clapFeedback" class="h-8 mt-4 text-lg font-bold text-center text-gray-400">รอเริ่มการฝึกซ้อม...</div>
+                        <div id="clapFeedback" class="h-8 mt-4 text-lg font-bold text-center text-gray-400">โหมดฝึกซ้อม: ทดลองกดให้ตรงจังหวะ</div>
                     </div>
                 </div>
+                <button onclick="nav('step4', document.querySelectorAll('.menu-item')[3])" class="mt-6 px-6 py-3 bg-secondary text-white rounded-xl btn-glass font-bold shadow-md w-full md:w-auto">ดูเทคนิควิธีการ (ขั้นที่ 4) <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
+            <!-- Step 4 -->
             <div id="sec-step4" class="view-section">
                 <h2 class="text-2xl font-bold mb-4 text-secondary"><i class="fas fa-lightbulb"></i> ขั้นที่ 4: เทคนิควิธีการ (Feedback & Tips)</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -218,27 +220,63 @@
                         </ul>
                     </div>
                 </div>
-                <button onclick="nav('step5', document.querySelectorAll('.menu-item')[4])" class="mt-8 px-6 py-3 bg-green-600 text-white rounded-xl btn-glass font-bold">ไปเล่นเกมเชื่อมโยงทักษะ (ขั้นที่ 5) <i class="fas fa-arrow-right ml-2"></i></button>
+                <button onclick="nav('step5', document.querySelectorAll('.menu-item')[4])" class="mt-8 px-6 py-3 bg-green-600 text-white rounded-xl btn-glass font-bold">ไปด่านทดสอบนับคะแนน (ขั้นที่ 5) <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
+            <!-- Step 5: Rhythm Challenge Game -->
             <div id="sec-step5" class="view-section">
-                <h2 class="text-2xl font-bold mb-2 text-green-600"><i class="fas fa-music"></i> ขั้นที่ 5: เชื่อมโยงทักษะ (Integration)</h2>
-                <p class="text-gray-600 mb-6">ทบทวนความจำระดับตัวโน้ต เพื่อให้เชื่อมโยงจังหวะและสายตาได้รวดเร็วขึ้น</p>
-                <div class="bg-white p-6 rounded-2xl border shadow-sm text-center">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-bold text-gray-800">เกมจับคู่โน้ตมหาสนุก 🎵</h3>
-                        <div class="bg-blue-100 text-blue-800 px-4 py-1 rounded-full font-bold">จับคู่ได้: <span id="game-score">0</span>/4</div>
+                <h2 class="text-2xl font-bold mb-2 text-green-600"><i class="fas fa-gamepad"></i> ขั้นที่ 5: เชื่อมโยงทักษะ (Rhythm Challenge)</h2>
+                <p class="text-gray-600 mb-6">นำทักษะทั้งหมดมาทดสอบในมินิเกมจับจังหวะนับคะแนน! กดปรบมือให้ตรงจังหวะตก (แถบสีแดง) เพื่อทำคอมโบ</p>
+                
+                <div class="simulator-container !border-green-500">
+                    <!-- Score Board -->
+                    <div class="flex justify-between bg-gray-800 text-white p-4 rounded-xl mb-6 shadow-inner">
+                        <div class="text-center flex-1">
+                            <p class="text-gray-400 text-xs md:text-sm">SCORE</p>
+                            <p class="text-2xl md:text-4xl font-bold text-yellow-400" id="ch-score">0</p>
+                        </div>
+                        <div class="text-center flex-1 border-l border-gray-600">
+                            <p class="text-gray-400 text-xs md:text-sm">COMBO</p>
+                            <p class="text-2xl md:text-4xl font-bold text-blue-400" id="ch-combo">0</p>
+                        </div>
+                        <div class="text-center flex-1 border-l border-gray-600">
+                            <p class="text-gray-400 text-xs md:text-sm">PERFECT</p>
+                            <p class="text-2xl md:text-4xl font-bold text-green-400" id="ch-perfect">0</p>
+                        </div>
+                        <div class="text-center flex-1 border-l border-gray-600">
+                            <p class="text-gray-400 text-xs md:text-sm">MISS</p>
+                            <p class="text-2xl md:text-4xl font-bold text-red-400" id="ch-miss">0</p>
+                        </div>
                     </div>
-                    <div id="game-board" class="grid grid-cols-4 gap-3 md:gap-4 max-w-2xl mx-auto mb-6"></div>
-                    <button onclick="initGame()" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg font-bold hover:bg-gray-300 transition">🔄 สุ่มกระดานใหม่</button>
+
+                    <div class="flex flex-col md:flex-row justify-center gap-4 mb-6">
+                        <div class="bg-gray-100 px-4 py-2 rounded-lg text-gray-700 font-bold border flex items-center justify-center">
+                            ด่าน: แบบฝึกหัดที่ 5 (แบบฝึกรวม) | ความเร็ว: 80 BPM
+                        </div>
+                        <button id="startChallengeBtn" onclick="toggleChallenge()" class="bg-green-500 text-white px-8 py-3 rounded-xl font-bold text-xl hover:bg-green-700 transition shadow-lg w-full md:w-auto">
+                            ▶️ เริ่มด่านทดสอบ
+                        </button>
+                    </div>
+
+                    <div id="challengeNotationTable"></div>
+
+                    <div class="mt-8 bg-green-50 p-6 rounded-2xl border-2 border-dashed border-green-300">
+                        <button id="challengeClapBtn" onclick="challengeTap()" class="clap-btn-neutral w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out">
+                            👏 กดปรบมือ (Spacebar)
+                        </button>
+                        <div id="challengeFeedback" class="h-8 mt-4 text-2xl font-bold text-center text-gray-400">พร้อมทดสอบ...</div>
+                    </div>
                 </div>
             </div>
+
         </main>
     </div>
 
     <script>
         function nav(sectionId, element = null) {
             if (sectionId !== 'step23' && isPlaying) togglePlay(); 
+            if (sectionId !== 'step5' && chIsPlaying) toggleChallenge(); 
+
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             setTimeout(() => { document.getElementById(`sec-${sectionId}`).classList.add('active'); }, 50); 
             if(element) {
@@ -248,6 +286,7 @@
         }
         function showFeedback(text) { document.getElementById('demo-feedback').innerText = "👉 " + text; }
 
+        // ================= ข้อมูลเพลง =================
         const songs = {
             ex1: ["1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4"],
             ex2: ["-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4"],
@@ -283,75 +322,32 @@
         };
         const noteFrequencies = { "ด":261.63, "ร":293.66, "ม":329.63, "ฟ":349.23, "ซ":392.00, "ล":440.00, "ท":493.88, "ด̇":523.25, "ร̇":587.33, "ม̇":659.25, "ซ̇":783.99, "ล̣":220.00 };
         
-        let currentSong = songs.ex1, audioCtx, isPlaying = false, currentBeatIndex = -1, simTimerId, bpm = 60;
-        
-        // ตัวแปรสำหรับเช็คการปรบมือ
-        let hasClappedThisBeat = false;
+        let audioCtx;
 
-        function loadSong() {
-            const selectedKey = document.getElementById("songSelect").value;
-            currentSong = songs[selectedKey];
-            document.getElementById("songDescription").innerText = songDescriptions[selectedKey];
-            renderTable(); if (isPlaying) togglePlay(); 
-        }
-
-        function renderTable() {
-            const table = document.getElementById("notationTable"); table.innerHTML = "";
-            const totalRooms = currentSong.length / 4;
-            const totalRows = Math.ceil(totalRooms / 8);
-            for (let rowIdx = 0; rowIdx < totalRows; rowIdx++) {
-                const rowDiv = document.createElement("div"); rowDiv.className = "notation-row";
-                for (let r = 0; r < 8; r++) {
-                    const roomIndex = (rowIdx * 8) + r; if (roomIndex >= totalRooms) break;
-                    const roomDiv = document.createElement("div"); roomDiv.className = "room";
-                    for (let b = 0; b < 4; b++) {
-                        const beatIndex = (roomIndex * 4) + b; let note = currentSong[beatIndex];
-                        const beatSpan = document.createElement("span"); beatSpan.className = "beat"; beatSpan.id = "beat-" + beatIndex;
-                        if (note.includes("̇")) { beatSpan.innerHTML = note.replace("̇", ""); beatSpan.classList.add("dot-above"); } 
-                        else if (note.includes("̣")) { beatSpan.innerHTML = note.replace("̣", ""); beatSpan.classList.add("dot-below"); }
-                        else { beatSpan.innerText = note; }
-                        roomDiv.appendChild(beatSpan);
-                    }
-                    rowDiv.appendChild(roomDiv);
-                }
-                table.appendChild(rowDiv);
-            }
-        }
-
+        // ================= Audio Engines =================
         function playSyntheticClap() {
             if (!audioCtx) return;
             const bufferSize = audioCtx.sampleRate * 0.1; 
             const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const data = buffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) { data[i] = (Math.random() * 2 - 1); }
-            
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = buffer;
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'bandpass'; filter.frequency.value = 1200; filter.Q.value = 1.5;
-            
-            const gain = audioCtx.createGain();
-            gain.gain.setValueAtTime(1.5, audioCtx.currentTime); 
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            
-            noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
-            noise.start();
+            const noise = audioCtx.createBufferSource(); noise.buffer = buffer;
+            const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 1200; filter.Q.value = 1.5;
+            const gain = audioCtx.createGain(); gain.gain.setValueAtTime(1.5, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noise.start();
         }
 
-        function speakThai(word) {
+        function speakThai(word, currentBPM) {
             if (!('speechSynthesis' in window)) return;
             if(window.speechSynthesis.pending) window.speechSynthesis.cancel();
-            
             const utterance = new SpeechSynthesisUtterance(word);
             utterance.lang = 'th-TH'; 
             const voices = window.speechSynthesis.getVoices();
             const thaiVoice = voices.find(v => v.lang === 'th-TH' || v.lang === 'th');
             if (thaiVoice) utterance.voice = thaiVoice;
-            
-            if (bpm >= 150) utterance.rate = 2.0;
-            else if (bpm >= 100) utterance.rate = 1.5;
+            if (currentBPM >= 150) utterance.rate = 2.0;
+            else if (currentBPM >= 100) utterance.rate = 1.5;
             else utterance.rate = 1.2;
-            
             window.speechSynthesis.speak(utterance);
         }
 
@@ -359,8 +355,8 @@
             if (!audioCtx) return;
             const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
-            if (isUpbeat) { osc.type = 'triangle'; osc.frequency.setValueAtTime(600, audioCtx.currentTime); gain.gain.setValueAtTime(0.1, audioCtx.currentTime); } 
-            else { osc.type = 'triangle'; osc.frequency.setValueAtTime(400, audioCtx.currentTime); gain.gain.setValueAtTime(0.05, audioCtx.currentTime); }
+            osc.type = 'triangle'; osc.frequency.setValueAtTime(isUpbeat ? 600 : 400, audioCtx.currentTime); 
+            gain.gain.setValueAtTime(isUpbeat ? 0.1 : 0.05, audioCtx.currentTime);
             osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1); osc.stop(audioCtx.currentTime + 0.1);
         }
 
@@ -374,61 +370,77 @@
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8); osc.stop(audioCtx.currentTime + 0.8);
         }
 
+
+        // ================= 1. โหมดฝึกซ้อม (Step 2-3) =================
+        let currentSong = songs.ex1, isPlaying = false, currentBeatIndex = -1, simTimerId, bpm = 60;
+        let hasClappedThisBeat = false;
+
+        function loadSong() {
+            const selectedKey = document.getElementById("songSelect").value;
+            currentSong = songs[selectedKey];
+            document.getElementById("songDescription").innerText = songDescriptions[selectedKey];
+            renderTable("notationTable", currentSong, "beat-"); 
+            if (isPlaying) togglePlay(); 
+        }
+
+        function renderTable(containerId, songArr, idPrefix) {
+            const table = document.getElementById(containerId); table.innerHTML = "";
+            const totalRooms = songArr.length / 4;
+            const totalRows = Math.ceil(totalRooms / 8);
+            for (let rowIdx = 0; rowIdx < totalRows; rowIdx++) {
+                const rowDiv = document.createElement("div"); rowDiv.className = "notation-row";
+                for (let r = 0; r < 8; r++) {
+                    const roomIndex = (rowIdx * 8) + r; if (roomIndex >= totalRooms) break;
+                    const roomDiv = document.createElement("div"); roomDiv.className = "room";
+                    for (let b = 0; b < 4; b++) {
+                        const beatIndex = (roomIndex * 4) + b; let note = songArr[beatIndex];
+                        const beatSpan = document.createElement("span"); beatSpan.className = "beat"; beatSpan.id = idPrefix + beatIndex;
+                        if (note.includes("̇")) { beatSpan.innerHTML = note.replace("̇", ""); beatSpan.classList.add("dot-above"); } 
+                        else if (note.includes("̣")) { beatSpan.innerHTML = note.replace("̣", ""); beatSpan.classList.add("dot-below"); }
+                        else { beatSpan.innerText = note; }
+                        roomDiv.appendChild(beatSpan);
+                    }
+                    rowDiv.appendChild(roomDiv);
+                }
+                table.appendChild(rowDiv);
+            }
+        }
+
         function updateBPM() { 
             bpm = document.getElementById("bpmSlider").value; 
             document.getElementById("bpmDisplay").innerText = bpm; 
             if (isPlaying) { clearInterval(simTimerId); startLoop(); } 
         }
 
-        // --- ระบบเช็คการกดปุ่มของผู้ใช้ (Tap Rhythm Game) ---
         function userTapClap() {
             if (!isPlaying) {
                 document.getElementById("clapFeedback").innerText = "⚠️ ต้องกด 'เริ่มฝึกซ้อม' ก่อนครับ";
                 document.getElementById("clapFeedback").className = "h-8 mt-4 text-lg font-bold text-center text-yellow-600";
                 return;
             }
-
-            // ป้องกันการรัวปุ่มในจังหวะเดิม
             if (hasClappedThisBeat) return;
             hasClappedThisBeat = true;
 
             const btn = document.getElementById("userClapBtn");
             const feedback = document.getElementById("clapFeedback");
-            const position = currentBeatIndex % 4; // เช็คว่าตอนที่กด เป็นตำแหน่งไหน (0,1,2,3)
+            const position = currentBeatIndex % 4; 
 
             if (position === 3) {
-                // กดถูกจังหวะ (ตำแหน่งที่ 4)
                 btn.className = "clap-btn-correct w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out";
                 feedback.innerText = "✅ ตรงจังหวะ! (Perfect)";
                 feedback.className = "h-8 mt-4 text-xl font-bold text-center text-green-500 drop-shadow-sm";
             } else {
-                // กดผิดจังหวะ (ตำแหน่ง 1, 2, 3)
                 btn.className = "clap-btn-wrong w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out";
                 feedback.innerText = "❌ ผิดจังหวะ (Miss)";
                 feedback.className = "h-8 mt-4 text-xl font-bold text-center text-red-500 drop-shadow-sm";
             }
-
-            // เด้งปุ่มกลับสภาพเดิมหลังผ่านไป 200ms
-            setTimeout(() => {
-                btn.className = "clap-btn-neutral w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out";
-            }, 200);
+            setTimeout(() => { btn.className = "clap-btn-neutral w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out"; }, 200);
         }
-
-        // รับค่าจากการกด Spacebar
-        document.addEventListener('keydown', function(event) {
-            if (event.code === 'Space' && document.getElementById('sec-step23').classList.contains('active')) {
-                event.preventDefault(); // ป้องกันไม่ให้หน้าเว็บเลื่อนลง
-                userTapClap();
-            }
-        });
 
         function startLoop() {
             simTimerId = setInterval(() => {
-                hasClappedThisBeat = false; // รีเซ็ตสถานะการกดปุ่มทุกครั้งที่เปลี่ยนจังหวะ
-
-                if (currentBeatIndex >= 0) {
-                    document.getElementById("beat-" + currentBeatIndex).classList.remove("active-tracker", "active-upbeat", "active-clap");
-                }
+                hasClappedThisBeat = false; 
+                if (currentBeatIndex >= 0) { document.getElementById("beat-" + currentBeatIndex).classList.remove("active-tracker", "active-upbeat", "active-clap"); }
                 
                 currentBeatIndex++; 
                 if (currentBeatIndex >= currentSong.length) currentBeatIndex = 0; 
@@ -437,31 +449,21 @@
                 const position = currentBeatIndex % 4; 
                 const currentSpan = document.getElementById("beat-" + currentBeatIndex);
                 
-                let isClap = false;
-                let isUpbeat = false;
+                let isClap = (position === 3);
+                let isUpbeat = (position === 1);
 
-                if (position === 3) {
-                    currentSpan.classList.add("active-clap"); 
-                    isClap = true;
-                } else if (position === 1) {
-                    currentSpan.classList.add("active-upbeat"); 
-                    isUpbeat = true;
-                } else {
-                    currentSpan.classList.add("active-tracker"); 
-                }
+                if (isClap) currentSpan.classList.add("active-clap"); 
+                else if (isUpbeat) currentSpan.classList.add("active-upbeat"); 
+                else currentSpan.classList.add("active-tracker"); 
                 
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
 
-                if(document.getElementById("melodyToggle").checked) {
-                    if (currentNote !== "-") {
-                        let cleanNote = currentNote.replace("̇", "").replace("̣", "");
-                        let spokenWord = thaiPronunciation[cleanNote] || currentNote;
-                        speakThai(spokenWord);
-                        if (isNaN(cleanNote)) playMelodyNote(currentNote);
-                    }
+                if(document.getElementById("melodyToggle").checked && currentNote !== "-") {
+                    let cleanNote = currentNote.replace("̇", "").replace("̣", "");
+                    speakThai(thaiPronunciation[cleanNote] || currentNote, bpm);
+                    if (isNaN(cleanNote)) playMelodyNote(currentNote);
                 }
-                
             }, Math.round(60000 / bpm));
         }
 
@@ -470,20 +472,14 @@
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
             
-            // ปลดล็อกระบบเสียงพูดในเบราว์เซอร์
-            if ('speechSynthesis' in window && !isPlaying) {
-                let unlockMsg = new SpeechSynthesisUtterance('');
-                window.speechSynthesis.speak(unlockMsg);
-            }
+            if ('speechSynthesis' in window && !isPlaying) { window.speechSynthesis.speak(new SpeechSynthesisUtterance('')); }
             
             if (isPlaying) {
                 clearInterval(simTimerId); 
-                if (currentBeatIndex >= 0) {
-                    document.getElementById("beat-" + currentBeatIndex).classList.remove("active-tracker", "active-upbeat", "active-clap");
-                }
+                if (currentBeatIndex >= 0) document.getElementById("beat-" + currentBeatIndex).classList.remove("active-tracker", "active-upbeat", "active-clap");
                 currentBeatIndex = -1; 
                 btn.innerHTML = "▶️ เริ่มฝึกซ้อม Simulator"; btn.classList.replace('bg-thaiGold', 'bg-thaiRed');
-                document.getElementById("clapFeedback").innerText = "รอเริ่มการฝึกซ้อม...";
+                document.getElementById("clapFeedback").innerText = "โหมดฝึกซ้อม: ทดลองกดให้ตรงจังหวะ";
                 document.getElementById("clapFeedback").className = "h-8 mt-4 text-lg font-bold text-center text-gray-400";
                 window.speechSynthesis.cancel();
             } else { 
@@ -495,34 +491,166 @@
             isPlaying = !isPlaying;
         }
 
-        // ================= GAME =================
-        function initGame() {
-            document.getElementById('game-board').innerHTML = ''; document.getElementById('game-score').innerText = '0';
-            let deck = [{id:1,v:'ด'},{id:1,v:'โด'},{id:2,v:'ร'},{id:2,v:'เร'},{id:3,v:'ม'},{id:3,v:'มี'},{id:4,v:'ฟ'},{id:4,v:'ฟา'}].sort(()=>Math.random()-0.5);
-            let flipped = [], matched = 0;
-            deck.forEach(c => {
-                let b = document.createElement('button'); b.className = 'h-20 md:h-24 bg-primary text-white rounded-xl text-2xl font-bold btn-glass shadow-md'; b.innerText = '?';
-                b.onclick = () => {
-                    if(flipped.length<2 && b.innerText==='?') {
-                        b.innerText=c.v; b.classList.replace('bg-primary','bg-secondary'); flipped.push({b,id:c.id});
-                        if(flipped.length===2) setTimeout(() => {
-                            if(flipped[0].id===flipped[1].id) {
-                                flipped.forEach(f=>{f.b.classList.replace('bg-secondary','bg-green-500'); f.b.onclick=null;}); matched++;
-                                document.getElementById('game-score').innerText = matched;
-                            } else { flipped.forEach(f=>{f.b.innerText='?'; f.b.classList.replace('bg-secondary','bg-primary');}); }
-                            flipped=[];
-                        }, 600);
-                    }
-                };
-                document.getElementById('game-board').appendChild(b);
-            });
-        }
-        
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); };
+
+        // ================= 2. โหมดเกม Rhythm Challenge (Step 5) =================
+        let chSong = songs.ex5; // ใช้เพลงแบบฝึกรวมเป็นด่านทดสอบ
+        let chIsPlaying = false, chTimerId, chBeatIndex = -1, chBPM = 80;
+        let chScore = 0, chCombo = 0, chPerfect = 0, chMiss = 0;
+        let hasClappedThisBeatChallenge = false;
+
+        function updateScoreBoard() {
+            document.getElementById("ch-score").innerText = chScore;
+            document.getElementById("ch-combo").innerText = chCombo;
+            document.getElementById("ch-perfect").innerText = chPerfect;
+            document.getElementById("ch-miss").innerText = chMiss;
         }
 
-        window.onload = () => { loadSong(); initGame(); };
+        function challengeTap() {
+            if (!chIsPlaying) {
+                document.getElementById("challengeFeedback").innerText = "⚠️ กดเริ่มด่านทดสอบก่อน!";
+                document.getElementById("challengeFeedback").className = "h-8 mt-4 text-xl font-bold text-center text-yellow-600";
+                return;
+            }
+
+            if (hasClappedThisBeatChallenge) return; // กันกดเบิ้ล
+            hasClappedThisBeatChallenge = true;
+
+            const btn = document.getElementById("challengeClapBtn");
+            const feedback = document.getElementById("challengeFeedback");
+            const position = chBeatIndex % 4; 
+
+            if (position === 3) {
+                // กดตรงจังหวะที่ 4
+                chPerfect++;
+                chCombo++;
+                chScore += 10 + (chCombo * 2); // ยิ่งคอมโบเยอะ คะแนนยิ่งบวก
+                btn.className = "clap-btn-correct w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out";
+                feedback.innerText = "✨ PERFECT! ✨";
+                feedback.className = "h-8 mt-4 text-2xl font-bold text-center text-green-500 drop-shadow-sm";
+            } else {
+                // กดผิดจังหวะ 1,2,3
+                chMiss++;
+                chCombo = 0;
+                btn.className = "clap-btn-wrong w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out";
+                feedback.innerText = "❌ MISS! (กดผิดจังหวะ)";
+                feedback.className = "h-8 mt-4 text-2xl font-bold text-center text-red-500 drop-shadow-sm";
+            }
+            updateScoreBoard();
+            setTimeout(() => { btn.className = "clap-btn-neutral w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out"; }, 200);
+        }
+
+        function finishChallenge() {
+            clearInterval(chTimerId);
+            chIsPlaying = false;
+            document.getElementById("startChallengeBtn").innerHTML = "▶️ เริ่มทดสอบอีกครั้ง";
+            document.getElementById("startChallengeBtn").classList.replace('bg-red-600', 'bg-green-500');
+            
+            Swal.fire({
+                title: 'จบด่านทดสอบ!',
+                html: `
+                    <div class="text-left text-lg p-4 bg-gray-50 rounded-xl mt-4">
+                        <p class="mb-2">🏆 คะแนนรวม: <b class="text-3xl text-yellow-500">${chScore}</b></p>
+                        <p class="text-green-600">✅ กดถูก (Perfect): <b>${chPerfect}</b> ครั้ง</p>
+                        <p class="text-red-500">❌ พลาด (Miss): <b>${chMiss}</b> ครั้ง</p>
+                    </div>
+                `,
+                icon: 'success',
+                confirmButtonText: 'ตกลง',
+                confirmButtonColor: '#059669'
+            });
+        }
+
+        function startChallengeLoop() {
+            chTimerId = setInterval(() => {
+                
+                // เช็คว่าจังหวะที่ผ่านมา (ตำแหน่ง 3) ผู้เล่นลืมกดหรือเปล่า
+                if (chBeatIndex >= 0) {
+                    let prevPosition = chBeatIndex % 4;
+                    if (prevPosition === 3 && !hasClappedThisBeatChallenge) {
+                        chMiss++; chCombo = 0; updateScoreBoard();
+                        document.getElementById("challengeFeedback").innerText = "❌ MISS! (ลืมกด)";
+                        document.getElementById("challengeFeedback").className = "h-8 mt-4 text-2xl font-bold text-center text-red-500 drop-shadow-sm";
+                    }
+                    document.getElementById("ch-beat-" + chBeatIndex).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                }
+                
+                hasClappedThisBeatChallenge = false;
+                chBeatIndex++; 
+                
+                // ถ้าจบเพลง
+                if (chBeatIndex >= chSong.length) {
+                    finishChallenge();
+                    return;
+                }
+                
+                const currentNote = chSong[chBeatIndex];
+                const position = chBeatIndex % 4; 
+                const currentSpan = document.getElementById("ch-beat-" + chBeatIndex);
+                
+                let isClap = (position === 3);
+                let isUpbeat = (position === 1);
+
+                if (isClap) currentSpan.classList.add("active-clap"); 
+                else if (isUpbeat) currentSpan.classList.add("active-upbeat"); 
+                else currentSpan.classList.add("active-tracker"); 
+                
+                if (!isClap) playMetronome(isUpbeat); 
+                if (isClap) playSyntheticClap();
+
+                if (currentNote !== "-") {
+                    let cleanNote = currentNote.replace("̇", "").replace("̣", "");
+                    speakThai(thaiPronunciation[cleanNote] || currentNote, chBPM);
+                    if (isNaN(cleanNote)) playMelodyNote(currentNote);
+                }
+            }, Math.round(60000 / chBPM));
+        }
+
+        function toggleChallenge() {
+            const btn = document.getElementById("startChallengeBtn");
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            if ('speechSynthesis' in window && !chIsPlaying) { window.speechSynthesis.speak(new SpeechSynthesisUtterance('')); }
+            
+            if (chIsPlaying) {
+                // กดหยุดกลางคัน
+                clearInterval(chTimerId); 
+                if (chBeatIndex >= 0) document.getElementById("ch-beat-" + chBeatIndex).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                chBeatIndex = -1; 
+                btn.innerHTML = "▶️ เริ่มด่านทดสอบ"; btn.classList.replace('bg-red-600', 'bg-green-500');
+                document.getElementById("challengeFeedback").innerText = "ทดสอบถูกยกเลิก";
+                window.speechSynthesis.cancel();
+            } else { 
+                // เริ่มเกม
+                chScore = 0; chCombo = 0; chPerfect = 0; chMiss = 0; updateScoreBoard();
+                if (chBeatIndex >= 0) document.getElementById("ch-beat-" + chBeatIndex).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                chBeatIndex = -1;
+                
+                btn.innerHTML = "⏹️ หยุดการทดสอบ"; btn.classList.replace('bg-green-500', 'bg-red-600'); 
+                document.getElementById("challengeFeedback").innerText = "เตรียมตัว...";
+                document.getElementById("challengeFeedback").className = "h-8 mt-4 text-2xl font-bold text-center text-blue-500 animate-pulse";
+                startChallengeLoop(); 
+            }
+            chIsPlaying = !chIsPlaying;
+        }
+
+        // ================= Global Keyboard Event =================
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space') {
+                if (document.getElementById('sec-step23').classList.contains('active')) {
+                    event.preventDefault(); userTapClap();
+                } else if (document.getElementById('sec-step5').classList.contains('active')) {
+                    event.preventDefault(); challengeTap();
+                }
+            }
+        });
+        
+        if ('speechSynthesis' in window) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; }
+
+        window.onload = () => { 
+            loadSong(); // วาดตารางหน้าฝึกซ้อม
+            renderTable("challengeNotationTable", chSong, "ch-beat-"); // วาดตารางหน้าด่าน 5
+        };
     </script>
 </body>
 </html>
