@@ -3,314 +3,326 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thai Note Trainer - เครื่องฝึกอ่านโน้ตดนตรีไทย</title>
+    <title>THAI NOTE TRAINER - ARCADE EDITION</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- นำเข้าฟอนต์น่ารักๆ จาก Google Fonts (Itim สำหรับหัวข้อ, Prompt สำหรับเนื้อหา) -->
+    <!-- ฟอนต์สไตล์ตู้เกม: Press Start 2P (สำหรับตัวเลข/ภาษาอังกฤษ) และ Chakra Petch (สำหรับภาษาไทยทรงเหลี่ยม) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Itim&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: { 
-                        sans: ['Prompt', 'sans-serif'], 
-                        cute: ['Itim', 'cursive'] 
+                        thai: ['"Chakra Petch"', 'sans-serif'], 
+                        arcade: ['"Press Start 2P"', 'cursive'] 
                     },
-                    colors: { primary: '#4A90E2', secondary: '#F39C12', pastel: '#E6F2FF', thaiRed: '#b21e24', thaiGold: '#dca331' }
+                    colors: { 
+                        pNavy: '#1a1c23', 
+                        pBlue: '#5b6ee1', 
+                        pYellow: '#fbf236', 
+                        pRed: '#ac3232',
+                        pGreen: '#63c64d',
+                        pWhite: '#ffffff',
+                        pBlack: '#000000',
+                        pGray: '#9badb7'
+                    }
                 }
             }
         }
     </script>
     <style>
         body {
-            font-family: 'Prompt', sans-serif;
-            background: url('https://images.unsplash.com/photo-1507676184212-d0330a1c6e1e?auto=format&fit=crop&q=80') no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Chakra Petch', sans-serif;
+            background-color: #5b6ee1;
+            /* ลายตาราง Pixel */
+            background-image: 
+                linear-gradient(45deg, #4f61cc 25%, transparent 25%, transparent 75%, #4f61cc 75%, #4f61cc), 
+                linear-gradient(45deg, #4f61cc 25%, transparent 25%, transparent 75%, #4f61cc 75%, #4f61cc);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
             min-height: 100vh;
-            color: #333;
+            color: #000;
         }
-        h1, h2, h3, .font-cute {
-            font-family: 'Itim', cursive;
+
+        /* ----- ARCADE HUD STYLES ----- */
+        .pixel-box {
+            background-color: #ffffff;
+            border: 4px solid #000000;
+            box-shadow: 6px 6px 0px #000000;
+            border-radius: 0;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 40px -10px rgba(31, 38, 135, 0.15);
-            border-radius: 24px;
-        }
-        .btn-glass { transition: all 0.3s ease; border-radius: 50px; }
-        .btn-glass:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
         
-        .view-section { display: none; opacity: 0; transition: opacity 0.4s ease-in-out; }
-        .view-section.active { display: block; opacity: 1; animation: smoothFadeIn 0.5s ease forwards; }
-        @keyframes smoothFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .simulator-container {
-            background-color: #fff; width: 100%; border-radius: 20px; padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            border-top: 8px solid theme('colors.thaiRed'); border-bottom: 8px solid theme('colors.thaiGold');
+        .pixel-panel-dark {
+            background-color: #1a1c23;
+            color: #ffffff;
+            border: 4px solid #000000;
+            box-shadow: 6px 6px 0px #000000;
         }
+
+        .pixel-btn {
+            border: 4px solid #000000;
+            box-shadow: 4px 4px 0px #000000;
+            transition: all 0.1s steps(2);
+            text-transform: uppercase;
+            border-radius: 0;
+            cursor: pointer;
+        }
+        
+        .pixel-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px #000000;
+        }
+
+        /* Menu */
+        .menu-item { border: 4px solid transparent; transition: background 0.1s; }
+        .menu-item:hover { background-color: #3f4a66; }
+        .menu-active { background-color: #fbf236; color: #000; border: 4px solid #000; }
+        .menu-active::before { content: "▶ "; font-family: 'Press Start 2P'; font-size: 10px; margin-right: 5px; }
+
+        /* View Control */
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: pixelBlink 0.3s steps(2) forwards; }
+        @keyframes pixelBlink { 0% { opacity: 0; } 50% { opacity: 1; } }
+
+        /* Notations */
         .notation-row {
             display: grid; grid-template-columns: repeat(8, 1fr);
-            border: 2px solid theme('colors.thaiRed'); border-radius: 12px; margin-bottom: 10px; background-color: #fffdf9;
-            overflow: hidden;
+            border: 4px solid #000000; background-color: #ffffff;
+            margin-bottom: 12px;
         }
-        .room { border-right: 1px solid #e0d8c3; display: flex; height: 70px; }
+        .room { border-right: 4px solid #000; display: flex; height: 60px; background: #fff;}
         .room:last-child { border-right: none; }
         .beat {
             flex: 1; display: flex; justify-content: center; align-items: center;
-            font-size: 22px; font-weight: 600; transition: 0.15s; border-radius: 6px; margin: 3px;
+            font-size: 20px; font-weight: 700; transition: background-color 0s;
         }
-        
-        .beat.active-tracker { background-color: #f3f4f6; color: #666; transform: scale(1.05); } 
-        .beat.active-upbeat { background-color: theme('colors.primary'); color: white; transform: scale(1.15); box-shadow: 0 4px 10px rgba(74,144,226,0.4); } 
-        .beat.active-clap { background-color: theme('colors.thaiRed'); color: white; transform: scale(1.15); box-shadow: 0 4px 10px rgba(178,30,36,0.4); } 
-        
+
+        /* Simulator states */
+        .beat.active-tracker { background-color: #000000; color: #fbf236; } 
+        .beat.active-upbeat { background-color: #fbf236; color: #000; border: 2px solid #000; } 
+        .beat.active-clap { background-color: #ac3232; color: #fff; border: 2px solid #000; } 
+
         .dot-above { position: relative; }
-        .dot-above::after { content: '•'; position: absolute; top: -15px; font-size: 24px; }
+        .dot-above::after { content: '•'; position: absolute; top: -10px; font-size: 24px; }
         .dot-below { position: relative; }
-        .dot-below::after { content: '•'; position: absolute; bottom: -15px; font-size: 24px; }
-        
-        .menu-item { transition: all 0.2s; border-left: 4px solid transparent; }
-        .menu-item:hover { background-color: #f0f7ff; border-left-color: #4A90E2; padding-left: 1rem; }
-        .menu-active { background-color: #e6f2ff; border-left-color: #4A90E2; color: #4A90E2; padding-left: 1rem; }
-        .menu-active i { color: #4A90E2; }
+        .dot-below::after { content: '•'; position: absolute; bottom: -10px; font-size: 24px; }
 
         @media (max-width: 768px) {
             .notation-row { grid-template-columns: repeat(4, 1fr); }
             .room:nth-child(4), .room:nth-child(8) { border-right: none; }
-            .room:nth-child(1), .room:nth-child(2), .room:nth-child(3), .room:nth-child(4) { border-bottom: 2px solid theme('colors.thaiRed'); }
+            .room:nth-child(1), .room:nth-child(2), .room:nth-child(3), .room:nth-child(4) { border-bottom: 4px solid #000; }
         }
         
-        /* สไตล์ปุ่มเกมจับจังหวะแบบน่ารัก */
-        .clap-btn-neutral { background-color: #e5e7eb; color: #4b5563; border-bottom: 8px solid #d1d5db; }
-        .clap-btn-correct { background-color: #34d399; color: white; border-bottom: 8px solid #059669; transform: translateY(6px); border-bottom-width: 2px; margin-bottom: 6px; }
-        .clap-btn-wrong { background-color: #f87171; color: white; border-bottom: 8px solid #dc2626; transform: translateY(6px); border-bottom-width: 2px; margin-bottom: 6px; }
+        /* Game Buttons */
+        .clap-btn-neutral { background-color: #9badb7; color: #000; border-bottom: 8px solid #000; }
+        .clap-btn-correct { background-color: #63c64d; color: #000; transform: translateY(6px); border-bottom: 2px solid #000; }
+        .clap-btn-wrong { background-color: #ac3232; color: #fff; transform: translateY(6px); border-bottom: 2px solid #000; }
+
+        /* Custom Range Slider */
+        input[type=range] { -webkit-appearance: none; background: transparent; height: 20px; border: 2px solid #000; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 12px; background: #ac3232; border: 2px solid #000; cursor: pointer; }
+        
+        .scanline {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+            background-size: 100% 4px; pointer-events: none; z-index: 50; opacity: 0.4;
+        }
     </style>
 </head>
 <body class="antialiased">
+    <div class="scanline"></div>
 
-    <div class="min-h-screen flex flex-col md:flex-row p-3 md:p-6 gap-6 max-w-7xl mx-auto">
+    <div class="min-h-screen flex flex-col md:flex-row p-3 md:p-6 gap-6 max-w-7xl mx-auto relative z-10">
         
-        <!-- Sidebar Menu -->
-        <aside class="glass-panel w-full md:w-72 h-fit md:sticky md:top-6 flex flex-col p-5">
-            <h1 class="text-3xl font-bold text-center text-blue-600 mb-1 tracking-wide">Thai Note Trainer</h1>
-            <p class="text-sm text-center text-gray-500 mb-6 pb-4 border-b font-medium">รูปแบบการสอนทักษะปฏิบัติ Davies</p>
-            <nav class="flex flex-col space-y-2 font-cute text-lg">
-                <button onclick="nav('home', this)" class="menu-item menu-active p-3 text-left rounded-xl"><i class="fas fa-home w-8 text-center text-gray-400"></i> หน้าแรก</button>
-                <div class="mt-4 mb-2 text-sm font-bold text-gray-400 uppercase tracking-wider pl-3 font-sans">บทเรียน (Davies 5 Steps)</div>
-                <button onclick="nav('step1', this)" class="menu-item p-3 text-left rounded-xl text-gray-700"><i class="fas fa-chalkboard-teacher w-8 text-center text-gray-400"></i> ขั้น 1: สาธิตทักษะ</button>
-                <button onclick="nav('step23', this)" class="menu-item p-3 text-left rounded-xl text-thaiRed"><i class="fas fa-drum w-8 text-center text-thaiRed"></i> ขั้น 2-3: ปฏิบัติทักษะย่อย</button>
-                <button onclick="nav('step4', this)" class="menu-item p-3 text-left rounded-xl text-secondary"><i class="fas fa-lightbulb w-8 text-center text-secondary"></i> ขั้น 4: เทคนิควิธีการ</button>
-                <button onclick="nav('step5', this)" class="menu-item p-3 text-left rounded-xl text-green-600"><i class="fas fa-gamepad w-8 text-center text-green-600"></i> ขั้น 5: เชื่อมโยงทักษะ</button>
+        <!-- Sidebar Menu (Arcade Panel) -->
+        <aside class="pixel-panel-dark w-full md:w-72 h-fit md:sticky md:top-6 flex flex-col p-5">
+            <h1 class="text-2xl text-center text-pYellow mb-2 arcade font-bold tracking-tighter" style="line-height: 1.5;">NOTE<br>TRAINER</h1>
+            <div class="text-center text-pGreen text-xs mb-6 arcade uppercase">Insert Coin</div>
+            <nav class="flex flex-col space-y-2 font-thai text-lg font-bold">
+                <button onclick="nav('home', this)" class="menu-item menu-active p-3 text-left"><span class="arcade text-[10px]">00</span> หน้าแรก</button>
+                <div class="mt-4 mb-2 text-xs text-pGray arcade uppercase pl-3">LEVEL SELECT</div>
+                <button onclick="nav('step1', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">01</span> สาธิตทักษะ</button>
+                <button onclick="nav('step23', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">02</span> โหมดฝึกซ้อม</button>
+                <button onclick="nav('step4', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">03</span> เทคนิควิธี</button>
+                <button onclick="nav('step5', this)" class="menu-item p-3 text-left text-pRed"><span class="arcade text-[10px]">04</span> ด่านทดสอบ!</button>
             </nav>
         </aside>
 
         <!-- Content Area -->
-        <main class="flex-1 glass-panel p-6 md:p-10 relative overflow-hidden">
+        <main class="flex-1 pixel-box p-6 md:p-8 relative">
             
             <!-- Home -->
             <div id="sec-home" class="view-section active">
-                <h2 class="text-4xl text-blue-800 mb-4">ยินดีต้อนรับสู่เว็บฝึกอ่านโน้ต 🎵</h2>
-                <p class="text-lg text-gray-700 mb-8 leading-relaxed">เว็บไซต์นี้พัฒนาขึ้นเพื่อศึกษาผลของการใช้เว็บฝึกอ่านโน้ตเพลงไทย ตามรูปแบบการสอนทักษะปฏิบัติของ Davies สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 4 แผนการเรียนศิลปกรรม (ดนตรีไทย) โรงเรียนเตรียมอุดมศึกษา ภาคเหนือ</p>
+                <h2 class="text-3xl text-pNavy mb-4 arcade uppercase">Welcome Player 1</h2>
+                <p class="text-xl text-pNavy mb-8 font-bold leading-relaxed">เข้าสู่ระบบฝึกอ่านโน้ตเพลงไทย (Davies 5 Steps) สำหรับแผนการเรียนศิลปกรรมดนตรีไทย</p>
                 
-                <div class="bg-gradient-to-br from-blue-50 to-blue-100 border-l-4 border-blue-500 p-6 rounded-2xl mb-8 shadow-sm">
-                    <h3 class="font-bold text-blue-800 text-2xl mb-3">🎯 วัตถุประสงค์ของการฝึก</h3>
-                    <p class="text-gray-700 text-lg leading-relaxed">เพื่อให้ผู้เรียนสามารถ "อ่านโน้ตเพลงไทยได้ถูกต้อง ต่อเนื่อง และสัมพันธ์กับจังหวะ" ผ่านการฝึกปฏิบัติเสมือนจริง โดยเรียนรู้ไปทีละขั้นตอนตามเมนูด้านซ้ายมือ</p>
+                <div class="bg-pYellow border-4 border-pBlack p-6 mb-8">
+                    <h3 class="font-bold text-pNavy text-xl mb-3 arcade">OBJECTIVE</h3>
+                    <p class="text-pNavy text-lg font-bold leading-relaxed">เพื่อให้ผู้เรียนสามารถ "อ่านโน้ตเพลงไทยได้ถูกต้อง ต่อเนื่อง และสัมพันธ์กับจังหวะ" ผ่านการฝึกปฏิบัติแบบ 8-BIT ARCADE</p>
                 </div>
                 
-                <div class="flex justify-center md:justify-start mt-8">
-                    <button onclick="nav('step1', document.querySelectorAll('.menu-item')[1])" class="px-8 py-4 bg-primary text-white font-cute text-2xl btn-glass flex items-center gap-3">
-                        เข้าสู่บทเรียน ขั้นที่ 1 <i class="fas fa-arrow-right"></i>
+                <div class="flex mt-8">
+                    <button onclick="nav('step1', document.querySelectorAll('.menu-item')[1])" class="px-8 py-4 bg-pBlue text-white font-thai font-bold text-2xl pixel-btn">
+                        START GAME <span class="arcade text-sm ml-2">►</span>
                     </button>
                 </div>
             </div>
 
             <!-- Step 1 -->
             <div id="sec-step1" class="view-section">
-                <h2 class="text-3xl mb-4 text-blue-700"><i class="fas fa-chalkboard-teacher mr-2"></i> ขั้นที่ 1: สาธิตทักษะ (Demonstration)</h2>
-                <p class="mb-6 text-gray-700 text-lg">การอ่านโน้ตเพลงไทย 1 ห้องเพลงจะมี 4 จังหวะย่อย โดยเราจะเน้นการปฏิบัติที่ <b>ตำแหน่ง 2 (จังหวะยก)</b> และ <b>ตำแหน่ง 4 (จังหวะตก)</b></p>
+                <h2 class="text-2xl mb-4 arcade text-pNavy">STAGE 1: DEMO</h2>
+                <p class="mb-6 text-pNavy text-xl font-bold">1 ห้องเพลงมี 4 จังหวะย่อย เน้นที่ <b>ตำแหน่ง 2 (ยกมือ)</b> และ <b>ตำแหน่ง 4 (ปรบมือ)</b></p>
                 
-                <div class="bg-gradient-to-b from-white to-gray-50 p-8 rounded-3xl shadow-sm border border-gray-100 flex justify-center items-center text-4xl mb-8">
-                    <div class="text-gray-300 mx-1 md:mx-3 text-5xl">|</div>
-                    <div class="flex flex-col items-center mx-3 md:mx-6 group cursor-pointer" onclick="showFeedback('ตำแหน่งที่ 1: ไม่ต้องทำอะไร')">
-                        <span class="bg-gray-100 group-hover:bg-gray-200 rounded-2xl w-16 h-16 flex items-center justify-center transition-colors">ด</span>
-                        <span class="text-lg text-gray-400 mt-4 font-sans font-medium">1</span>
+                <div class="bg-pGray p-8 border-4 border-pBlack flex justify-center items-center text-4xl mb-8">
+                    <div class="text-pBlack font-bold mx-1 md:mx-3 text-5xl">|</div>
+                    
+                    <div class="flex flex-col items-center mx-2 md:mx-4 group cursor-pointer" onclick="showFeedback('ตำแหน่ง 1: ว่าง')">
+                        <span class="bg-white border-4 border-black w-16 h-16 flex items-center justify-center font-bold">ด</span>
+                        <span class="text-lg text-black mt-4 arcade">1</span>
                     </div>
-                    <div class="flex flex-col items-center mx-3 md:mx-6 group cursor-pointer" onclick="showFeedback('ตำแหน่งที่ 2 (จังหวะยก): กางมือออก 👐')">
-                        <span class="bg-blue-100 group-hover:bg-blue-500 group-hover:text-white text-blue-600 font-bold rounded-2xl w-16 h-16 flex items-center justify-center transition-colors shadow-sm">ร</span>
-                        <span class="text-lg text-gray-400 mt-4 font-sans font-medium">2</span>
+                    <div class="flex flex-col items-center mx-2 md:mx-4 group cursor-pointer" onclick="showFeedback('ตำแหน่ง 2: กางมือออก!')">
+                        <span class="bg-pYellow text-black border-4 border-black w-16 h-16 flex items-center justify-center font-bold hover:bg-white">ร</span>
+                        <span class="text-lg text-black mt-4 arcade">2</span>
                     </div>
-                    <div class="flex flex-col items-center mx-3 md:mx-6 group cursor-pointer" onclick="showFeedback('ตำแหน่งที่ 3: ไม่ต้องทำอะไร')">
-                        <span class="bg-gray-100 group-hover:bg-gray-200 rounded-2xl w-16 h-16 flex items-center justify-center transition-colors">ม</span>
-                        <span class="text-lg text-gray-400 mt-4 font-sans font-medium">3</span>
+                    <div class="flex flex-col items-center mx-2 md:mx-4 group cursor-pointer" onclick="showFeedback('ตำแหน่ง 3: ว่าง')">
+                        <span class="bg-white border-4 border-black w-16 h-16 flex items-center justify-center font-bold">ม</span>
+                        <span class="text-lg text-black mt-4 arcade">3</span>
                     </div>
-                    <div class="flex flex-col items-center mx-3 md:mx-6 group cursor-pointer" onclick="showFeedback('ตำแหน่งที่ 4 (จังหวะตกหลัก): ปรบมือ! 👏')">
-                        <span class="bg-red-100 group-hover:bg-thaiRed group-hover:text-white text-thaiRed font-bold rounded-2xl w-16 h-16 flex items-center justify-center transition-colors shadow-sm">ฟ</span>
-                        <span class="text-lg text-gray-400 mt-4 font-sans font-medium">4</span>
+                    <div class="flex flex-col items-center mx-2 md:mx-4 group cursor-pointer" onclick="showFeedback('ตำแหน่ง 4: ปรบมือ (ตก)!')">
+                        <span class="bg-pRed text-white border-4 border-black w-16 h-16 flex items-center justify-center font-bold hover:bg-white hover:text-black">ฟ</span>
+                        <span class="text-lg text-black mt-4 arcade">4</span>
                     </div>
-                    <div class="text-gray-300 mx-1 md:mx-3 text-5xl">|</div>
+
+                    <div class="text-pBlack font-bold mx-1 md:mx-3 text-5xl">|</div>
                 </div>
                 
-                <div id="demo-feedback" class="text-center text-xl text-primary font-medium min-h-[3rem] bg-blue-50/80 py-3 rounded-2xl border border-blue-100 flex items-center justify-center">
-                    👆 ลองคลิกที่ตัวโน้ตด้านบนเพื่อดูวิธีการปฏิบัติ
+                <div id="demo-feedback" class="text-center text-xl text-white font-bold bg-pNavy p-4 border-4 border-black mb-8 arcade text-sm">
+                    คลิกที่ตัวโน้ตด้านบน
                 </div>
                 
-                <div class="flex justify-end mt-10">
-                    <button onclick="nav('step23', document.querySelectorAll('.menu-item')[2])" class="px-8 py-4 bg-blue-600 text-white font-cute text-xl btn-glass flex items-center gap-2">
-                        ไปฝึกปฏิบัติในขั้นที่ 2-3 ต่อ <i class="fas fa-arrow-right"></i>
+                <div class="flex justify-end">
+                    <button onclick="nav('step23', document.querySelectorAll('.menu-item')[2])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
+                        NEXT STAGE <span class="arcade text-sm ml-2">►</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Step 2-3 Simulator (ดูและฟัง) -->
+            <!-- Step 2-3 Simulator -->
             <div id="sec-step23" class="view-section">
-                <div class="flex justify-between items-end mb-6">
-                    <div>
-                        <h2 class="text-3xl text-thaiRed"><i class="fas fa-drum mr-2"></i> ขั้นที่ 2-3: ปฏิบัติทักษะย่อย (โหมดฝึกซ้อม)</h2>
-                        <p class="text-gray-600 mt-2 text-lg">
-                            ฝึกกะจังหวะให้คุ้นชินตาและหู ดูแถบไฟวิ่งและฝึกกางมือ/ปรบมือให้ตรงจังหวะ
-                        </p>
-                    </div>
-                </div>
+                <h2 class="text-2xl arcade text-pBlue mb-6">STAGE 2-3: TRAINING</h2>
                 
-                <div class="simulator-container">
-                    <div class="flex flex-col md:flex-row justify-center items-center gap-5 mb-8 bg-gray-50/80 p-5 rounded-2xl border border-gray-200">
+                <div class="bg-white border-4 border-black p-5 mb-8">
+                    <div class="flex flex-col md:flex-row gap-5">
                         <div class="w-full md:w-1/2">
-                            <select id="simSelect" onchange="loadSim()" class="p-3 border border-gray-300 rounded-xl w-full bg-white shadow-sm font-sans font-medium text-gray-700 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition">
-                                <optgroup label="🔢 แบบฝึกจังหวะ (ตัวเลข)">
-                                    <option value="ex1">แบบฝึกหัดที่ 1 (1 2 3 4)</option>
-                                    <option value="ex2">แบบฝึกหัดที่ 2 (- - - 4)</option>
-                                    <option value="ex3">แบบฝึกหัดที่ 3 (- 2 - 4)</option>
-                                    <option value="ex4">แบบฝึกหัดที่ 4 (- 2 3 4)</option>
-                                    <option value="ex5">แบบฝึกหัดที่ 5 (แบบฝึกรวม)</option>
-                                </optgroup>
-                                <optgroup label="🎵 แบบฝึกอ่านโน้ต (ตัวอักษร)">
-                                    <option value="basic">แบบฝึกโน้ตที่ 1: ไล่ระดับเสียง</option>
-                                    <option value="yawa">แบบฝึกโน้ตที่ 2: เพลงยะวา ๒ ชั้น</option>
-                                    <option value="chanDiao">แบบฝึกโน้ตที่ 3: เพลงแขกบรเทศ</option>
-                                </optgroup>
+                            <label class="font-bold text-lg mb-2 block arcade text-xs">SELECT TRACK</label>
+                            <select id="simSelect" onchange="loadSim()" class="p-2 border-4 border-black w-full bg-pYellow text-black font-thai font-bold text-lg focus:outline-none cursor-pointer">
+                                <option value="ex1">แบบฝึกหัดที่ 1 (1 2 3 4)</option>
+                                <option value="ex2">แบบฝึกหัดที่ 2 (- - - 4)</option>
+                                <option value="ex3">แบบฝึกหัดที่ 3 (- 2 - 4)</option>
+                                <option value="ex4">แบบฝึกหัดที่ 4 (- 2 3 4)</option>
+                                <option value="ex5">แบบฝึกหัดที่ 5 (แบบฝึกรวม)</option>
+                                <option value="basic">โน้ต 1: ไล่ระดับเสียง</option>
+                                <option value="yawa">โน้ต 2: ยะวา ๒ ชั้น</option>
+                                <option value="chanDiao">โน้ต 3: แขกบรเทศ</option>
                             </select>
-                            <div class="mt-3 p-3 bg-blue-50 text-blue-800 rounded-xl text-sm border border-blue-100 flex items-start gap-2">
-                                <i class="fas fa-info-circle mt-0.5"></i> <span id="simDesc">...</span>
-                            </div>
+                            <div class="mt-3 p-2 bg-pNavy text-white border-4 border-black font-thai text-md font-bold" id="simDesc">...</div>
                         </div>
                         
-                        <div class="w-full md:w-1/2 flex flex-col gap-4">
-                            <div class="flex items-center justify-between bg-white p-3 rounded-xl border shadow-sm">
-                                <span class="text-gray-700 font-bold font-sans">ความเร็ว:</span>
-                                <input type="range" id="simBpm" min="40" max="300" value="60" oninput="updateSimBPM()" class="mx-3 flex-1 accent-thaiRed">
-                                <span class="font-bold text-thaiRed bg-red-50 px-3 py-1 rounded-lg w-16 text-center"><span id="simBpmVal">60</span></span>
+                        <div class="w-full md:w-1/2 flex flex-col gap-4 justify-center">
+                            <div class="flex items-center justify-between bg-white border-4 border-black p-2">
+                                <span class="arcade text-[10px]">SPEED</span>
+                                <input type="range" id="simBpm" min="40" max="300" value="60" oninput="updateSimBPM()" class="mx-3 flex-1">
+                                <span class="arcade text-sm text-pRed w-12 text-center" id="simBpmVal">60</span>
                             </div>
-                            <label class="flex items-center justify-center gap-2 cursor-pointer bg-white px-4 py-3 rounded-xl border shadow-sm transition hover:bg-gray-50">
-                                <input type="checkbox" id="simToggle" checked class="accent-thaiRed w-5 h-5 rounded"> <span class="font-bold text-gray-700">🎵 เปิดเสียงอ่านและดนตรี</span>
+                            <label class="flex items-center justify-center gap-2 cursor-pointer bg-white border-4 border-black p-2 hover:bg-pYellow">
+                                <input type="checkbox" id="simToggle" checked class="w-5 h-5 accent-black"> 
+                                <span class="arcade text-[10px]">AUDIO ON</span>
                             </label>
                         </div>
                     </div>
-
-                    <div class="flex justify-center mb-8">
-                        <button id="simBtn" onclick="toggleSim()" class="bg-thaiRed text-white px-10 py-4 rounded-full font-cute text-2xl hover:bg-red-800 transition-all shadow-lg hover:shadow-xl w-full md:w-auto flex items-center justify-center gap-3">
-                            <i class="fas fa-play"></i> เริ่มฝึกซ้อม Simulator
-                        </button>
-                    </div>
-                    
-                    <div id="simTable"></div>
                 </div>
-                
-                <div class="flex justify-end mt-10">
-                    <button onclick="nav('step4', document.querySelectorAll('.menu-item')[3])" class="px-8 py-4 bg-secondary text-white font-cute text-xl btn-glass flex items-center gap-2">
-                        ดูเทคนิควิธีการ (ขั้นที่ 4) <i class="fas fa-arrow-right"></i>
+
+                <div class="flex justify-center mb-8">
+                    <button id="simBtn" onclick="toggleSim()" class="bg-pBlue text-white font-arcade text-lg px-8 py-4 pixel-btn w-full md:w-auto">
+                        START AUTO
                     </button>
                 </div>
+                
+                <div id="simTable" class="mb-6"></div>
             </div>
 
             <!-- Step 4 -->
             <div id="sec-step4" class="view-section">
-                <h2 class="text-3xl mb-6 text-secondary"><i class="fas fa-lightbulb mr-2"></i> ขั้นที่ 4: เทคนิควิธีการ (Feedback & Tips)</h2>
+                <h2 class="text-2xl mb-6 arcade text-pNavy">STAGE 4: TIPS & TRICKS</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-                    <div class="bg-yellow-50/80 p-8 rounded-3xl border-2 border-yellow-200 shadow-sm h-full flex flex-col">
-                        <h3 class="font-cute text-2xl text-yellow-800 mb-4 border-b border-yellow-200 pb-2"><i class="fas fa-times text-red-500 mr-2"></i> ปัญหาที่พบบ่อย</h3>
-                        <ul class="list-disc ml-6 text-gray-700 space-y-3 text-lg flex-1">
-                            <li>ลืมกางมือในจังหวะยก (ตำแหน่งที่ 2)</li>
-                            <li>ปรบมือไม่ตรงจังหวะตก (ตำแหน่งที่ 4)</li>
-                            <li>อ่านเครื่องหมาย "-" (ขีด) ผิดพลาด หรือไม่อ่าน</li>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-pRed text-white p-6 border-4 border-black">
+                        <h3 class="arcade text-lg mb-4 text-pYellow">WARNINGS</h3>
+                        <ul class="list-disc ml-6 space-y-3 font-thai font-bold text-xl">
+                            <li>ลืมกางมือในจังหวะยก (ตำแหน่ง 2)</li>
+                            <li>ปรบมือไม่ตรงจังหวะตก (ตำแหน่ง 4)</li>
+                            <li>อ่านเครื่องหมาย "-" (ขีด) ผิดพลาด</li>
                         </ul>
                     </div>
-                    <div class="bg-green-50/80 p-8 rounded-3xl border-2 border-green-200 shadow-sm h-full flex flex-col">
-                        <h3 class="font-cute text-2xl text-green-800 mb-4 border-b border-green-200 pb-2"><i class="fas fa-check text-green-600 mr-2"></i> เทคนิคแก้ไข</h3>
-                        <ul class="list-disc ml-6 text-gray-700 space-y-3 text-lg flex-1">
-                            <li>ให้ท่องในใจเบาๆ ว่า <b>"หนึ่ง-ยก-สาม-ตก"</b></li>
-                            <!-- ใช้ whitespace-nowrap ป้องกันคำว่า ยาวออกไป ตกบรรทัดเดี่ยวๆ -->
-                            <li>เครื่องหมาย "-" ให้ลากเสียงโน้ตตัวก่อนหน้า<span class="whitespace-nowrap">ยาวออกไป</span></li>
-                            <li>ใช้สายตากวาดล่วงหน้าไป 1 ห้องเพลงเสมอ</li>
+                    <div class="bg-pGreen text-black p-6 border-4 border-black">
+                        <h3 class="arcade text-lg mb-4 text-white">SOLUTIONS</h3>
+                        <ul class="list-disc ml-6 space-y-3 font-thai font-bold text-xl">
+                            <li>ท่องในใจเบาๆ ว่า <b>"หนึ่ง-ยก-สาม-ตก"</b></li>
+                            <li>เครื่องหมาย "-" ให้ลากเสียงตัวก่อนหน้า</li>
+                            <li>กวาดสายตาล่วงหน้า 1 ห้องเพลงเสมอ</li>
                         </ul>
                     </div>
                 </div>
                 
                 <div class="flex justify-end mt-10">
-                    <button onclick="nav('step5', document.querySelectorAll('.menu-item')[4])" class="px-8 py-4 bg-green-600 text-white font-cute text-xl btn-glass flex items-center gap-2">
-                        ไปด่านทดสอบนับคะแนน (ขั้นที่ 5) <i class="fas fa-arrow-right"></i>
+                    <button onclick="nav('step5', document.querySelectorAll('.menu-item')[4])" class="px-8 py-4 bg-pRed text-white font-arcade text-lg pixel-btn">
+                        BOSS STAGE ►
                     </button>
                 </div>
             </div>
 
             <!-- Step 5: Rhythm Challenge Game -->
             <div id="sec-step5" class="view-section">
-                <h2 class="text-3xl mb-2 text-green-600"><i class="fas fa-gamepad mr-2"></i> ขั้นที่ 5: เชื่อมโยงทักษะ (Rhythm Challenge)</h2>
-                <p class="text-gray-600 mb-6 text-lg">นำทักษะทั้งหมดมาทดสอบ! กดปรบมือให้ตรงจังหวะตก (แถบสีแดง) เมื่อจบ 1 รอบระบบจะสรุปเปอร์เซ็นต์ความแม่นยำให้</p>
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl arcade text-pRed">BOSS STAGE: SCORE ATTACK</h2>
+                </div>
+                <p class="text-pNavy font-bold text-lg mb-6">กดปรบมือให้ตรงจังหวะตก (แถบสีแดง) เก็บแต้มให้ได้ 100%!</p>
                 
-                <div class="simulator-container !border-green-500 shadow-green-100">
-                    <div class="flex flex-col md:flex-row justify-center items-center gap-5 mb-8 bg-green-50/50 p-5 rounded-2xl border border-green-100">
+                <div class="bg-white border-4 border-pRed p-5 mb-8 shadow-[6px_6px_0px_#ac3232]">
+                    <div class="flex flex-col md:flex-row gap-5 mb-6">
                         <div class="w-full md:w-1/2">
-                            <select id="chSelect" onchange="loadCh()" class="p-3 border border-gray-300 rounded-xl w-full bg-white shadow-sm font-sans font-medium text-gray-700 outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
-                                <optgroup label="🔢 แบบฝึกจังหวะ (ตัวเลข)">
-                                    <option value="ex1">แบบฝึกหัดที่ 1 (1 2 3 4)</option>
-                                    <option value="ex2">แบบฝึกหัดที่ 2 (- - - 4)</option>
-                                    <option value="ex3">แบบฝึกหัดที่ 3 (- 2 - 4)</option>
-                                    <option value="ex4">แบบฝึกหัดที่ 4 (- 2 3 4)</option>
-                                    <option value="ex5" selected>แบบฝึกหัดที่ 5 (แบบฝึกรวม)</option>
-                                </optgroup>
-                                <optgroup label="🎵 แบบฝึกอ่านโน้ต (ตัวอักษร)">
-                                    <option value="basic">แบบฝึกโน้ตที่ 1: ไล่ระดับเสียง</option>
-                                    <option value="yawa">แบบฝึกโน้ตที่ 2: เพลงยะวา ๒ ชั้น</option>
-                                    <option value="chanDiao">แบบฝึกโน้ตที่ 3: เพลงแขกบรเทศ</option>
-                                </optgroup>
+                            <select id="chSelect" onchange="loadCh()" class="p-2 border-4 border-black w-full bg-pYellow text-black font-thai font-bold text-lg focus:outline-none cursor-pointer">
+                                <option value="ex5" selected>แบบฝึกหัดที่ 5 (BOSS STAGE)</option>
+                                <option value="basic">โน้ต 1: ไล่ระดับเสียง</option>
+                                <option value="yawa">โน้ต 2: ยะวา ๒ ชั้น</option>
+                                <option value="chanDiao">โน้ต 3: แขกบรเทศ</option>
                             </select>
                         </div>
-                        
-                        <div class="w-full md:w-1/2 flex flex-col gap-4">
-                            <div class="flex items-center justify-between bg-white p-3 rounded-xl border shadow-sm">
-                                <span class="text-gray-700 font-bold font-sans">ความเร็ว:</span>
-                                <input type="range" id="chBpm" min="40" max="300" value="60" oninput="updateChBPM()" class="mx-3 flex-1 accent-green-600">
-                                <span class="font-bold text-green-700 bg-green-100 px-3 py-1 rounded-lg w-16 text-center"><span id="chBpmVal">60</span></span>
-                            </div>
-                            <label class="flex items-center justify-center gap-2 cursor-pointer bg-white px-4 py-3 rounded-xl border shadow-sm transition hover:bg-gray-50">
-                                <input type="checkbox" id="chToggle" checked class="accent-green-600 w-5 h-5 rounded"> <span class="font-bold text-gray-700">🎵 เปิดเสียง</span>
-                            </label>
+                        <div class="w-full md:w-1/2 flex items-center bg-white border-4 border-black p-2">
+                            <span class="arcade text-[10px]">SPEED</span>
+                            <input type="range" id="chBpm" min="40" max="300" value="60" oninput="updateChBPM()" class="mx-3 flex-1">
+                            <span class="arcade text-sm text-pRed w-12 text-center" id="chBpmVal">60</span>
                         </div>
                     </div>
 
                     <div class="flex justify-center mb-8">
-                        <button id="chBtn" onclick="toggleCh()" class="bg-green-500 text-white px-10 py-4 rounded-full font-cute text-2xl hover:bg-green-700 transition-all shadow-lg hover:shadow-xl w-full md:w-auto flex items-center justify-center gap-3">
-                            <i class="fas fa-play"></i> เริ่มทดสอบเก็บเปอร์เซ็นต์
+                        <button id="chBtn" onclick="toggleCh()" class="bg-pRed text-white font-arcade text-lg px-8 py-4 pixel-btn w-full md:w-auto">
+                            FIGHT!
                         </button>
                     </div>
 
                     <div id="chTable"></div>
 
                     <!-- พื้นที่ปุ่มปรบมือเกม -->
-                    <div class="mt-10 bg-gradient-to-b from-blue-50 to-white p-8 rounded-3xl border-2 border-dashed border-blue-200">
-                        <button id="chClapBtn" onclick="chTap()" class="clap-btn-neutral w-full md:w-1/2 mx-auto block py-8 rounded-3xl font-cute text-3xl transition-all duration-100 ease-in-out shadow-sm hover:shadow-md focus:outline-none">
-                            👏 กดปรบมือที่นี่<br><span class="text-base font-sans font-normal opacity-70">(หรือกด Spacebar)</span>
+                    <div class="mt-8 bg-pNavy p-8 border-4 border-black">
+                        <button id="chClapBtn" onclick="chTap()" class="clap-btn-neutral pixel-btn w-full md:w-1/2 mx-auto block py-8 font-arcade text-xl focus:outline-none">
+                            [ CLAP ]<br><span class="font-thai text-sm mt-2 block">(SPACEBAR)</span>
                         </button>
-                        <div id="chFeedback" class="h-10 mt-6 font-cute text-2xl text-center text-gray-400 transition-colors">รอเริ่มทดสอบ...</div>
+                        <div id="chFeedback" class="h-10 mt-6 arcade text-center text-pYellow text-sm">PRESS FIGHT TO START</div>
                     </div>
                 </div>
             </div>
@@ -318,48 +330,47 @@
         </main>
     </div>
 
-    <!-- ส่วน JavaScript ทำงานเหมือนเดิมทั้งหมดครับ -->
+    <!-- AUDIO ENGINE AND LOGIC -->
     <script>
         function nav(sectionId, element = null) {
             if (sectionId !== 'step23' && simIsPlaying) toggleSim(); 
             if (sectionId !== 'step5' && chIsPlaying) toggleCh(); 
 
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            setTimeout(() => { document.getElementById(`sec-${sectionId}`).classList.add('active'); }, 50); 
+            setTimeout(() => { document.getElementById(`sec-${sectionId}`).classList.add('active'); }, 10); 
+            
             if(element) {
                 document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('menu-active'));
                 element.classList.add('menu-active');
             }
         }
-        function showFeedback(text) { document.getElementById('demo-feedback').innerText = "👉 " + text; }
+        function showFeedback(text) { document.getElementById('demo-feedback').innerText = text; }
 
         const songs = {
-            ex1: ["1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4"],
-            ex2: ["-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4"],
-            ex3: ["-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4"],
-            ex4: ["-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4"],
+            ex1: ["1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4"],
+            ex2: ["-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4"],
+            ex3: ["-","2","-","4", "-","2","-","4", "-","2","-","4", "-","2","-","4"],
+            ex4: ["-","2","3","4", "-","2","3","4", "-","2","3","4", "-","2","3","4"],
             ex5: [
-                "-","2","-","4", "1","2","-","4", "-","-","3","4", "-","-","3","4", "-","-","3","4", "-","-","3","4", "1","2","3","4", "-","2","-","4",
-                "-","2","-","4", "1","2","-","4", "-","-","3","4", "-","-","3","4", "-","-","3","4", "-","-","3","4", "1","2","3","4", "-","2","-","4",
-                "-","-","-","-", "-","2","-","4", "-","-","3","4", "1","2","-","-", "-","2","-","4", "-","2","-","4", "1","2","3","4", "-","2","-","4",
-                "-","-","-","-", "-","2","-","4", "-","-","3","4", "1","2","-","-", "-","2","-","4", "-","2","-","4", "1","2","3","4", "-","2","-","4",
-                "-","-","-","-", "-","2","-","4", "-","-","3","4", "1","2","-","4", "-","2","-","4", "1","2","-","4", "1","2","3","4", "1","2","-","4",
-                "-","-","-","-", "-","2","-","4", "-","-","3","4", "1","2","-","4", "-","2","-","4", "1","2","-","4", "-","2","-","4", "1","2","3","4"
+                "-","2","-","4", "1","2","-","4", "-","-","3","4", "-","-","3","4",
+                "-","-","3","4", "-","-","3","4", "1","2","3","4", "-","2","-","4",
+                "-","2","-","4", "1","2","-","4", "-","-","3","4", "-","-","3","4",
+                "1","2","3","4", "-","2","-","4", "1","2","3","4", "-","2","-","4"
             ],
             basic: ["-","-","-","ด", "-","-","-","ร", "-","-","-","ม", "-","-","-","ฟ", "-","-","-","ซ", "-","-","-","ล", "-","-","-","ท", "-","-","-","ด̇"],
-            yawa: ["-","-","-","ม", "-","ซ̇","-","ม", "-","ซ̇","-","ม", "-","ม","-","ม", "-","-","-","ร", "-","ม","-","ร", "-","ม","-","ร", "-","ร","-","ร", "-","-","-","ด", "-","ร","-","ด", "-","ร","-","ด", "-","ด","-","ด", "-","-","-","ล̣", "-","ด","-","ล̣", "-","ด","-","ล̣", "-","ล̣","-","ล̣"],
+            yawa: ["-","-","-","ม", "-","ซ̇","-","ม", "-","ซ̇","-","ม", "-","ม","-","ม", "-","-","-","ร", "-","ม","-","ร", "-","ม","-","ร", "-","ร","-","ร"],
             chanDiao: ["ด̇","ล","ล","ล", "ด̇","ล","ล","ล", "ด̇","ซ","ซ","ซ", "ด̇","ล","ซ","ม", "ซ","ม","ร","ด", "ม","ร","ซ","ม", "ซ","ล","ด̇","ร̇", "ด̇","ม̇","ร̇","ด̇"]
         };
 
         const songDescriptions = {
-            ex1: "เป้าหมาย: ฝึกนับจังหวะ 1-2-3-4 ให้คงที่ เตรียมตัวกางมือที่จังหวะ 2 และปรบมือที่จังหวะ 4",
-            ex2: "เป้าหมาย: สร้างความแม่นยำให้จังหวะตก โดยรอและปรบมือที่ตำแหน่งที่ 4 เพียงตำแหน่งเดียว",
-            ex3: "เป้าหมาย: ฝึกกางมือ (จังหวะยก) สลับกับ การปรบมือ (จังหวะตก) อย่างต่อเนื่อง",
-            ex4: "เป้าหมาย: ฝึกความต่อเนื่องของจังหวะ โดยเตรียมพร้อมกางมือตั้งแต่ตำแหน่งที่ 2",
-            ex5: "เป้าหมาย: แบบฝึกหัดทบทวนจังหวะแบบผสมผสาน เพื่อทดสอบความแม่นยำในการแยกประสาทสัมผัส",
-            basic: "เป้าหมาย: ฝึกอ่านโน้ตไล่ระดับเสียงพื้นฐาน สัมพันธ์กับจังหวะยกและตก",
-            yawa: "เป้าหมาย: ฝึกอ่านโน้ตเพลงยะวา ๒ ชั้น พร้อมเคาะจังหวะ",
-            chanDiao: "เป้าหมาย: ฝึกอ่านโน้ตเพลงแขกบรเทศ ชั้นเดียว พร้อมเคาะจังหวะ"
+            ex1: "STAGE 1: BASIC COUNT",
+            ex2: "STAGE 2: BEAT DROP",
+            ex3: "STAGE 3: UP & DOWN",
+            ex4: "STAGE 4: CONTINUOUS",
+            ex5: "BOSS STAGE: MIXED TEST",
+            basic: "NOTE STAGE: SCALE",
+            yawa: "NOTE STAGE: YAWA",
+            chanDiao: "NOTE STAGE: KHAEK"
         };
 
         const thaiPronunciation = {
@@ -370,7 +381,6 @@
         
         let audioCtx;
 
-        // ================= Common Engines =================
         function initAudio() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -390,7 +400,7 @@
                     const roomDiv = document.createElement("div"); roomDiv.className = "room";
                     for (let b = 0; b < 4; b++) {
                         const beatIndex = (roomIndex * 4) + b; let note = songArr[beatIndex];
-                        const beatSpan = document.createElement("span"); beatSpan.className = "beat font-sans"; beatSpan.id = idPrefix + beatIndex;
+                        const beatSpan = document.createElement("span"); beatSpan.className = "beat font-thai"; beatSpan.id = idPrefix + beatIndex;
                         if (note.includes("̇")) { beatSpan.innerHTML = note.replace("̇", ""); beatSpan.classList.add("dot-above"); } 
                         else if (note.includes("̣")) { beatSpan.innerHTML = note.replace("̣", ""); beatSpan.classList.add("dot-below"); }
                         else { beatSpan.innerText = note; }
@@ -432,8 +442,9 @@
             if (!audioCtx) return;
             const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.type = 'triangle'; osc.frequency.setValueAtTime(isUpbeat ? 600 : 400, audioCtx.currentTime); 
-            gain.gain.setValueAtTime(isUpbeat ? 0.1 : 0.05, audioCtx.currentTime);
+            // เปลี่ยนโทนเสียง Metronome ให้มีความเป็น 8-bit มากขึ้น
+            osc.type = 'square'; osc.frequency.setValueAtTime(isUpbeat ? 800 : 400, audioCtx.currentTime); 
+            gain.gain.setValueAtTime(isUpbeat ? 0.05 : 0.02, audioCtx.currentTime);
             osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1); osc.stop(audioCtx.currentTime + 0.1);
         }
 
@@ -442,13 +453,13 @@
             const freq = noteFrequencies[noteString]; if (!freq) return;
             const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.type = 'sine'; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            osc.start(); gain.gain.setValueAtTime(0.5, audioCtx.currentTime); 
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8); osc.stop(audioCtx.currentTime + 0.8);
+            osc.type = 'square'; // 8-bit sound
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            osc.start(); gain.gain.setValueAtTime(0.1, audioCtx.currentTime); 
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4); osc.stop(audioCtx.currentTime + 0.4);
         }
 
-
-        // ================= 1. โหมดฝึกซ้อม (Step 2-3) =================
+        /* ----- SIMULATOR LOGIC ----- */
         let simSong = songs.ex1, simIsPlaying = false, simBeatIdx = -1, simTimerId, simBpmVal = 60;
 
         function loadSim() {
@@ -501,17 +512,16 @@
                 clearInterval(simTimerId); 
                 if (simBeatIdx >= 0) document.getElementById("sim-beat-" + simBeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
                 simBeatIdx = -1; 
-                btn.innerHTML = '<i class="fas fa-play"></i> เริ่มฝึกซ้อม Simulator'; btn.classList.replace('bg-thaiGold', 'bg-thaiRed');
+                btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
                 window.speechSynthesis.cancel();
             } else { 
-                btn.innerHTML = '<i class="fas fa-stop"></i> หยุดการฝึกซ้อม'; btn.classList.replace('bg-thaiRed', 'bg-thaiGold'); 
+                btn.innerText = 'STOP'; btn.classList.replace('bg-pBlue', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
                 startSimLoop(); 
             }
             simIsPlaying = !simIsPlaying;
         }
 
-
-        // ================= 2. โหมดเกมเชื่อมโยงทักษะ (Step 5) =================
+        /* ----- CHALLENGE LOGIC ----- */
         let chSong = songs.ex5, chIsPlaying = false, chTimerId, chBeatIdx = -1, chBpmVal = 60;
         let chTotalTargets = 0, chHits = 0, chMisses = 0;
         let hasClapped = false;
@@ -532,8 +542,8 @@
         function chTap() {
             if (!chIsPlaying) {
                 const fb = document.getElementById("chFeedback");
-                fb.innerHTML = '<i class="fas fa-exclamation-triangle"></i> กด "เริ่มทดสอบ" ก่อนครับ';
-                fb.className = "h-10 mt-6 font-cute text-2xl text-center text-yellow-600";
+                fb.innerText = 'PRESS FIGHT TO START';
+                fb.className = "h-10 mt-6 arcade text-center text-pYellow text-sm";
                 return;
             }
             if (hasClapped) return; 
@@ -545,53 +555,54 @@
 
             if (pos === 3) {
                 chHits++;
-                btn.className = "clap-btn-correct w-full md:w-1/2 mx-auto block py-8 rounded-3xl font-cute text-3xl transition-all duration-100 ease-in-out";
-                fb.innerHTML = '<i class="fas fa-check-circle"></i> ถูกต้อง! (Perfect)';
-                fb.className = "h-10 mt-6 font-cute text-3xl text-center text-green-500 drop-shadow-sm";
+                btn.className = "clap-btn-correct pixel-btn w-full md:w-1/2 mx-auto block py-8 font-arcade text-xl";
+                fb.innerText = 'PERFECT!';
+                fb.className = "h-10 mt-6 arcade text-center text-pGreen text-xl drop-shadow-[2px_2px_0px_#000]";
             } else {
                 chMisses++;
-                btn.className = "clap-btn-wrong w-full md:w-1/2 mx-auto block py-8 rounded-3xl font-cute text-3xl transition-all duration-100 ease-in-out";
-                fb.innerHTML = '<i class="fas fa-times-circle"></i> ผิดจังหวะ! (Miss)';
-                fb.className = "h-10 mt-6 font-cute text-3xl text-center text-red-500 drop-shadow-sm";
+                btn.className = "clap-btn-wrong pixel-btn w-full md:w-1/2 mx-auto block py-8 font-arcade text-xl";
+                fb.innerText = 'MISS!';
+                fb.className = "h-10 mt-6 arcade text-center text-pRed text-xl drop-shadow-[2px_2px_0px_#000]";
             }
-            setTimeout(() => { btn.className = "clap-btn-neutral w-full md:w-1/2 mx-auto block py-8 rounded-3xl font-cute text-3xl transition-all duration-100 ease-in-out shadow-sm hover:shadow-md focus:outline-none"; }, 200);
+            setTimeout(() => { btn.className = "clap-btn-neutral pixel-btn w-full md:w-1/2 mx-auto block py-8 font-arcade text-xl focus:outline-none"; }, 150);
         }
 
         function finishCh() {
             clearInterval(chTimerId);
             chIsPlaying = false;
-            document.getElementById("chBtn").innerHTML = '<i class="fas fa-redo"></i> เริ่มทดสอบใหม่';
-            document.getElementById("chBtn").classList.replace('bg-red-600', 'bg-green-500');
-            document.getElementById("chFeedback").innerText = "จบการทดสอบ";
-            document.getElementById("chFeedback").className = "h-10 mt-6 font-cute text-2xl text-center text-gray-500";
+            document.getElementById("chBtn").innerText = 'RETRY';
+            document.getElementById("chBtn").classList.replace('bg-pYellow', 'bg-pRed'); document.getElementById("chBtn").classList.replace('text-black', 'text-white');
+            document.getElementById("chFeedback").innerText = "STAGE CLEAR";
+            document.getElementById("chFeedback").className = "h-10 mt-6 arcade text-center text-white text-lg";
             
             let percent = 0;
             if(chTotalTargets > 0) percent = Math.round((chHits / chTotalTargets) * 100);
             
-            let resultIcon = percent >= 80 ? 'success' : 'info';
-            let resultText = percent >= 80 ? 'ยอดเยี่ยมมาก! จังหวะของคุณแม่นยำมาก 🌟' : 'พยายามเข้านะ! ฝึกซ้อมอีกนิดจะแม่นขึ้นแน่นอน 💪';
+            let resultText = percent >= 80 ? 'NEW HIGH SCORE!' : 'GAME OVER... TRY AGAIN!';
 
             Swal.fire({
-                title: '<span style="font-family: Itim, cursive; font-size: 32px; color: #059669;">สรุปผลการทดสอบ</span>',
+                title: 'STAGE CLEAR',
                 html: `
-                    <div class="text-left p-6 bg-green-50 rounded-2xl mt-4 border border-green-100" style="font-family: Prompt, sans-serif;">
-                        <p class="mb-2 text-center text-gray-600 text-lg">ความแม่นยำ</p>
-                        <p class="text-6xl font-bold text-center text-blue-600 mb-6 drop-shadow-sm font-cute">${percent}%</p>
-                        <div class="space-y-2 text-lg">
-                            <p class="text-green-700 bg-white p-3 rounded-xl shadow-sm border border-green-100 flex justify-between">
-                                <span><i class="fas fa-check-circle mr-2"></i>กดถูกจังหวะ</span> <b>${chHits} ครั้ง</b>
+                    <div class="text-center p-4 bg-pNavy border-4 border-pBlack mt-2">
+                        <p class="mb-2 arcade text-white text-xs">ACCURACY</p>
+                        <p class="text-4xl arcade text-pYellow mb-6 drop-shadow-[4px_4px_0px_#000]">${percent}%</p>
+                        <div class="space-y-4 text-sm font-thai font-bold text-xl">
+                            <p class="text-pGreen bg-black p-2 flex justify-between border-2 border-pGreen">
+                                <span>HITS:</span> <span>${chHits}</span>
                             </p>
-                            <p class="text-red-600 bg-white p-3 rounded-xl shadow-sm border border-red-100 flex justify-between">
-                                <span><i class="fas fa-times-circle mr-2"></i>พลาด/ลืมกด</span> <b>${chMisses} ครั้ง</b>
+                            <p class="text-pRed bg-black p-2 flex justify-between border-2 border-pRed">
+                                <span>MISS:</span> <span>${chMisses}</span>
                             </p>
                         </div>
                     </div>
-                    <p class="mt-6 text-gray-700 text-lg font-medium" style="font-family: Prompt, sans-serif;">${resultText}</p>
+                    <p class="mt-6 arcade text-pBlack text-xs">${resultText}</p>
                 `,
-                icon: resultIcon,
-                confirmButtonText: '<span style="font-family: Prompt, sans-serif; font-weight: bold;">ตกลง</span>',
-                confirmButtonColor: '#059669',
-                customClass: { popup: 'rounded-3xl' }
+                confirmButtonText: 'CONTINUE',
+                customClass: { 
+                    popup: 'pixel-box !bg-white !rounded-none !border-4 !border-black',
+                    title: 'arcade !text-2xl !text-black',
+                    confirmButton: 'pixel-btn !bg-pGreen !text-black !rounded-none !text-lg !font-arcade'
+                }
             });
         }
 
@@ -605,8 +616,8 @@
                     if (prevPos === 3 && !hasClapped) {
                         chMisses++; 
                         const fb = document.getElementById("chFeedback");
-                        fb.innerHTML = '<i class="fas fa-exclamation-circle"></i> ลืมกดจังหวะตก! (Miss)';
-                        fb.className = "h-10 mt-6 font-cute text-3xl text-center text-red-500 drop-shadow-sm";
+                        fb.innerText = 'MISS!';
+                        fb.className = "h-10 mt-6 arcade text-center text-pRed text-xl drop-shadow-[2px_2px_0px_#000]";
                     }
                     document.getElementById("ch-beat-" + chBeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
                 }
@@ -614,10 +625,7 @@
                 hasClapped = false;
                 chBeatIdx++; 
                 
-                if (chBeatIdx >= chSong.length) {
-                    finishCh();
-                    return;
-                }
+                if (chBeatIdx >= chSong.length) { finishCh(); return; }
                 
                 const note = chSong[chBeatIdx];
                 const pos = chBeatIdx % 4; 
@@ -633,10 +641,9 @@
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
 
-                if(document.getElementById("chToggle").checked && note !== "-") {
-                    let cleanNote = note.replace("̇", "").replace("̣", "");
-                    speakThai(thaiPronunciation[cleanNote] || note, chBpmVal);
-                    if (isNaN(cleanNote)) playMelodyNote(note);
+                // ปิดเสียงพูดชั่วคราวในด่านบอสเพื่อเน้นเสียง 8-bit
+                if(note !== "-" && isNaN(note.replace("̇", "").replace("̣", ""))) {
+                    playMelodyNote(note);
                 }
             }, Math.round(60000 / chBpmVal));
         }
@@ -648,33 +655,29 @@
                 clearInterval(chTimerId); 
                 if (chBeatIdx >= 0) document.getElementById("ch-beat-" + chBeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
                 chBeatIdx = -1; 
-                btn.innerHTML = '<i class="fas fa-play"></i> เริ่มทดสอบเก็บเปอร์เซ็นต์'; btn.classList.replace('bg-red-600', 'bg-green-500');
-                document.getElementById("chFeedback").innerText = "ทดสอบถูกยกเลิก";
-                document.getElementById("chFeedback").className = "h-10 mt-6 font-cute text-2xl text-center text-gray-500";
-                window.speechSynthesis.cancel();
+                btn.innerText = 'FIGHT!'; btn.classList.replace('bg-pYellow', 'bg-pRed'); btn.classList.replace('text-black', 'text-white');
+                document.getElementById("chFeedback").innerText = "ABORTED";
+                document.getElementById("chFeedback").className = "h-10 mt-6 arcade text-center text-white text-lg";
             } else { 
                 if (chBeatIdx >= 0) document.getElementById("ch-beat-" + chBeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
                 chBeatIdx = -1;
-                btn.innerHTML = '<i class="fas fa-stop"></i> หยุดการทดสอบ'; btn.classList.replace('bg-green-500', 'bg-red-600'); 
-                document.getElementById("chFeedback").innerText = "เตรียมตัว...";
-                document.getElementById("chFeedback").className = "h-10 mt-6 font-cute text-2xl text-center text-blue-500 animate-pulse";
+                btn.innerText = 'STOP'; btn.classList.replace('bg-pRed', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
+                document.getElementById("chFeedback").innerText = "GET READY...";
+                document.getElementById("chFeedback").className = "h-10 mt-6 arcade text-center text-pWhite text-xl blink";
                 startChLoop(); 
             }
             chIsPlaying = !chIsPlaying;
         }
 
-        // ================= Global Keyboard Event =================
+        // Spacebar to clap
         document.addEventListener('keydown', function(event) {
             if (event.code === 'Space') {
                 if (document.getElementById('sec-step5').classList.contains('active')) {
                     event.preventDefault(); chTap();
                 }
-                // (เอา Event ของขั้น 2-3 ออกไปแล้ว เพราะให้ดูและฟังอย่างเดียว)
             }
         });
         
-        if ('speechSynthesis' in window) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; }
-
         window.onload = () => { 
             loadSim(); 
             loadCh();  
