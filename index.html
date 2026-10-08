@@ -332,10 +332,11 @@
                     </div>
                     <div class="bg-pGreen text-black p-6 border-4 border-black">
                         <h3 class="arcade text-lg mb-4 text-white">SOLUTIONS</h3>
+                        <!-- เพิ่มคลาส whitespace-nowrap ป้องกันคำฉีกตกบรรทัด -->
                         <ul class="list-disc ml-6 space-y-3 font-thai font-bold text-xl">
-                            <li>ท่องในใจเบาๆ ว่า <b>"หนึ่ง-ยก-สาม-ตก"</b></li>
-                            <li>เครื่องหมาย "-" ให้ลากเสียงตัวก่อนหน้า</li>
-                            <li>กวาดสายตาล่วงหน้า 1 ห้องเพลงเสมอ</li>
+                            <li>ท่องในใจเบาๆ ว่า <b class="whitespace-nowrap">"หนึ่ง-ยก-สาม-ตก"</b></li>
+                            <li>เครื่องหมาย "-" ให้ลากเสียง<span class="whitespace-nowrap">ตัวก่อนหน้า</span></li>
+                            <li>กวาดสายตาล่วงหน้า 1 <span class="whitespace-nowrap">ห้องเพลงเสมอ</span></li>
                         </ul>
                     </div>
                 </div>
@@ -353,6 +354,7 @@
                     <h2 class="text-2xl arcade text-pRed drop-shadow-[2px_2px_0px_#000]">BOSS STAGE: SCORE ATTACK</h2>
                 </div>
                 
+                <!-- คำอธิบายวิธีการเล่น -->
                 <div class="bg-pNavy text-white p-4 border-4 border-black mb-6">
                     <h3 class="arcade text-pYellow text-sm mb-2">HOW TO PLAY (วิธีเล่น)</h3>
                     <ul class="list-disc ml-6 space-y-1 font-thai font-bold text-md">
@@ -405,6 +407,7 @@
     <!-- AUDIO ENGINE AND LOGIC -->
     <script>
         function nav(sectionId, element = null) {
+            // หยุดการเล่นก่อนเปลี่ยนหน้าต่าง ป้องกันบั๊กค้าง
             if (sectionId !== 'step2' && sim2IsPlaying) toggleSim2(); 
             if (sectionId !== 'step3' && sim3IsPlaying) toggleSim3(); 
             if (sectionId !== 'step5' && chIsPlaying) toggleCh(); 
@@ -419,6 +422,7 @@
         }
         function showFeedback(text) { document.getElementById('demo-feedback').innerText = text; }
 
+        // รวมโน้ตเพลงทั้งหมด
         const songs = {
             ex1: ["1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4"],
             ex2: ["-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4"],
