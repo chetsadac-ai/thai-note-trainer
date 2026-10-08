@@ -146,9 +146,10 @@
                 <button onclick="nav('home', this)" class="menu-item menu-active p-3 text-left"><span class="arcade text-[10px]">00</span> หน้าแรก</button>
                 <div class="mt-4 mb-2 text-xs text-pGray arcade uppercase pl-3">LEVEL SELECT</div>
                 <button onclick="nav('step1', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">01</span> สาธิตทักษะ</button>
-                <button onclick="nav('step23', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">02</span> โหมดฝึกซ้อม</button>
-                <button onclick="nav('step4', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">03</span> เทคนิควิธี</button>
-                <button onclick="nav('step5', this)" class="menu-item p-3 text-left text-pRed"><span class="arcade text-[10px]">04</span> ด่านทดสอบ!</button>
+                <button onclick="nav('step2', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">02</span> ปฏิบัติทักษะย่อย</button>
+                <button onclick="nav('step3', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">03</span> ปฏิบัติทักษะรวม</button>
+                <button onclick="nav('step4', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">04</span> เทคนิควิธี</button>
+                <button onclick="nav('step5', this)" class="menu-item p-3 text-left text-pRed"><span class="arcade text-[10px]">05</span> ด่านทดสอบ!</button>
             </nav>
         </aside>
 
@@ -205,41 +206,39 @@
                 </div>
                 
                 <div class="flex justify-end">
-                    <button onclick="nav('step23', document.querySelectorAll('.menu-item')[2])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
+                    <button onclick="nav('step2', document.querySelectorAll('.menu-item')[2])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
                         NEXT STAGE <span class="arcade text-sm ml-2">►</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Step 2-3 Simulator -->
-            <div id="sec-step23" class="view-section">
-                <h2 class="text-2xl arcade text-pBlue mb-6">STAGE 2-3: TRAINING</h2>
+            <!-- Step 2: Practice of parts (Rhythm only) -->
+            <div id="sec-step2" class="view-section">
+                <h2 class="text-2xl arcade text-pBlue mb-4">STAGE 2: SUB-SKILLS</h2>
+                <p class="mb-6 text-pNavy text-xl font-bold">ขั้นปฏิบัติทักษะย่อย: ฝึกความแม่นยำในการนับจังหวะ (1-2-3-4)</p>
                 
                 <div class="bg-white border-4 border-black p-5 mb-8">
                     <div class="flex flex-col md:flex-row gap-5">
                         <div class="w-full md:w-1/2">
-                            <label class="font-bold text-lg mb-2 block arcade text-xs">SELECT TRACK</label>
-                            <select id="simSelect" onchange="loadSim()" class="p-2 border-4 border-black w-full bg-pYellow text-black font-thai font-bold text-lg focus:outline-none cursor-pointer">
+                            <label class="font-bold text-lg mb-2 block arcade text-xs">SELECT RHYTHM</label>
+                            <select id="sim2Select" onchange="loadSim2()" class="p-2 border-4 border-black w-full bg-pYellow text-black font-thai font-bold text-lg focus:outline-none cursor-pointer">
                                 <option value="ex1">แบบฝึกหัดที่ 1 (1 2 3 4)</option>
                                 <option value="ex2">แบบฝึกหัดที่ 2 (- - - 4)</option>
                                 <option value="ex3">แบบฝึกหัดที่ 3 (- 2 - 4)</option>
                                 <option value="ex4">แบบฝึกหัดที่ 4 (- 2 3 4)</option>
                                 <option value="ex5">แบบฝึกหัดที่ 5 (แบบฝึกรวม)</option>
-                                <option value="basic">โน้ต 1: ไล่ระดับเสียง</option>
-                                <option value="yawa">โน้ต 2: ยะวา ๒ ชั้น</option>
-                                <option value="chanDiao">โน้ต 3: แขกบรเทศ</option>
                             </select>
-                            <div class="mt-3 p-2 bg-pNavy text-white border-4 border-black font-thai text-md font-bold" id="simDesc">...</div>
+                            <div class="mt-3 p-2 bg-pNavy text-white border-4 border-black font-thai text-md font-bold" id="sim2Desc">...</div>
                         </div>
                         
                         <div class="w-full md:w-1/2 flex flex-col gap-4 justify-center">
                             <div class="flex items-center justify-between bg-white border-4 border-black p-2">
                                 <span class="arcade text-[10px]">SPEED</span>
-                                <input type="range" id="simBpm" min="40" max="300" value="60" oninput="updateSimBPM()" class="mx-3 flex-1">
-                                <span class="arcade text-sm text-pRed w-12 text-center" id="simBpmVal">60</span>
+                                <input type="range" id="sim2Bpm" min="40" max="300" value="60" oninput="updateSim2BPM()" class="mx-3 flex-1">
+                                <span class="arcade text-sm text-pRed w-12 text-center" id="sim2BpmVal">60</span>
                             </div>
                             <label class="flex items-center justify-center gap-2 cursor-pointer bg-white border-4 border-black p-2 hover:bg-pYellow">
-                                <input type="checkbox" id="simToggle" checked class="w-5 h-5 accent-black"> 
+                                <input type="checkbox" id="sim2Toggle" checked class="w-5 h-5 accent-black"> 
                                 <span class="arcade text-[10px]">AUDIO ON</span>
                             </label>
                         </div>
@@ -247,12 +246,64 @@
                 </div>
 
                 <div class="flex justify-center mb-8">
-                    <button id="simBtn" onclick="toggleSim()" class="bg-pBlue text-white font-arcade text-lg px-8 py-4 pixel-btn w-full md:w-auto">
+                    <button id="sim2Btn" onclick="toggleSim2()" class="bg-pBlue text-white font-arcade text-lg px-8 py-4 pixel-btn w-full md:w-auto">
                         START AUTO
                     </button>
                 </div>
                 
-                <div id="simTable" class="mb-6"></div>
+                <div id="sim2Table" class="mb-6"></div>
+                
+                <div class="flex justify-end">
+                    <button onclick="nav('step3', document.querySelectorAll('.menu-item')[3])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
+                        NEXT STAGE <span class="arcade text-sm ml-2">►</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Practice of whole (Melody) -->
+            <div id="sec-step3" class="view-section">
+                <h2 class="text-2xl arcade text-pBlue mb-4">STAGE 3: WHOLE SKILL</h2>
+                <p class="mb-6 text-pNavy text-xl font-bold">ขั้นปฏิบัติทักษะรวม: นำจังหวะมาประกอบการอ่านโน้ตเพลงจริง</p>
+                
+                <div class="bg-white border-4 border-black p-5 mb-8">
+                    <div class="flex flex-col md:flex-row gap-5">
+                        <div class="w-full md:w-1/2">
+                            <label class="font-bold text-lg mb-2 block arcade text-xs">SELECT MELODY</label>
+                            <select id="sim3Select" onchange="loadSim3()" class="p-2 border-4 border-black w-full bg-pYellow text-black font-thai font-bold text-lg focus:outline-none cursor-pointer">
+                                <option value="basic">โน้ต 1: ไล่ระดับเสียง</option>
+                                <option value="yawa">โน้ต 2: ยะวา ๒ ชั้น</option>
+                                <option value="chanDiao">โน้ต 3: แขกบรเทศ</option>
+                            </select>
+                            <div class="mt-3 p-2 bg-pNavy text-white border-4 border-black font-thai text-md font-bold" id="sim3Desc">...</div>
+                        </div>
+                        
+                        <div class="w-full md:w-1/2 flex flex-col gap-4 justify-center">
+                            <div class="flex items-center justify-between bg-white border-4 border-black p-2">
+                                <span class="arcade text-[10px]">SPEED</span>
+                                <input type="range" id="sim3Bpm" min="40" max="300" value="60" oninput="updateSim3BPM()" class="mx-3 flex-1">
+                                <span class="arcade text-sm text-pRed w-12 text-center" id="sim3BpmVal">60</span>
+                            </div>
+                            <label class="flex items-center justify-center gap-2 cursor-pointer bg-white border-4 border-black p-2 hover:bg-pYellow">
+                                <input type="checkbox" id="sim3Toggle" checked class="w-5 h-5 accent-black"> 
+                                <span class="arcade text-[10px]">AUDIO ON</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center mb-8">
+                    <button id="sim3Btn" onclick="toggleSim3()" class="bg-pBlue text-white font-arcade text-lg px-8 py-4 pixel-btn w-full md:w-auto">
+                        START AUTO
+                    </button>
+                </div>
+                
+                <div id="sim3Table" class="mb-6"></div>
+                
+                <div class="flex justify-end">
+                    <button onclick="nav('step4', document.querySelectorAll('.menu-item')[4])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
+                        NEXT STAGE <span class="arcade text-sm ml-2">►</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Step 4 -->
@@ -279,7 +330,7 @@
                 </div>
                 
                 <div class="flex justify-end mt-10">
-                    <button onclick="nav('step5', document.querySelectorAll('.menu-item')[4])" class="px-8 py-4 bg-pRed text-white font-arcade text-lg pixel-btn">
+                    <button onclick="nav('step5', document.querySelectorAll('.menu-item')[5])" class="px-8 py-4 bg-pRed text-white font-arcade text-lg pixel-btn">
                         BOSS STAGE ►
                     </button>
                 </div>
@@ -290,7 +341,7 @@
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-2xl arcade text-pRed">BOSS STAGE: SCORE ATTACK</h2>
                 </div>
-                <p class="text-pNavy font-bold text-lg mb-6">กดปรบมือให้ตรงจังหวะตก (แถบสีแดง) เก็บแต้มให้ได้ 100%!</p>
+                <p class="text-pNavy font-bold text-lg mb-6">เชื่อมโยงทักษะ: กดปรบมือให้ตรงจังหวะตก (แถบสีแดง) เก็บแต้มให้ได้ 100%!</p>
                 
                 <div class="bg-white border-4 border-pRed p-5 mb-8 shadow-[6px_6px_0px_#ac3232]">
                     <div class="flex flex-col md:flex-row gap-5 mb-6">
@@ -333,7 +384,9 @@
     <!-- AUDIO ENGINE AND LOGIC -->
     <script>
         function nav(sectionId, element = null) {
-            if (sectionId !== 'step23' && simIsPlaying) toggleSim(); 
+            // เช็คและหยุดการเล่นเมื่อเปลี่ยนหน้าต่าง
+            if (sectionId !== 'step2' && sim2IsPlaying) toggleSim2(); 
+            if (sectionId !== 'step3' && sim3IsPlaying) toggleSim3(); 
             if (sectionId !== 'step5' && chIsPlaying) toggleCh(); 
 
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
@@ -366,14 +419,14 @@
         };
 
         const songDescriptions = {
-            ex1: "STAGE 1: BASIC COUNT",
+            ex1: "STAGE 2: BASIC COUNT",
             ex2: "STAGE 2: BEAT DROP",
-            ex3: "STAGE 3: UP & DOWN",
-            ex4: "STAGE 4: CONTINUOUS",
-            ex5: "BOSS STAGE: MIXED TEST",
-            basic: "NOTE STAGE: SCALE",
-            yawa: "NOTE STAGE: YAWA",
-            chanDiao: "NOTE STAGE: KHAEK"
+            ex3: "STAGE 2: UP & DOWN",
+            ex4: "STAGE 2: CONTINUOUS",
+            ex5: "STAGE 2: MIXED RHYTHM",
+            basic: "STAGE 3: NOTE SCALE",
+            yawa: "STAGE 3: YAWA SONG",
+            chanDiao: "STAGE 3: KHAEK SONG"
         };
 
         const thaiPronunciation = {
@@ -445,8 +498,8 @@
             if (!audioCtx) return;
             const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
-            // เปลี่ยนโทนเสียง Metronome ให้มีความเป็น 8-bit มากขึ้น
-            osc.type = 'square'; osc.frequency.setValueAtTime(isUpbeat ? 800 : 400, audioCtx.currentTime); 
+            osc.type = 'square'; 
+            osc.frequency.setValueAtTime(isUpbeat ? 800 : 400, audioCtx.currentTime); 
             gain.gain.setValueAtTime(isUpbeat ? 0.05 : 0.02, audioCtx.currentTime);
             osc.start(); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1); osc.stop(audioCtx.currentTime + 0.1);
         }
@@ -456,39 +509,39 @@
             const freq = noteFrequencies[noteString]; if (!freq) return;
             const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.type = 'square'; // 8-bit sound
+            osc.type = 'square'; 
             osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
             osc.start(); gain.gain.setValueAtTime(0.1, audioCtx.currentTime); 
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4); osc.stop(audioCtx.currentTime + 0.4);
         }
 
-        /* ----- SIMULATOR LOGIC ----- */
-        let simSong = songs.ex1, simIsPlaying = false, simBeatIdx = -1, simTimerId, simBpmVal = 60;
+        /* ----- SIMULATOR 2 LOGIC (STAGE 2: RHYTHM) ----- */
+        let sim2Song = songs.ex1, sim2IsPlaying = false, sim2BeatIdx = -1, sim2TimerId, sim2BpmVal = 60;
 
-        function loadSim() {
-            const key = document.getElementById("simSelect").value;
-            simSong = songs[key];
-            document.getElementById("simDesc").innerText = songDescriptions[key];
-            renderTable("simTable", simSong, "sim-beat-"); 
-            if (simIsPlaying) toggleSim(); 
+        function loadSim2() {
+            const key = document.getElementById("sim2Select").value;
+            sim2Song = songs[key];
+            document.getElementById("sim2Desc").innerText = songDescriptions[key];
+            renderTable("sim2Table", sim2Song, "sim2-beat-"); 
+            if (sim2IsPlaying) toggleSim2(); 
         }
 
-        function updateSimBPM() { 
-            simBpmVal = document.getElementById("simBpm").value; 
-            document.getElementById("simBpmVal").innerText = simBpmVal; 
-            if (simIsPlaying) { clearInterval(simTimerId); startSimLoop(); } 
+        function updateSim2BPM() { 
+            sim2BpmVal = document.getElementById("sim2Bpm").value; 
+            document.getElementById("sim2BpmVal").innerText = sim2BpmVal; 
+            if (sim2IsPlaying) { clearInterval(sim2TimerId); startSim2Loop(); } 
         }
 
-        function startSimLoop() {
-            simTimerId = setInterval(() => {
-                if (simBeatIdx >= 0) document.getElementById("sim-beat-" + simBeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+        function startSim2Loop() {
+            sim2TimerId = setInterval(() => {
+                if (sim2BeatIdx >= 0) document.getElementById("sim2-beat-" + sim2BeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
                 
-                simBeatIdx++; 
-                if (simBeatIdx >= simSong.length) simBeatIdx = 0; 
+                sim2BeatIdx++; 
+                if (sim2BeatIdx >= sim2Song.length) sim2BeatIdx = 0; 
                 
-                const note = simSong[simBeatIdx];
-                const pos = simBeatIdx % 4; 
-                const span = document.getElementById("sim-beat-" + simBeatIdx);
+                const note = sim2Song[sim2BeatIdx];
+                const pos = sim2BeatIdx % 4; 
+                const span = document.getElementById("sim2-beat-" + sim2BeatIdx);
                 
                 let isClap = (pos === 3);
                 let isUpbeat = (pos === 1);
@@ -500,31 +553,93 @@
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
 
-                if(document.getElementById("simToggle").checked && note !== "-") {
+                if(document.getElementById("sim2Toggle").checked && note !== "-") {
                     let cleanNote = note.replace("̇", "").replace("̣", "");
-                    speakThai(thaiPronunciation[cleanNote] || note, simBpmVal);
+                    speakThai(thaiPronunciation[cleanNote] || note, sim2BpmVal);
                     if (isNaN(cleanNote)) playMelodyNote(note);
                 }
-            }, Math.round(60000 / simBpmVal));
+            }, Math.round(60000 / sim2BpmVal));
         }
 
-        function toggleSim() {
+        function toggleSim2() {
             initAudio();
-            const btn = document.getElementById("simBtn");
-            if (simIsPlaying) {
-                clearInterval(simTimerId); 
-                if (simBeatIdx >= 0) document.getElementById("sim-beat-" + simBeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
-                simBeatIdx = -1; 
+            const btn = document.getElementById("sim2Btn");
+            if (sim2IsPlaying) {
+                clearInterval(sim2TimerId); 
+                if (sim2BeatIdx >= 0) document.getElementById("sim2-beat-" + sim2BeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                sim2BeatIdx = -1; 
                 btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
                 window.speechSynthesis.cancel();
             } else { 
                 btn.innerText = 'STOP'; btn.classList.replace('bg-pBlue', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
-                startSimLoop(); 
+                startSim2Loop(); 
             }
-            simIsPlaying = !simIsPlaying;
+            sim2IsPlaying = !sim2IsPlaying;
         }
 
-        /* ----- CHALLENGE LOGIC ----- */
+        /* ----- SIMULATOR 3 LOGIC (STAGE 3: MELODY) ----- */
+        let sim3Song = songs.basic, sim3IsPlaying = false, sim3BeatIdx = -1, sim3TimerId, sim3BpmVal = 60;
+
+        function loadSim3() {
+            const key = document.getElementById("sim3Select").value;
+            sim3Song = songs[key];
+            document.getElementById("sim3Desc").innerText = songDescriptions[key];
+            renderTable("sim3Table", sim3Song, "sim3-beat-"); 
+            if (sim3IsPlaying) toggleSim3(); 
+        }
+
+        function updateSim3BPM() { 
+            sim3BpmVal = document.getElementById("sim3Bpm").value; 
+            document.getElementById("sim3BpmVal").innerText = sim3BpmVal; 
+            if (sim3IsPlaying) { clearInterval(sim3TimerId); startSim3Loop(); } 
+        }
+
+        function startSim3Loop() {
+            sim3TimerId = setInterval(() => {
+                if (sim3BeatIdx >= 0) document.getElementById("sim3-beat-" + sim3BeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                
+                sim3BeatIdx++; 
+                if (sim3BeatIdx >= sim3Song.length) sim3BeatIdx = 0; 
+                
+                const note = sim3Song[sim3BeatIdx];
+                const pos = sim3BeatIdx % 4; 
+                const span = document.getElementById("sim3-beat-" + sim3BeatIdx);
+                
+                let isClap = (pos === 3);
+                let isUpbeat = (pos === 1);
+
+                if (isClap) span.classList.add("active-clap"); 
+                else if (isUpbeat) span.classList.add("active-upbeat"); 
+                else span.classList.add("active-tracker"); 
+                
+                if (!isClap) playMetronome(isUpbeat); 
+                if (isClap) playSyntheticClap();
+
+                if(document.getElementById("sim3Toggle").checked && note !== "-") {
+                    let cleanNote = note.replace("̇", "").replace("̣", "");
+                    speakThai(thaiPronunciation[cleanNote] || note, sim3BpmVal);
+                    if (isNaN(cleanNote)) playMelodyNote(note);
+                }
+            }, Math.round(60000 / sim3BpmVal));
+        }
+
+        function toggleSim3() {
+            initAudio();
+            const btn = document.getElementById("sim3Btn");
+            if (sim3IsPlaying) {
+                clearInterval(sim3TimerId); 
+                if (sim3BeatIdx >= 0) document.getElementById("sim3-beat-" + sim3BeatIdx).classList.remove("active-tracker", "active-upbeat", "active-clap");
+                sim3BeatIdx = -1; 
+                btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
+                window.speechSynthesis.cancel();
+            } else { 
+                btn.innerText = 'STOP'; btn.classList.replace('bg-pBlue', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
+                startSim3Loop(); 
+            }
+            sim3IsPlaying = !sim3IsPlaying;
+        }
+
+        /* ----- CHALLENGE LOGIC (STAGE 5) ----- */
         let chSong = songs.ex5, chIsPlaying = false, chTimerId, chBeatIdx = -1, chBpmVal = 60;
         let chTotalTargets = 0, chHits = 0, chMisses = 0;
         let hasClapped = false;
@@ -644,7 +759,6 @@
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
 
-                // ปิดเสียงพูดชั่วคราวในด่านบอสเพื่อเน้นเสียง 8-bit
                 if(note !== "-" && isNaN(note.replace("̇", "").replace("̣", ""))) {
                     playMelodyNote(note);
                 }
@@ -682,7 +796,8 @@
         });
         
         window.onload = () => { 
-            loadSim(); 
+            loadSim2(); 
+            loadSim3();
             loadCh();  
         };
     </script>
