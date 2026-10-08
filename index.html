@@ -131,6 +131,11 @@
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
             background-size: 100% 4px; pointer-events: none; z-index: 50; opacity: 0.4;
         }
+
+        /* คลาสใหม่สำหรับซ่อน Scrollbar แต่ยังเลื่อนได้ เพื่อความสวยงาม */
+        .hide-scrollbar::-webkit-scrollbar { width: 8px; }
+        .hide-scrollbar::-webkit-scrollbar-thumb { background-color: #000; border-radius: 0px; }
+        .hide-scrollbar::-webkit-scrollbar-track { background-color: #fbf236; border-left: 2px solid #000; }
     </style>
 </head>
 <body class="antialiased">
@@ -139,7 +144,7 @@
     <div class="min-h-screen flex flex-col md:flex-row p-3 md:p-6 gap-6 max-w-7xl mx-auto relative z-10">
         
         <!-- Sidebar Menu (Arcade Panel) -->
-        <aside class="pixel-panel-dark w-full md:w-72 h-fit md:sticky md:top-6 flex flex-col p-5">
+        <aside class="pixel-panel-dark w-full md:w-72 h-fit md:sticky md:top-6 flex flex-col p-5 z-50">
             <h1 class="text-2xl text-center text-pYellow mb-2 arcade font-bold tracking-tighter" style="line-height: 1.5;">THAI NOTE<br>TRAINER</h1>
             <div class="text-center text-pGreen text-xs mb-6 arcade uppercase">BY KruDREAM</div>
             <nav class="flex flex-col space-y-2 font-thai text-lg font-bold">
@@ -154,7 +159,7 @@
         </aside>
 
         <!-- Content Area -->
-        <main class="flex-1 pixel-box p-6 md:p-8 relative">
+        <main class="flex-1 pixel-box p-4 md:p-8 relative pb-24 md:pb-8">
             
             <!-- Home -->
             <div id="sec-home" class="view-section active">
@@ -215,9 +220,9 @@
             <!-- Step 2: Practice of parts (Rhythm only) -->
             <div id="sec-step2" class="view-section">
                 <h2 class="text-2xl arcade text-pBlue mb-4">STAGE 2: SUB-SKILLS</h2>
-                <p class="mb-6 text-pNavy text-xl font-bold">ขั้นปฏิบัติทักษะย่อย: ฝึกความแม่นยำในการนับจังหวะ (1-2-3-4)</p>
+                <p class="mb-4 text-pNavy text-lg font-bold">ขั้นปฏิบัติทักษะย่อย: ฝึกความแม่นยำในการนับจังหวะ (1-2-3-4)</p>
                 
-                <div class="bg-white border-4 border-black p-5 mb-8">
+                <div class="bg-white border-4 border-black p-4 mb-6">
                     <div class="flex flex-col md:flex-row gap-5">
                         <div class="w-full md:w-1/2">
                             <label class="font-bold text-lg mb-2 block arcade text-xs">SELECT RHYTHM</label>
@@ -245,13 +250,16 @@
                     </div>
                 </div>
 
-                <div class="flex justify-center mb-8">
+                <div class="flex justify-center mb-6">
                     <button id="sim2Btn" onclick="toggleSim2()" class="bg-pBlue text-white font-arcade text-lg px-8 py-4 pixel-btn w-full md:w-auto">
                         START AUTO
                     </button>
                 </div>
                 
-                <div id="sim2Table" class="mb-6"></div>
+                <!-- กล่อง Scrollable สำหรับตารางยาว -->
+                <div class="max-h-[35vh] md:max-h-[45vh] overflow-y-auto hide-scrollbar border-4 border-black p-3 bg-gray-50 mb-6">
+                    <div id="sim2Table"></div>
+                </div>
                 
                 <div class="flex justify-end">
                     <button onclick="nav('step3', document.querySelectorAll('.menu-item')[3])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
@@ -263,9 +271,9 @@
             <!-- Step 3: Practice of whole (Melody) -->
             <div id="sec-step3" class="view-section">
                 <h2 class="text-2xl arcade text-pBlue mb-4">STAGE 3: WHOLE SKILL</h2>
-                <p class="mb-6 text-pNavy text-xl font-bold">ขั้นปฏิบัติทักษะรวม: นำจังหวะมาประกอบการอ่านโน้ตเพลงจริง</p>
+                <p class="mb-4 text-pNavy text-lg font-bold">ขั้นปฏิบัติทักษะรวม: นำจังหวะมาประกอบการอ่านโน้ตเพลงจริง</p>
                 
-                <div class="bg-white border-4 border-black p-5 mb-8">
+                <div class="bg-white border-4 border-black p-4 mb-6">
                     <div class="flex flex-col md:flex-row gap-5">
                         <div class="w-full md:w-1/2">
                             <label class="font-bold text-lg mb-2 block arcade text-xs">SELECT MELODY</label>
@@ -291,13 +299,16 @@
                     </div>
                 </div>
 
-                <div class="flex justify-center mb-8">
+                <div class="flex justify-center mb-6">
                     <button id="sim3Btn" onclick="toggleSim3()" class="bg-pBlue text-white font-arcade text-lg px-8 py-4 pixel-btn w-full md:w-auto">
                         START AUTO
                     </button>
                 </div>
                 
-                <div id="sim3Table" class="mb-6"></div>
+                <!-- กล่อง Scrollable สำหรับตารางยาว -->
+                <div class="max-h-[35vh] md:max-h-[45vh] overflow-y-auto hide-scrollbar border-4 border-black p-3 bg-gray-50 mb-6">
+                    <div id="sim3Table"></div>
+                </div>
                 
                 <div class="flex justify-end">
                     <button onclick="nav('step4', document.querySelectorAll('.menu-item')[4])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
@@ -339,21 +350,20 @@
             <!-- Step 5: Rhythm Challenge Game -->
             <div id="sec-step5" class="view-section">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl arcade text-pRed">BOSS STAGE: SCORE ATTACK</h2>
+                    <h2 class="text-2xl arcade text-pRed drop-shadow-[2px_2px_0px_#000]">BOSS STAGE: SCORE ATTACK</h2>
                 </div>
                 
-                <!-- คำอธิบายวิธีการเล่น -->
-                <div class="bg-pNavy text-white p-6 border-4 border-black mb-6">
-                    <h3 class="arcade text-pYellow text-lg mb-3">HOW TO PLAY (วิธีเล่น)</h3>
-                    <ul class="list-disc ml-6 space-y-2 font-thai font-bold text-lg">
-                        <li>รอจังหวะตัววิ่งเคลื่นที่มาถึง <span class="text-pRed">ตำแหน่งที่ 4 (จังหวะตก)</span></li>
+                <div class="bg-pNavy text-white p-4 border-4 border-black mb-6">
+                    <h3 class="arcade text-pYellow text-sm mb-2">HOW TO PLAY (วิธีเล่น)</h3>
+                    <ul class="list-disc ml-6 space-y-1 font-thai font-bold text-md">
+                        <li>รอจังหวะตัววิ่งเคลื่อนที่มาถึง <span class="text-pRed">ตำแหน่งที่ 4 (จังหวะตก)</span></li>
                         <li>กด <b>SPACEBAR</b> หรือปุ่ม <b>[ CLAP ]</b> ด้านล่างให้ตรงจังหวะพอดีเพื่อเก็บแต้ม!</li>
-                        <li>ระดับความท้าทาย: <b>ความเร็วเพลงจะเพิ่มขึ้นเรื่อยๆ</b> เตรียมตัวให้พร้อม!</li>
+                        <li>ตารางจะ <b>เลื่อนบรรทัดให้อัตโนมัติ</b> ให้โฟกัสที่การกดปุ่มได้เลย!</li>
                     </ul>
                 </div>
                 
-                <div class="bg-white border-4 border-pRed p-5 mb-8 shadow-[6px_6px_0px_#ac3232]">
-                    <div class="flex flex-col md:flex-row gap-5 mb-6">
+                <div class="bg-white border-4 border-pRed p-4 mb-4 shadow-[6px_6px_0px_#ac3232]">
+                    <div class="flex flex-col md:flex-row gap-4 mb-4">
                         <div class="w-full md:w-1/2">
                             <select id="chSelect" onchange="loadCh()" class="p-2 border-4 border-black w-full bg-pYellow text-black font-thai font-bold text-lg focus:outline-none cursor-pointer">
                                 <option value="jeanJaiYor" selected>BOSS 1: จีนใจ๋ยอ</option>
@@ -368,21 +378,24 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-center mb-8">
-                        <button id="chBtn" onclick="toggleCh()" class="bg-pRed text-white font-arcade text-lg px-8 py-4 pixel-btn w-full md:w-auto">
+                    <div class="flex justify-center mb-6">
+                        <button id="chBtn" onclick="toggleCh()" class="bg-pRed text-white font-arcade text-lg px-8 py-3 pixel-btn w-full md:w-auto hover:bg-red-600">
                             FIGHT!
                         </button>
                     </div>
 
-                    <div id="chTable"></div>
-
-                    <!-- พื้นที่ปุ่มปรบมือเกม -->
-                    <div class="mt-8 bg-pNavy p-8 border-4 border-black">
-                        <button id="chClapBtn" onclick="chTap()" class="clap-btn-neutral pixel-btn w-full md:w-1/2 mx-auto block py-8 font-arcade text-xl focus:outline-none">
-                            [ CLAP ]<br><span class="font-thai text-sm mt-2 block">(SPACEBAR)</span>
-                        </button>
-                        <div id="chFeedback" class="h-10 mt-6 arcade text-center text-pYellow text-sm">PRESS FIGHT TO START</div>
+                    <!-- กล่อง Scrollable แบบจำกัดความสูง พร้อม Auto-Scroll -->
+                    <div class="max-h-[35vh] md:max-h-[40vh] overflow-y-auto hide-scrollbar border-4 border-black p-3 bg-gray-50 relative">
+                        <div id="chTable"></div>
                     </div>
+                </div>
+
+                <!-- พื้นที่ปุ่มปรบมือเกม (Sticky ให้อยู่ด้านล่างตลอดเวลา) -->
+                <div class="sticky bottom-4 z-40 mt-4 bg-pNavy p-4 md:p-6 border-4 border-black shadow-[4px_4px_0px_#ac3232] w-full">
+                    <button id="chClapBtn" onclick="chTap()" class="clap-btn-neutral pixel-btn w-full md:w-1/2 mx-auto block py-6 font-arcade text-xl focus:outline-none">
+                        [ CLAP ]<br><span class="font-thai text-sm mt-2 block">(SPACEBAR)</span>
+                    </button>
+                    <div id="chFeedback" class="h-6 mt-4 arcade text-center text-pYellow text-xs">PRESS FIGHT TO START</div>
                 </div>
             </div>
 
@@ -392,7 +405,6 @@
     <!-- AUDIO ENGINE AND LOGIC -->
     <script>
         function nav(sectionId, element = null) {
-            // หยุดการเล่นก่อนเปลี่ยนหน้าต่าง ป้องกันบั๊กค้าง
             if (sectionId !== 'step2' && sim2IsPlaying) toggleSim2(); 
             if (sectionId !== 'step3' && sim3IsPlaying) toggleSim3(); 
             if (sectionId !== 'step5' && chIsPlaying) toggleCh(); 
@@ -407,7 +419,6 @@
         }
         function showFeedback(text) { document.getElementById('demo-feedback').innerText = text; }
 
-        // รวมโน้ตเพลงทั้งหมด
         const songs = {
             ex1: ["1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4"],
             ex2: ["-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4"],
@@ -588,7 +599,7 @@
         let sim2Song = songs.ex1, sim2IsPlaying = false, sim2BeatIdx = -1, sim2TimerId, sim2BpmVal = 60;
 
         function loadSim2() {
-            if (sim2IsPlaying) toggleSim2(); // หยุดเกมก่อนเปลี่ยนเพลงเสมอเพื่อรีเซ็ตหน้าจอ
+            if (sim2IsPlaying) toggleSim2(); 
             const key = document.getElementById("sim2Select").value;
             sim2Song = songs[key];
             document.getElementById("sim2Desc").innerText = songDescriptions[key];
@@ -622,6 +633,11 @@
                     if (isClap) span.classList.add("active-clap"); 
                     else if (isUpbeat) span.classList.add("active-upbeat"); 
                     else span.classList.add("active-tracker"); 
+
+                    // เลื่อนหน้าจออัตโนมัติ (Auto-scroll) เพื่อให้เห็นโน้ตบรรทัดต่อไป
+                    if (sim2BeatIdx % 4 === 0) {
+                        span.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
                 }
                 
                 if (!isClap) playMetronome(isUpbeat); 
@@ -663,7 +679,7 @@
         let sim3Song = songs.basic, sim3IsPlaying = false, sim3BeatIdx = -1, sim3TimerId, sim3BpmVal = 60;
 
         function loadSim3() {
-            if (sim3IsPlaying) toggleSim3(); // หยุดเกมก่อนเปลี่ยนเพลงเสมอเพื่อรีเซ็ตหน้าจอ
+            if (sim3IsPlaying) toggleSim3(); 
             const key = document.getElementById("sim3Select").value;
             sim3Song = songs[key];
             document.getElementById("sim3Desc").innerText = songDescriptions[key];
@@ -697,6 +713,11 @@
                     if (isClap) span.classList.add("active-clap"); 
                     else if (isUpbeat) span.classList.add("active-upbeat"); 
                     else span.classList.add("active-tracker"); 
+
+                    // เลื่อนหน้าจออัตโนมัติ (Auto-scroll)
+                    if (sim3BeatIdx % 4 === 0) {
+                        span.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
                 }
                 
                 if (!isClap) playMetronome(isUpbeat); 
@@ -740,7 +761,7 @@
         let hasClapped = false;
 
         function loadCh() {
-            if (chIsPlaying) toggleCh(); // หยุดเกมก่อนเปลี่ยนเพลงเสมอเพื่อหลีกเลี่ยงบั๊กตาราง
+            if (chIsPlaying) toggleCh(); 
 
             const key = document.getElementById("chSelect").value;
             chSong = songs[key];
@@ -770,7 +791,7 @@
             if (!chIsPlaying) {
                 const fb = document.getElementById("chFeedback");
                 fb.innerText = 'PRESS FIGHT TO START';
-                fb.className = "h-10 mt-6 arcade text-center text-pYellow text-sm";
+                fb.className = "h-8 mt-4 arcade text-center text-pYellow text-sm";
                 return;
             }
             if (hasClapped) return; 
@@ -782,16 +803,16 @@
 
             if (pos === 3) {
                 chHits++;
-                btn.className = "clap-btn-correct pixel-btn w-full md:w-1/2 mx-auto block py-8 font-arcade text-xl";
+                btn.className = "clap-btn-correct pixel-btn w-full md:w-1/2 mx-auto block py-6 font-arcade text-xl";
                 fb.innerText = 'PERFECT!';
-                fb.className = "h-10 mt-6 arcade text-center text-pGreen text-xl drop-shadow-[2px_2px_0px_#000]";
+                fb.className = "h-8 mt-4 arcade text-center text-pGreen text-xl drop-shadow-[2px_2px_0px_#000]";
             } else {
                 chMisses++;
-                btn.className = "clap-btn-wrong pixel-btn w-full md:w-1/2 mx-auto block py-8 font-arcade text-xl";
+                btn.className = "clap-btn-wrong pixel-btn w-full md:w-1/2 mx-auto block py-6 font-arcade text-xl";
                 fb.innerText = 'MISS!';
-                fb.className = "h-10 mt-6 arcade text-center text-pRed text-xl drop-shadow-[2px_2px_0px_#000]";
+                fb.className = "h-8 mt-4 arcade text-center text-pRed text-xl drop-shadow-[2px_2px_0px_#000]";
             }
-            setTimeout(() => { btn.className = "clap-btn-neutral pixel-btn w-full md:w-1/2 mx-auto block py-8 font-arcade text-xl focus:outline-none"; }, 150);
+            setTimeout(() => { btn.className = "clap-btn-neutral pixel-btn w-full md:w-1/2 mx-auto block py-6 font-arcade text-xl focus:outline-none"; }, 150);
         }
 
         function finishCh() {
@@ -800,7 +821,7 @@
             document.getElementById("chBtn").innerText = 'RETRY';
             document.getElementById("chBtn").classList.replace('bg-pYellow', 'bg-pRed'); document.getElementById("chBtn").classList.replace('text-black', 'text-white');
             document.getElementById("chFeedback").innerText = "STAGE CLEAR";
-            document.getElementById("chFeedback").className = "h-10 mt-6 arcade text-center text-white text-lg";
+            document.getElementById("chFeedback").className = "h-8 mt-4 arcade text-center text-white text-lg";
             
             let percent = 0;
             if(chTotalTargets > 0) percent = Math.round((chHits / chTotalTargets) * 100);
@@ -845,7 +866,7 @@
                         const fb = document.getElementById("chFeedback");
                         if (fb) {
                             fb.innerText = 'MISS!';
-                            fb.className = "h-10 mt-6 arcade text-center text-pRed text-xl drop-shadow-[2px_2px_0px_#000]";
+                            fb.className = "h-8 mt-4 arcade text-center text-pRed text-xl drop-shadow-[2px_2px_0px_#000]";
                         }
                     }
                     let oldSpan = document.getElementById("ch-beat-" + chBeatIdx);
@@ -868,6 +889,11 @@
                     if (isClap) span.classList.add("active-clap"); 
                     else if (isUpbeat) span.classList.add("active-upbeat"); 
                     else span.classList.add("active-tracker"); 
+
+                    // เลื่อนหน้าจออัตโนมัติ (Auto-scroll) เพื่อให้โน้ตโผล่มาตรงกลางกล่อง
+                    if (chBeatIdx % 4 === 0) {
+                        span.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
                 }
                 
                 if (!isClap) playMetronome(isUpbeat); 
@@ -891,7 +917,7 @@
                 chBeatIdx = -1; 
                 btn.innerText = 'FIGHT!'; btn.classList.replace('bg-pYellow', 'bg-pRed'); btn.classList.replace('text-black', 'text-white');
                 document.getElementById("chFeedback").innerText = "ABORTED";
-                document.getElementById("chFeedback").className = "h-10 mt-6 arcade text-center text-white text-lg";
+                document.getElementById("chFeedback").className = "h-8 mt-4 arcade text-center text-white text-lg";
             } else { 
                 if (chBeatIdx >= 0) {
                     let el = document.getElementById("ch-beat-" + chBeatIdx);
@@ -900,7 +926,7 @@
                 chBeatIdx = -1;
                 btn.innerText = 'STOP'; btn.classList.replace('bg-pRed', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
                 document.getElementById("chFeedback").innerText = "GET READY...";
-                document.getElementById("chFeedback").className = "h-10 mt-6 arcade text-center text-pWhite text-xl blink";
+                document.getElementById("chFeedback").className = "h-8 mt-4 arcade text-center text-pWhite text-xl blink";
                 startChLoop(); 
             }
             chIsPlaying = !chIsPlaying;
