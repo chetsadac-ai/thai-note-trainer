@@ -140,8 +140,8 @@
         
         <!-- Sidebar Menu (Arcade Panel) -->
         <aside class="pixel-panel-dark w-full md:w-72 h-fit md:sticky md:top-6 flex flex-col p-5">
-            <h1 class="text-2xl text-center text-pYellow mb-2 arcade font-bold tracking-tighter" style="line-height: 1.5;">NOTE<br>TRAINER</h1>
-            <div class="text-center text-pGreen text-xs mb-6 arcade uppercase">Insert Coin</div>
+            <h1 class="text-2xl text-center text-pYellow mb-2 arcade font-bold tracking-tighter" style="line-height: 1.5;">THAI NOTE<br>TRAINER</h1>
+            <div class="text-center text-pGreen text-xs mb-6 arcade uppercase">BY KruDREAM</div>
             <nav class="flex flex-col space-y-2 font-thai text-lg font-bold">
                 <button onclick="nav('home', this)" class="menu-item menu-active p-3 text-left"><span class="arcade text-[10px]">00</span> หน้าแรก</button>
                 <div class="mt-4 mb-2 text-xs text-pGray arcade uppercase pl-3">LEVEL SELECT</div>
@@ -222,7 +222,7 @@
                         <div class="w-full md:w-1/2">
                             <label class="font-bold text-lg mb-2 block arcade text-xs">SELECT RHYTHM</label>
                             <select id="sim2Select" onchange="loadSim2()" class="p-2 border-4 border-black w-full bg-pYellow text-black font-thai font-bold text-lg focus:outline-none cursor-pointer">
-                                <option value="ex1">แบบฝึกหัดที่ 1 (1 2 3 4)</option>
+                                <option value="ex1" selected>แบบฝึกหัดที่ 1 (1 2 3 4)</option>
                                 <option value="ex2">แบบฝึกหัดที่ 2 (- - - 4)</option>
                                 <option value="ex3">แบบฝึกหัดที่ 3 (- 2 - 4)</option>
                                 <option value="ex4">แบบฝึกหัดที่ 4 (- 2 3 4)</option>
@@ -272,7 +272,7 @@
                             <select id="sim3Select" onchange="loadSim3()" class="p-2 border-4 border-black w-full bg-pYellow text-black font-thai font-bold text-lg focus:outline-none cursor-pointer">
                                 <option value="basic">โน้ต 1: ไล่ระดับเสียง</option>
                                 <option value="yawa">โน้ต 2: ยะวา ๒ ชั้น</option>
-                                <option value="chanDiao">โน้ต 3: แขกบรเทศ</option>
+                                <option value="chanDiao">โน้ต 3: แขกบรเทศ ชั้นเดียว</option>
                             </select>
                             <div class="mt-3 p-2 bg-pNavy text-white border-4 border-black font-thai text-md font-bold" id="sim3Desc">...</div>
                         </div>
@@ -347,16 +347,15 @@
                     <div class="flex flex-col md:flex-row gap-5 mb-6">
                         <div class="w-full md:w-1/2">
                             <select id="chSelect" onchange="loadCh()" class="p-2 border-4 border-black w-full bg-pYellow text-black font-thai font-bold text-lg focus:outline-none cursor-pointer">
-                                <option value="ex5" selected>แบบฝึกหัดที่ 5 (BOSS STAGE)</option>
-                                <option value="basic">โน้ต 1: ไล่ระดับเสียง</option>
-                                <option value="yawa">โน้ต 2: ยะวา ๒ ชั้น</option>
-                                <option value="chanDiao">โน้ต 3: แขกบรเทศ</option>
+                                <option value="jeanJaiYor" selected>BOSS 1: จีนใจ๋ยอ</option>
+                                <option value="domKai">BOSS 2: ด้อมค่าย</option>
+                                <option value="kangKaw">BOSS 3: ค้างคาวกินกล้วย</option>
                             </select>
                         </div>
                         <div class="w-full md:w-1/2 flex items-center bg-white border-4 border-black p-2">
                             <span class="arcade text-[10px]">SPEED</span>
-                            <input type="range" id="chBpm" min="40" max="300" value="60" oninput="updateChBPM()" class="mx-3 flex-1">
-                            <span class="arcade text-sm text-pRed w-12 text-center" id="chBpmVal">60</span>
+                            <input type="range" id="chBpm" min="40" max="300" value="180" oninput="updateChBPM()" class="mx-3 flex-1">
+                            <span class="arcade text-sm text-pRed w-12 text-center" id="chBpmVal">180</span>
                         </div>
                     </div>
 
@@ -399,7 +398,7 @@
         }
         function showFeedback(text) { document.getElementById('demo-feedback').innerText = text; }
 
-        // โน้ตเพลงต้นฉบับดั้งเดิม 100% ไม่มีการแก้ไข
+        // รวมโน้ตเพลงใหม่ทั้งหมด (แขกบรเทศฉบับใหม่, จีนใจ๋ยอ, ด้อมค่าย, ค้างคาวกินกล้วย)
         const songs = {
             ex1: ["1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4"],
             ex2: ["-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4"],
@@ -415,7 +414,58 @@
             ],
             basic: ["-","-","-","ด", "-","-","-","ร", "-","-","-","ม", "-","-","-","ฟ", "-","-","-","ซ", "-","-","-","ล", "-","-","-","ท", "-","-","-","ด̇"],
             yawa: ["-","-","-","ม", "-","ซ̇","-","ม", "-","ซ̇","-","ม", "-","ม","-","ม", "-","-","-","ร", "-","ม","-","ร", "-","ม","-","ร", "-","ร","-","ร", "-","-","-","ด", "-","ร","-","ด", "-","ร","-","ด", "-","ด","-","ด", "-","-","-","ล̣", "-","ด","-","ล̣", "-","ด","-","ล̣", "-","ล̣","-","ล̣"],
-            chanDiao: ["ด̇","ล","ล","ล", "ด̇","ล","ล","ล", "ด̇","ซ","ซ","ซ", "ด̇","ล","ซ","ม", "ซ","ม","ร","ด", "ม","ร","ซ","ม", "ซ","ล","ด̇","ร̇", "ด̇","ม̇","ร̇","ด̇"]
+            chanDiao: [
+                "ด̇","ล","ล","ล", "ด̇","ล","ล","ล", "ด̇","ซ","ซ","ซ", "ด̇","ล","ซ","ม", 
+                "ซ","ม","ร","ด", "ม","ร","ซ","ม", "ซ","ล","ด̇","ร̇", "ด̇","ม̇","ร̇","ด̇",
+                "ด̇","ล","ล","ล", "ด̇","ล","ล","ล", "ด̇","ซ","ซ","ซ", "ด̇","ล","ซ","ม", 
+                "ซ","ม","ร","ด", "ม","ร","ซ","ม", "ซ","ล","ด̇","ร̇", "ด̇","ม̇","ร̇","ด̇",
+                "ม̇","ม̇","ซ̇","ร̇", "ม̇","ร̇","ด̇","ล", "ซ","ม","ซ","ล", "ซ","ฟ","ม","ร", 
+                "ซ","ม","ร","ด", "ม","ร","ซ","ม", "ซ","ล","ด̇","ร̇", "ด̇","ม̇","ร̇","ด̇",
+                "ม̇","ม̇","ซ̇","ร̇", "ม̇","ร̇","ด̇","ล", "ซ","ม","ซ","ล", "ซ","ฟ","ม","ร", 
+                "ซ","ม","ร","ด", "ม","ร","ซ","ม", "ซ","ล","ด̇","ร̇", "ด̇","ม̇","ร̇","ด̇"
+            ],
+            jeanJaiYor: [
+                "-","-","-","-", "-","-","-","ด̇", "-","-","-","ม", "-","-","-","ซ",
+                "-","-","-","ล", "-","-","-","ด̇", "-","-","-","ร̇", "-","ม̇","-","ด̇",
+                "-","-","-","-", "-","-","-","ด̇", "-","-","ร̇","ม̇", "-","ซ̇","-","ร̇",
+                "-","ม̇","-","ร̇", "-","ด̇","-","ล", "-","ด̇","-","ล", "ซ","ม","-","ซ",
+                "-","-","-","-", "-","ม","-","ซ", "-","ล","-","ด̇", "-","-","-","ล",
+                "-","-","ด̇","ล", "-","ซ","-","ม", "-","ซ","-","ร", "-","ม","-","ซ",
+                "-","-","-","ร̇", "-","ม̇","-","ร̇", "-","ม̇","-","ซ̇", "-","-","-","ม̇",
+                "-","-","ซ","ม̇", "-","ร̇","-","ด̇", "-","ล","-","-", "ด̇","ร̇","-","ด̇",
+                "-","-","-","-", "-","ด̇","-","ม", "-","-","ซ","ล", "-","ด̇","-","ซ",
+                "-","ด̇","-","-", "-","ด̇","-","ม", "-","-","ซ","ล", "-","ด̇","-","ซ",
+                "-","-","-","ร̇", "-","ม̇","-","ร̇", "-","ม̇","-","ซ̇", "-","-","-","ม̇",
+                "-","-","ซ","ม̇", "-","ร̇","-","ด̇", "-","ล","-","-", "ด̇","ร̇","-","ด̇"
+            ],
+            domKai: [
+                "-","-","ล̣","ล", "-","ด̇","-","ม", "-","-","ม̣","ม", "-","ม","-","ด̇",
+                "-","-","ด","ด̇", "-","ด̇","-","ร̇", "-","ด̇","ร̇","ม̇", "ร̇","ด̇","ร̇","ด̇",
+                "-","-","ล̣","ล", "-","ด̇","-","ม", "-","-","ม̣","ม", "-","ม","-","ซ",
+                "-","-","ซ̣","ซ", "-","ซ","-","ล", "-","-","ซ̣","ซ", "-","ล","-","ด̇",
+                "-","-","ด","ด̇", "-","ร̇","-","ม̇", "-","-","ม","ม̇", "-","ซ̇","-","ร̇",
+                "-","-","ร̇","ร̇", "ม̇","ร̇","ด̇","ล", "ด̇","ล","ด̇","ซ", "-","ล","-","ด̇",
+                "-","-","ด","ด̇", "-","-","ร̇","ม̇", "ร̇","ด̇","ร̇","ด̇", "-","ร̇","-","ด̇",
+                "-","-","ม","ม", "-","ม","-","ม", "-","-","ม","ม", "-","ม","-","ซ",
+                "-","-","ซ","ซ", "-","ซ","-","ล", "-","-","ด","ด̇", "-","ล","-","ซ",
+                "-","-","ซ","ซ", "-","ล","-","ด̇", "ร̇","ด̇","ล","ร̇", "-","-","-","-",
+                "ม̇","ด̇","ร̇","ม̇", "ร̇","ด̇","ล","ซ", "ม","ซ","ล","ด̇", "-","ล","-","ร̇",
+                "ม̇","ด̇","ร̇","ม̇", "ร̇","ด̇","ล","ซ", "ม","ซ","ล","ด̇", "-","ล","-","ซ"
+            ],
+            kangKaw: [
+                "-","ล","-","ซ", "ซ","ซ","-","ม̇", "-","-","ซ̇","ม̇", "-","-","ร̇","ม̇",
+                "-","-","ซ̇","ม̇", "-","-","ร̇","ม̇", "-","ม̇","ร̇","ด̇", "-","ร̇","-","ม̇",
+                "-","ล","-","ซ", "ซ","ซ","-","ม̇", "-","-","ซ̇","ม̇", "-","-","ร̇","ม̇",
+                "-","-","ซ̇","ม̇", "-","-","ร̇","ม̇", "-","ม̇","ร̇","ด̇", "-","ร̇","-","ม̇",
+                "-","-","-","-", "-","ร̇","-","ร̇", "-","-","ม̇","ร̇", "ด̇","ร̇","-","-",
+                "-","ม̇","-","ร̇", "-","ด̇","-","ท", "-","ซ","ล","ท", "-","ด̇","-","ร̇",
+                "-","-","-","-", "-","ร̇","-","ร̇", "-","-","ม̇","ร̇", "ด̇","ร̇","-","-",
+                "-","ม̇","-","ร̇", "-","ด̇","-","ท", "-","ซ","ล","ท", "-","ด̇","-","ร̇",
+                "-","-","-","-", "-","ล","-","ล", "-","-","ด̇","ล", "ซ","ม","-","ซ",
+                "-","ม","-","ล", "ซ","ม","-","ซ", "-","ม","-","ซ", "ล","ด̇","-","ล",
+                "-","-","-","-", "-","ล","-","ล", "-","-","ด̇","ล", "ซ","ม","-","ซ",
+                "-","ม","-","ล", "ซ","ม","-","ซ", "-","ม̇","-","ร̇", "ม̇","ม̇","ม̇","ม̇"
+            ]
         };
 
         const songDescriptions = {
@@ -426,14 +476,22 @@
             ex5: "STAGE 2: MIXED RHYTHM",
             basic: "STAGE 3: NOTE SCALE",
             yawa: "STAGE 3: YAWA SONG",
-            chanDiao: "STAGE 3: KHAEK SONG"
+            chanDiao: "STAGE 3: KHAEK SONG",
+            jeanJaiYor: "BOSS 1: จีนใจ๋ยอ (SPEED 180)",
+            domKai: "BOSS 2: ด้อมค่าย (SPEED 220)",
+            kangKaw: "BOSS 3: ค้างคาวกินกล้วย (SPEED 260)"
         };
 
         const thaiPronunciation = {
             "1": "หนึ่ง", "2": "สอง", "3": "สาม", "4": "สี่",
             "ด": "โด", "ร": "เร", "ม": "มี", "ฟ": "ฟา", "ซ": "ซอล", "ล": "ลา", "ท": "ที"
         };
-        const noteFrequencies = { "ด":261.63, "ร":293.66, "ม":329.63, "ฟ":349.23, "ซ":392.00, "ล":440.00, "ท":493.88, "ด̇":523.25, "ร̇":587.33, "ม̇":659.25, "ซ̇":783.99, "ล̣":220.00 };
+        // อัปเดตคลื่นความถี่ให้รองรับโน้ตเสียงต่ำทุกตัวจากเพลงด้อมค่ายและโน้ตเสียงสูง
+        const noteFrequencies = { 
+            "ด̣":130.81, "ร̣":146.83, "ม̣":164.81, "ฟ̣":174.61, "ซ̣":196.00, "ล̣":220.00, "ท̣":246.94,
+            "ด":261.63, "ร":293.66, "ม":329.63, "ฟ":349.23, "ซ":392.00, "ล":440.00, "ท":493.88, 
+            "ด̇":523.25, "ร̇":587.33, "ม̇":659.25, "ซ̇":783.99
+        };
         
         let audioCtx;
 
@@ -640,13 +698,24 @@
         }
 
         /* ----- CHALLENGE LOGIC (STAGE 5) ----- */
-        let chSong = songs.ex5, chIsPlaying = false, chTimerId, chBeatIdx = -1, chBpmVal = 60;
+        let chSong = songs.jeanJaiYor, chIsPlaying = false, chTimerId, chBeatIdx = -1, chBpmVal = 180;
         let chTotalTargets = 0, chHits = 0, chMisses = 0;
         let hasClapped = false;
 
         function loadCh() {
             const key = document.getElementById("chSelect").value;
             chSong = songs[key];
+            
+            // ปรับความเร็วอัตโนมัติแบบไต่ระดับเมื่อเลือกเพลง
+            if (key === 'jeanJaiYor') {
+                document.getElementById('chBpm').value = 180;
+            } else if (key === 'domKai') {
+                document.getElementById('chBpm').value = 220;
+            } else if (key === 'kangKaw') {
+                document.getElementById('chBpm').value = 260;
+            }
+            updateChBPM(); // สั่งให้อัปเดตตัวเลขแสดงผลด้วย
+
             renderTable("chTable", chSong, "ch-beat-"); 
             if (chIsPlaying) toggleCh(); 
         }
