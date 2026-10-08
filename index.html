@@ -74,12 +74,18 @@
             .room:nth-child(4), .room:nth-child(8) { border-right: none; }
             .room:nth-child(1), .room:nth-child(2), .room:nth-child(3), .room:nth-child(4) { border-bottom: 2px solid theme('colors.thaiRed'); }
         }
+        
+        /* สไตล์พิเศษสำหรับปุ่มปรบมือ */
+        .clap-btn-neutral { background-color: #e5e7eb; color: #4b5563; border-bottom: 6px solid #d1d5db; }
+        .clap-btn-correct { background-color: #34d399; color: white; border-bottom: 6px solid #059669; transform: translateY(4px); }
+        .clap-btn-wrong { background-color: #f87171; color: white; border-bottom: 6px solid #dc2626; transform: translateY(4px); }
     </style>
 </head>
 <body>
 
     <div class="min-h-screen flex flex-col md:flex-row p-2 md:p-4 gap-4">
         
+        <!-- Sidebar Menu -->
         <aside class="glass-panel w-full md:w-72 h-fit md:sticky md:top-4 flex flex-col p-4">
             <h1 class="text-2xl font-bold text-center text-blue-600 mb-2 font-cursive tracking-wide">Thai Note Trainer</h1>
             <p class="text-xs text-center text-gray-500 mb-6 pb-4 border-b">รูปแบบการสอนทักษะปฏิบัติ Davies</p>
@@ -93,6 +99,7 @@
             </nav>
         </aside>
 
+        <!-- Content Area -->
         <main class="flex-1 glass-panel p-6 relative overflow-hidden">
             
             <div id="sec-home" class="view-section active">
@@ -132,16 +139,18 @@
                 <button onclick="nav('step23', document.querySelectorAll('.menu-item')[2])" class="mt-8 px-6 py-3 bg-blue-600 text-white rounded-xl btn-glass font-bold">ไปฝึกปฏิบัติในขั้นที่ 2-3 ต่อ <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
+            <!-- Simulator Section -->
             <div id="sec-step23" class="view-section">
                 <div class="flex justify-between items-end mb-4">
                     <div>
                         <h2 class="text-2xl font-bold text-thaiRed"><i class="fas fa-drum"></i> ขั้นที่ 2-3: ปฏิบัติทักษะย่อย</h2>
                         <p class="text-gray-600 mt-1">
                             <span class="inline-block w-3 h-3 bg-blue-500 rounded-full mr-1"></span> <b>แถบสีฟ้า (ที่ 2):</b> จังหวะยก ให้ <u>กางมือออก</u><br>
-                            <span class="inline-block w-3 h-3 bg-red-600 rounded-full mr-1"></span> <b>แถบสีแดง (ที่ 4):</b> จังหวะตก ให้ <u>ปรบมือ</u>
+                            <span class="inline-block w-3 h-3 bg-red-600 rounded-full mr-1"></span> <b>แถบสีแดง (ที่ 4):</b> จังหวะตก ให้ <u>กดปุ่มปรบมือด้านล่าง</u>
                         </p>
                     </div>
                 </div>
+                
                 <div class="simulator-container">
                     <div class="flex flex-col md:flex-row justify-center items-center gap-4 mb-6 bg-gray-50 p-4 rounded-xl border">
                         <div class="w-full md:w-auto">
@@ -174,8 +183,19 @@
                     <button id="playBtn" onclick="togglePlay()" class="bg-thaiRed text-white px-10 py-3 rounded-xl font-bold text-xl hover:bg-red-800 transition shadow-lg mb-6 w-full md:w-auto">▶️ เริ่มฝึกซ้อม Simulator</button>
                     
                     <div id="notationTable"></div>
+
+                    <!-- พื้นที่เล่นเกมจับจังหวะ (ปุ่มปรบมือ) -->
+                    <div class="mt-8 bg-blue-50 p-6 rounded-2xl border-2 border-dashed border-blue-200">
+                        <h3 class="text-xl font-bold mb-4 text-blue-800">เกมทดสอบความแม่นยำ (Tap the rhythm)</h3>
+                        <p class="text-sm text-gray-500 mb-4">เมื่อจังหวะวิ่งถึงสีแดง ให้คลิกปุ่มด้านล่าง (หรือกด Spacebar บนคีย์บอร์ด)</p>
+                        
+                        <button id="userClapBtn" onclick="userTapClap()" class="clap-btn-neutral w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out">
+                            👏 กดปรบมือที่นี่ (Spacebar)
+                        </button>
+                        
+                        <div id="clapFeedback" class="h-8 mt-4 text-lg font-bold text-center text-gray-400">รอเริ่มการฝึกซ้อม...</div>
+                    </div>
                 </div>
-                <button onclick="nav('step4', document.querySelectorAll('.menu-item')[3])" class="mt-6 px-6 py-3 bg-secondary text-white rounded-xl btn-glass font-bold shadow-md w-full md:w-auto">ดูเทคนิควิธีการ (ขั้นที่ 4) <i class="fas fa-arrow-right ml-2"></i></button>
             </div>
 
             <div id="sec-step4" class="view-section">
@@ -257,7 +277,6 @@
             chanDiao: "เป้าหมาย: ฝึกอ่านโน้ตเพลงแขกบรเทศ ชั้นเดียว พร้อมเคาะจังหวะ (อัตราจังหวะรวดเร็ว)"
         };
 
-        // พจนานุกรมคำอ่าน
         const thaiPronunciation = {
             "1": "หนึ่ง", "2": "สอง", "3": "สาม", "4": "สี่",
             "ด": "โด", "ร": "เร", "ม": "มี", "ฟ": "ฟา", "ซ": "ซอล", "ล": "ลา", "ท": "ที"
@@ -265,6 +284,9 @@
         const noteFrequencies = { "ด":261.63, "ร":293.66, "ม":329.63, "ฟ":349.23, "ซ":392.00, "ล":440.00, "ท":493.88, "ด̇":523.25, "ร̇":587.33, "ม̇":659.25, "ซ̇":783.99, "ล̣":220.00 };
         
         let currentSong = songs.ex1, audioCtx, isPlaying = false, currentBeatIndex = -1, simTimerId, bpm = 60;
+        
+        // ตัวแปรสำหรับเช็คการปรบมือ
+        let hasClappedThisBeat = false;
 
         function loadSong() {
             const selectedKey = document.getElementById("songSelect").value;
@@ -296,7 +318,6 @@
             }
         }
 
-        // --- เสียงปรบมือจำลอง ---
         function playSyntheticClap() {
             if (!audioCtx) return;
             const bufferSize = audioCtx.sampleRate * 0.1; 
@@ -310,31 +331,23 @@
             filter.type = 'bandpass'; filter.frequency.value = 1200; filter.Q.value = 1.5;
             
             const gain = audioCtx.createGain();
-            gain.gain.setValueAtTime(1.5, audioCtx.currentTime); // เพิ่มความดังเสียงปรบมือ
+            gain.gain.setValueAtTime(1.5, audioCtx.currentTime); 
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
             
             noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
             noise.start();
         }
 
-        // --- ระบบออกเสียงพูด (TTS) ที่ได้รับการปรับจูน ---
         function speakThai(word) {
             if (!('speechSynthesis' in window)) return;
+            if(window.speechSynthesis.pending) window.speechSynthesis.cancel();
             
-            // ยกเลิกคิวเก่าถ้าค้างอยู่ เพื่อให้ออกเสียงทันจังหวะ
-            if(window.speechSynthesis.pending) {
-                window.speechSynthesis.cancel();
-            }
-
             const utterance = new SpeechSynthesisUtterance(word);
             utterance.lang = 'th-TH'; 
-            
-            // บังคับหาเสียงภาษาไทย (เพื่อแก้ปัญหาบางเบราว์เซอร์อ่านตัวเลขเป็นภาษาอังกฤษ)
             const voices = window.speechSynthesis.getVoices();
             const thaiVoice = voices.find(v => v.lang === 'th-TH' || v.lang === 'th');
             if (thaiVoice) utterance.voice = thaiVoice;
             
-            // ปรับความเร็วตาม BPM
             if (bpm >= 150) utterance.rate = 2.0;
             else if (bpm >= 100) utterance.rate = 1.5;
             else utterance.rate = 1.2;
@@ -367,8 +380,52 @@
             if (isPlaying) { clearInterval(simTimerId); startLoop(); } 
         }
 
+        // --- ระบบเช็คการกดปุ่มของผู้ใช้ (Tap Rhythm Game) ---
+        function userTapClap() {
+            if (!isPlaying) {
+                document.getElementById("clapFeedback").innerText = "⚠️ ต้องกด 'เริ่มฝึกซ้อม' ก่อนครับ";
+                document.getElementById("clapFeedback").className = "h-8 mt-4 text-lg font-bold text-center text-yellow-600";
+                return;
+            }
+
+            // ป้องกันการรัวปุ่มในจังหวะเดิม
+            if (hasClappedThisBeat) return;
+            hasClappedThisBeat = true;
+
+            const btn = document.getElementById("userClapBtn");
+            const feedback = document.getElementById("clapFeedback");
+            const position = currentBeatIndex % 4; // เช็คว่าตอนที่กด เป็นตำแหน่งไหน (0,1,2,3)
+
+            if (position === 3) {
+                // กดถูกจังหวะ (ตำแหน่งที่ 4)
+                btn.className = "clap-btn-correct w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out";
+                feedback.innerText = "✅ ตรงจังหวะ! (Perfect)";
+                feedback.className = "h-8 mt-4 text-xl font-bold text-center text-green-500 drop-shadow-sm";
+            } else {
+                // กดผิดจังหวะ (ตำแหน่ง 1, 2, 3)
+                btn.className = "clap-btn-wrong w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out";
+                feedback.innerText = "❌ ผิดจังหวะ (Miss)";
+                feedback.className = "h-8 mt-4 text-xl font-bold text-center text-red-500 drop-shadow-sm";
+            }
+
+            // เด้งปุ่มกลับสภาพเดิมหลังผ่านไป 200ms
+            setTimeout(() => {
+                btn.className = "clap-btn-neutral w-full md:w-1/2 mx-auto block py-6 rounded-2xl text-2xl font-bold transition-all duration-100 ease-in-out";
+            }, 200);
+        }
+
+        // รับค่าจากการกด Spacebar
+        document.addEventListener('keydown', function(event) {
+            if (event.code === 'Space' && document.getElementById('sec-step23').classList.contains('active')) {
+                event.preventDefault(); // ป้องกันไม่ให้หน้าเว็บเลื่อนลง
+                userTapClap();
+            }
+        });
+
         function startLoop() {
             simTimerId = setInterval(() => {
+                hasClappedThisBeat = false; // รีเซ็ตสถานะการกดปุ่มทุกครั้งที่เปลี่ยนจังหวะ
+
                 if (currentBeatIndex >= 0) {
                     document.getElementById("beat-" + currentBeatIndex).classList.remove("active-tracker", "active-upbeat", "active-clap");
                 }
@@ -377,7 +434,7 @@
                 if (currentBeatIndex >= currentSong.length) currentBeatIndex = 0; 
                 
                 const currentNote = currentSong[currentBeatIndex];
-                const position = currentBeatIndex % 4; // 0=ตำแหน่ง 1, 1=ตำแหน่ง 2, 2=ตำแหน่ง 3, 3=ตำแหน่ง 4
+                const position = currentBeatIndex % 4; 
                 const currentSpan = document.getElementById("beat-" + currentBeatIndex);
                 
                 let isClap = false;
@@ -393,25 +450,15 @@
                     currentSpan.classList.add("active-tracker"); 
                 }
                 
-                // 1. เล่นเสียงเคาะจังหวะทั่วไป (จังหวะ 1, 2, 3)
                 if (!isClap) playMetronome(isUpbeat); 
-                
-                // 2. เล่นเสียงปรบมือดังๆ (เฉพาะตำแหน่ง 4)
                 if (isClap) playSyntheticClap();
 
-                // 3. ระบบอ่านออกเสียง และเล่นดนตรี
                 if(document.getElementById("melodyToggle").checked) {
                     if (currentNote !== "-") {
                         let cleanNote = currentNote.replace("̇", "").replace("̣", "");
                         let spokenWord = thaiPronunciation[cleanNote] || currentNote;
-                        
-                        // ออกเสียงอ่านภาษาไทย (ทั้งตัวเลขและตัวโน้ต)
                         speakThai(spokenWord);
-                        
-                        // ถ้าเป็นตัวโน้ต (ไม่ใช่ตัวเลข 1 2 3 4) ให้เล่นเสียงเมโลดี้ควบคู่ไปด้วย
-                        if (isNaN(cleanNote)) {
-                            playMelodyNote(currentNote);
-                        }
+                        if (isNaN(cleanNote)) playMelodyNote(currentNote);
                     }
                 }
                 
@@ -423,7 +470,7 @@
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
             
-            // จำเป็นต้องมีเพื่อปลดล็อกระบบเสียงพูดในครั้งแรกที่ผู้ใช้กดปุ่ม
+            // ปลดล็อกระบบเสียงพูดในเบราว์เซอร์
             if ('speechSynthesis' in window && !isPlaying) {
                 let unlockMsg = new SpeechSynthesisUtterance('');
                 window.speechSynthesis.speak(unlockMsg);
@@ -436,14 +483,19 @@
                 }
                 currentBeatIndex = -1; 
                 btn.innerHTML = "▶️ เริ่มฝึกซ้อม Simulator"; btn.classList.replace('bg-thaiGold', 'bg-thaiRed');
+                document.getElementById("clapFeedback").innerText = "รอเริ่มการฝึกซ้อม...";
+                document.getElementById("clapFeedback").className = "h-8 mt-4 text-lg font-bold text-center text-gray-400";
                 window.speechSynthesis.cancel();
             } else { 
                 btn.innerHTML = "⏹️ หยุดการฝึกซ้อม"; btn.classList.replace('bg-thaiRed', 'bg-thaiGold'); 
+                document.getElementById("clapFeedback").innerText = "เตรียมตัว...";
+                document.getElementById("clapFeedback").className = "h-8 mt-4 text-lg font-bold text-center text-blue-500 animate-pulse";
                 startLoop(); 
             }
             isPlaying = !isPlaying;
         }
 
+        // ================= GAME =================
         function initGame() {
             document.getElementById('game-board').innerHTML = ''; document.getElementById('game-score').innerText = '0';
             let deck = [{id:1,v:'ด'},{id:1,v:'โด'},{id:2,v:'ร'},{id:2,v:'เร'},{id:3,v:'ม'},{id:3,v:'มี'},{id:4,v:'ฟ'},{id:4,v:'ฟา'}].sort(()=>Math.random()-0.5);
@@ -466,11 +518,8 @@
             });
         }
         
-        // เคล็ดลับดึงเสียงภาษาไทยมารอไว้ก่อน
         if ('speechSynthesis' in window) {
-            window.speechSynthesis.onvoiceschanged = function() {
-                window.speechSynthesis.getVoices();
-            };
+            window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); };
         }
 
         window.onload = () => { loadSong(); initGame(); };
