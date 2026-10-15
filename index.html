@@ -106,7 +106,7 @@
         .beat.active-upbeat { background-color: #fbf236; color: #000; border: 2px solid #000; } 
         .beat.active-clap { background-color: #ac3232; color: #fff; border: 2px solid #000; } 
         
-        /* Look-ahead Guide (จุดกวาดสายตาล่วงหน้า 1 จังหวะ) */
+        /* Look-ahead Guide (จุดกวาดสายตาล่วงหน้า 1 ห้อง) */
         .beat.active-lookahead { 
             background-color: rgba(91, 110, 225, 0.15); 
             border: 2px dashed #5b6ee1; 
@@ -247,17 +247,17 @@
                 </div>
             </div>
 
-            <!-- Step 2: Practice of parts (Rhythm only) -->
+            <!-- Step 2: Practice of parts -->
             <div id="sec-step2" class="view-section">
                 <h2 class="text-2xl arcade text-pBlue mb-4">STAGE 2: SUB-SKILLS</h2>
                 <p class="mb-4 text-pNavy text-lg font-bold">ขั้นปฏิบัติทักษะย่อย: ฝึกความแม่นยำในการนับจังหวะ (1-2-3-4)</p>
 
-                <!-- อธิบายการกวาดสายตา Look-ahead -->
+                <!-- อธิบายการกวาดสายตา Look-ahead (อัปเดตเป็น 1 ห้อง) -->
                 <div class="bg-pNavy text-white p-4 border-4 border-black mb-6">
                     <h3 class="arcade text-pYellow text-sm mb-2">LOOK-AHEAD GUIDE</h3>
                     <p class="font-thai font-bold text-md leading-relaxed">
-                        ระบบมี <span class="border-2 border-dashed border-pBlue bg-[#5b6ee1]/20 px-2 py-0.5 text-pBlue">กรอบประสีฟ้า</span> วิ่งนำหน้า 1 จังหวะเสมอ<br>
-                        👉 <b>ฝึกกวาดสายตามองตามกรอบนี้</b> เพื่ออ่านล่วงหน้า จะช่วยลดการสะดุดรอยต่อห้องเพลง
+                        ระบบมี <span class="border-2 border-dashed border-pBlue bg-[#5b6ee1]/20 px-2 py-0.5 text-pBlue">กรอบประสีฟ้า</span> ครอบนำหน้าล่วงหน้า <b class="text-pYellow">1 ห้องเพลง</b> เสมอ<br>
+                        👉 <b>ฝึกกวาดสายตามองในกรอบนี้รอไว้</b> เพื่อเตรียมอ่านล่วงหน้า จะช่วยลดการสะดุดรอยต่อห้องเพลง
                     </p>
                 </div>
                 
@@ -311,12 +311,12 @@
                 <h2 class="text-2xl arcade text-pBlue mb-4">STAGE 3: WHOLE SKILL</h2>
                 <p class="mb-4 text-pNavy text-lg font-bold">ขั้นปฏิบัติทักษะรวม: นำจังหวะมาประกอบการอ่านโน้ตเพลงจริง</p>
 
-                <!-- อธิบายการกวาดสายตา Look-ahead -->
+                <!-- อธิบายการกวาดสายตา Look-ahead (อัปเดตเป็น 1 ห้อง) -->
                 <div class="bg-pNavy text-white p-4 border-4 border-black mb-6">
                     <h3 class="arcade text-pYellow text-sm mb-2">LOOK-AHEAD GUIDE</h3>
                     <p class="font-thai font-bold text-md leading-relaxed">
-                        ระบบมี <span class="border-2 border-dashed border-pBlue bg-[#5b6ee1]/20 px-2 py-0.5 text-pBlue">กรอบประสีฟ้า</span> วิ่งนำหน้า 1 จังหวะเสมอ<br>
-                        👉 <b>ฝึกกวาดสายตามองตามกรอบนี้</b> เพื่ออ่านล่วงหน้า จะช่วยลดการสะดุดรอยต่อห้องเพลง
+                        ระบบมี <span class="border-2 border-dashed border-pBlue bg-[#5b6ee1]/20 px-2 py-0.5 text-pBlue">กรอบประสีฟ้า</span> ครอบนำหน้าล่วงหน้า <b class="text-pYellow">1 ห้องเพลง</b> เสมอ<br>
+                        👉 <b>ฝึกกวาดสายตามองในกรอบนี้รอไว้</b> เพื่อเตรียมอ่านล่วงหน้า จะช่วยลดการสะดุดรอยต่อห้องเพลง
                     </p>
                 </div>
                 
@@ -661,11 +661,11 @@
                 if (sim2BeatIdx >= 0) {
                     let oldSpan = document.getElementById("sim2-beat-" + sim2BeatIdx);
                     if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
-                    
-                    let oldLook = document.getElementById("sim2-beat-" + (sim2BeatIdx + 1));
-                    if (oldLook) oldLook.classList.remove("active-lookahead");
                 }
                 
+                // เคลียร์แสงนำสายตาของเก่าออกทั้งหมดก่อน
+                document.querySelectorAll('#sim2Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
+
                 sim2BeatIdx++; 
                 if (sim2BeatIdx >= sim2Song.length) sim2BeatIdx = 0; 
                 
@@ -686,8 +686,13 @@
                     }
                 }
                 
-                let nextSpan = document.getElementById("sim2-beat-" + (sim2BeatIdx + 1));
-                if (nextSpan) nextSpan.classList.add("active-lookahead");
+                // แสงนำสายตาล่วงหน้า (Look-ahead 1 ห้องเต็ม = 4 จังหวะ)
+                let currentRoom = Math.floor(sim2BeatIdx / 4);
+                let nextRoom = currentRoom + 1;
+                for (let i = 0; i < 4; i++) {
+                    let nextSpan = document.getElementById("sim2-beat-" + (nextRoom * 4 + i));
+                    if (nextSpan) nextSpan.classList.add("active-lookahead");
+                }
 
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
@@ -708,9 +713,8 @@
                 if (sim2BeatIdx >= 0) {
                     let el = document.getElementById("sim2-beat-" + sim2BeatIdx);
                     if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
-                    let lookEl = document.getElementById("sim2-beat-" + (sim2BeatIdx + 1));
-                    if (lookEl) lookEl.classList.remove("active-lookahead");
                 }
+                document.querySelectorAll('#sim2Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 sim2BeatIdx = -1; 
                 btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
                 window.speechSynthesis.cancel();
@@ -719,6 +723,7 @@
                     let el = document.getElementById("sim2-beat-" + sim2BeatIdx);
                     if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
                 }
+                document.querySelectorAll('#sim2Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 sim2BeatIdx = -1;
                 btn.innerText = 'STOP'; btn.classList.replace('bg-pBlue', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
                 startSim2Loop(); 
@@ -748,11 +753,11 @@
                 if (sim3BeatIdx >= 0) {
                     let oldSpan = document.getElementById("sim3-beat-" + sim3BeatIdx);
                     if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
-                    
-                    let oldLook = document.getElementById("sim3-beat-" + (sim3BeatIdx + 1));
-                    if (oldLook) oldLook.classList.remove("active-lookahead");
                 }
                 
+                // เคลียร์แสงนำสายตา
+                document.querySelectorAll('#sim3Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
+
                 sim3BeatIdx++; 
                 if (sim3BeatIdx >= sim3Song.length) sim3BeatIdx = 0; 
                 
@@ -773,8 +778,13 @@
                     }
                 }
                 
-                let nextSpan = document.getElementById("sim3-beat-" + (sim3BeatIdx + 1));
-                if (nextSpan) nextSpan.classList.add("active-lookahead");
+                // แสงนำสายตาล่วงหน้า 1 ห้องเต็ม
+                let currentRoom = Math.floor(sim3BeatIdx / 4);
+                let nextRoom = currentRoom + 1;
+                for (let i = 0; i < 4; i++) {
+                    let nextSpan = document.getElementById("sim3-beat-" + (nextRoom * 4 + i));
+                    if (nextSpan) nextSpan.classList.add("active-lookahead");
+                }
 
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
@@ -795,9 +805,8 @@
                 if (sim3BeatIdx >= 0) {
                     let el = document.getElementById("sim3-beat-" + sim3BeatIdx);
                     if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
-                    let lookEl = document.getElementById("sim3-beat-" + (sim3BeatIdx + 1));
-                    if (lookEl) lookEl.classList.remove("active-lookahead");
                 }
+                document.querySelectorAll('#sim3Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 sim3BeatIdx = -1; 
                 btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
                 window.speechSynthesis.cancel();
@@ -806,6 +815,7 @@
                     let el = document.getElementById("sim3-beat-" + sim3BeatIdx);
                     if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
                 }
+                document.querySelectorAll('#sim3Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 sim3BeatIdx = -1;
                 btn.innerText = 'STOP'; btn.classList.replace('bg-pBlue', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
                 startSim3Loop(); 
@@ -928,10 +938,9 @@
                     }
                     let oldSpan = document.getElementById("ch-beat-" + chBeatIdx);
                     if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
-
-                    let oldLook = document.getElementById("ch-beat-" + (chBeatIdx + 1));
-                    if (oldLook) oldLook.classList.remove("active-lookahead");
                 }
+
+                document.querySelectorAll('#chTable .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 
                 hasClapped = false;
                 chBeatIdx++; 
@@ -955,8 +964,13 @@
                     }
                 }
                 
-                let nextSpan = document.getElementById("ch-beat-" + (chBeatIdx + 1));
-                if (nextSpan) nextSpan.classList.add("active-lookahead");
+                // แสงนำสายตาล่วงหน้า 1 ห้องเต็ม
+                let currentRoom = Math.floor(chBeatIdx / 4);
+                let nextRoom = currentRoom + 1;
+                for (let i = 0; i < 4; i++) {
+                    let nextSpan = document.getElementById("ch-beat-" + (nextRoom * 4 + i));
+                    if (nextSpan) nextSpan.classList.add("active-lookahead");
+                }
 
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
@@ -975,9 +989,8 @@
                 if (chBeatIdx >= 0) {
                     let el = document.getElementById("ch-beat-" + chBeatIdx);
                     if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
-                    let lookEl = document.getElementById("ch-beat-" + (chBeatIdx + 1));
-                    if (lookEl) lookEl.classList.remove("active-lookahead");
                 }
+                document.querySelectorAll('#chTable .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 chBeatIdx = -1; 
                 btn.innerText = 'FIGHT!'; btn.classList.replace('bg-pYellow', 'bg-pRed'); btn.classList.replace('text-black', 'text-white');
                 document.getElementById("chFeedback").innerText = "ABORTED";
@@ -987,6 +1000,7 @@
                     let el = document.getElementById("ch-beat-" + chBeatIdx);
                     if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
                 }
+                document.querySelectorAll('#chTable .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 chBeatIdx = -1;
                 btn.innerText = 'STOP'; btn.classList.replace('bg-pRed', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
                 document.getElementById("chFeedback").innerText = "GET READY...";
@@ -1006,10 +1020,4 @@
         });
         
         window.onload = () => { 
-            loadSim2(); 
-            loadSim3();
-            loadCh();  
-        };
-    </script>
-</body>
-</html>
+            load
