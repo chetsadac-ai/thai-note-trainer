@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
-    <!-- ฟอนต์สไตล์ตู้เกม: Press Start 2P (สำหรับตัวเลข/ภาษาอังกฤษ) และ Chakra Petch (สำหรับภาษาไทยทรงเหลี่ยม) -->
+    <!-- ฟอนต์สไตล์ตู้เกม -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -38,7 +38,6 @@
         body {
             font-family: 'Chakra Petch', sans-serif;
             background-color: #5b6ee1;
-            /* ลายตาราง Pixel */
             background-image: 
                 linear-gradient(45deg, #4f61cc 25%, transparent 25%, transparent 75%, #4f61cc 75%, #4f61cc), 
                 linear-gradient(45deg, #4f61cc 25%, transparent 25%, transparent 75%, #4f61cc 75%, #4f61cc);
@@ -48,7 +47,6 @@
             color: #000;
         }
 
-        /* ----- ARCADE HUD STYLES ----- */
         .pixel-box {
             background-color: #ffffff;
             border: 4px solid #000000;
@@ -66,7 +64,7 @@
         .pixel-btn {
             border: 4px solid #000000;
             box-shadow: 4px 4px 0px #000000;
-            transition: all 0.1s steps(2);
+            transition: all 0.1s;
             text-transform: uppercase;
             border-radius: 0;
             cursor: pointer;
@@ -77,16 +75,22 @@
             box-shadow: 0px 0px 0px #000000;
         }
 
-        /* Menu */
+        /* เมนู */
         .menu-item { border: 4px solid transparent; transition: background 0.1s; }
         .menu-item:hover { background-color: #3f4a66; }
         .menu-active { background-color: #fbf236; color: #000; border: 4px solid #000; }
         .menu-active::before { content: "▶ "; font-family: 'Press Start 2P'; font-size: 10px; margin-right: 5px; }
 
-        /* View Control */
-        .view-section { display: none; }
-        .view-section.active { display: block; animation: pixelBlink 0.3s steps(2) forwards; }
-        @keyframes pixelBlink { 0% { opacity: 0; } 50% { opacity: 1; } }
+        /* แก้ไขบั๊กแอนิเมชันของหน้าจอ */
+        .view-section { display: none; opacity: 0; }
+        .view-section.active { 
+            display: block; 
+            animation: fadeInPage 0.3s ease-in-out forwards; 
+        }
+        @keyframes fadeInPage { 
+            0% { opacity: 0; transform: translateY(10px); } 
+            100% { opacity: 1; transform: translateY(0); } 
+        }
 
         /* Notations */
         .notation-row {
@@ -98,7 +102,7 @@
         .room:last-child { border-right: none; }
         .beat {
             flex: 1; display: flex; justify-content: center; align-items: center;
-            font-size: 20px; font-weight: 700; transition: background-color 0s;
+            font-size: 20px; font-weight: 700; transition: background-color 0.1s;
         }
 
         /* Simulator states */
@@ -106,7 +110,7 @@
         .beat.active-upbeat { background-color: #fbf236; color: #000; border: 2px solid #000; } 
         .beat.active-clap { background-color: #ac3232; color: #fff; border: 2px solid #000; } 
         
-        /* Look-ahead Guide (จุดกวาดสายตาล่วงหน้า 1 ห้อง) */
+        /* Look-ahead Guide */
         .beat.active-lookahead { 
             background-color: rgba(91, 110, 225, 0.15); 
             border: 2px dashed #5b6ee1; 
@@ -129,7 +133,6 @@
         .clap-btn-correct { background-color: #63c64d; color: #000; transform: translateY(6px); border-bottom: 2px solid #000; }
         .clap-btn-wrong { background-color: #ac3232; color: #fff; transform: translateY(6px); border-bottom: 2px solid #000; }
 
-        /* Custom Range Slider */
         input[type=range] { -webkit-appearance: none; background: transparent; height: 20px; border: 2px solid #000; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 12px; background: #ac3232; border: 2px solid #000; cursor: pointer; }
         
@@ -149,18 +152,18 @@
 
     <div class="min-h-screen flex flex-col md:flex-row p-3 md:p-6 gap-6 max-w-7xl mx-auto relative z-10">
         
-        <!-- Sidebar Menu (Arcade Panel) -->
+        <!-- Sidebar Menu -->
         <aside class="pixel-panel-dark w-full md:w-72 h-fit md:sticky md:top-6 flex flex-col p-5 z-50">
             <h1 class="text-2xl text-center text-pYellow mb-2 arcade font-bold tracking-tighter" style="line-height: 1.5;">THAI NOTE<br>TRAINER</h1>
             <div class="text-center text-pGreen text-xs mb-6 arcade uppercase">BY KruDREAM</div>
             <nav class="flex flex-col space-y-2 font-thai text-lg font-bold">
-                <button onclick="nav('home', this)" class="menu-item menu-active p-3 text-left"><span class="arcade text-[10px]">00</span> หน้าแรก</button>
+                <button onclick="switchPage('home', this)" class="menu-item menu-active p-3 text-left"><span class="arcade text-[10px]">00</span> หน้าแรก</button>
                 <div class="mt-4 mb-2 text-xs text-pGray arcade uppercase pl-3">LEVEL SELECT</div>
-                <button onclick="nav('step1', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">01</span> สาธิตทักษะ</button>
-                <button onclick="nav('step2', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">02</span> ปฏิบัติทักษะย่อย</button>
-                <button onclick="nav('step3', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">03</span> ปฏิบัติทักษะรวม</button>
-                <button onclick="nav('step4', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">04</span> เทคนิควิธี</button>
-                <button onclick="nav('step5', this)" class="menu-item p-3 text-left text-pRed"><span class="arcade text-[10px]">05</span> ด่านทดสอบ!</button>
+                <button onclick="switchPage('step1', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">01</span> สาธิตทักษะ</button>
+                <button onclick="switchPage('step2', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">02</span> ปฏิบัติทักษะย่อย</button>
+                <button onclick="switchPage('step3', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">03</span> ปฏิบัติทักษะรวม</button>
+                <button onclick="switchPage('step4', this)" class="menu-item p-3 text-left"><span class="arcade text-[10px]">04</span> เทคนิควิธี</button>
+                <button onclick="switchPage('step5', this)" class="menu-item p-3 text-left text-pRed"><span class="arcade text-[10px]">05</span> ด่านทดสอบ!</button>
             </nav>
         </aside>
 
@@ -178,7 +181,7 @@
                 </div>
                 
                 <div class="flex mt-8">
-                    <button onclick="nav('step1', document.querySelectorAll('.menu-item')[1])" class="px-8 py-4 bg-pBlue text-white font-thai font-bold text-2xl pixel-btn">
+                    <button onclick="switchPage('step1', document.querySelectorAll('.menu-item')[1])" class="px-8 py-4 bg-pBlue text-white font-thai font-bold text-2xl pixel-btn">
                         START GAME <span class="arcade text-sm ml-2">►</span>
                     </button>
                 </div>
@@ -189,7 +192,6 @@
                 <h2 class="text-2xl mb-4 arcade text-pNavy">STAGE 1: DEMO</h2>
                 <p class="mb-4 text-pNavy text-xl font-bold">สัญลักษณ์ตัวโน้ตและจังหวะของดนตรีไทย</p>
 
-                <!-- เพิ่มส่วนอธิบายสัญลักษณ์โน้ตดนตรีไทย -->
                 <div class="bg-pNavy text-white p-6 border-4 border-black mb-8">
                     <h3 class="arcade text-pYellow text-lg mb-4">NOTE SYMBOLS (สัญลักษณ์โน้ต)</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -241,7 +243,7 @@
                 </div>
                 
                 <div class="flex justify-end">
-                    <button onclick="nav('step2', document.querySelectorAll('.menu-item')[2])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
+                    <button onclick="switchPage('step2', document.querySelectorAll('.menu-item')[2])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
                         NEXT STAGE <span class="arcade text-sm ml-2">►</span>
                     </button>
                 </div>
@@ -252,7 +254,6 @@
                 <h2 class="text-2xl arcade text-pBlue mb-4">STAGE 2: SUB-SKILLS</h2>
                 <p class="mb-4 text-pNavy text-lg font-bold">ขั้นปฏิบัติทักษะย่อย: ฝึกความแม่นยำในการนับจังหวะ (1-2-3-4)</p>
 
-                <!-- อธิบายการกวาดสายตา Look-ahead (อัปเดตเป็น 1 ห้อง) -->
                 <div class="bg-pNavy text-white p-4 border-4 border-black mb-6">
                     <h3 class="arcade text-pYellow text-sm mb-2">LOOK-AHEAD GUIDE</h3>
                     <p class="font-thai font-bold text-md leading-relaxed">
@@ -300,7 +301,7 @@
                 </div>
                 
                 <div class="flex justify-end">
-                    <button onclick="nav('step3', document.querySelectorAll('.menu-item')[3])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
+                    <button onclick="switchPage('step3', document.querySelectorAll('.menu-item')[3])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
                         NEXT STAGE <span class="arcade text-sm ml-2">►</span>
                     </button>
                 </div>
@@ -311,7 +312,6 @@
                 <h2 class="text-2xl arcade text-pBlue mb-4">STAGE 3: WHOLE SKILL</h2>
                 <p class="mb-4 text-pNavy text-lg font-bold">ขั้นปฏิบัติทักษะรวม: นำจังหวะมาประกอบการอ่านโน้ตเพลงจริง</p>
 
-                <!-- อธิบายการกวาดสายตา Look-ahead (อัปเดตเป็น 1 ห้อง) -->
                 <div class="bg-pNavy text-white p-4 border-4 border-black mb-6">
                     <h3 class="arcade text-pYellow text-sm mb-2">LOOK-AHEAD GUIDE</h3>
                     <p class="font-thai font-bold text-md leading-relaxed">
@@ -357,7 +357,7 @@
                 </div>
                 
                 <div class="flex justify-end">
-                    <button onclick="nav('step4', document.querySelectorAll('.menu-item')[4])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
+                    <button onclick="switchPage('step4', document.querySelectorAll('.menu-item')[4])" class="px-8 py-4 bg-pGreen text-black font-thai font-bold text-xl pixel-btn">
                         NEXT STAGE <span class="arcade text-sm ml-2">►</span>
                     </button>
                 </div>
@@ -387,7 +387,7 @@
                 </div>
                 
                 <div class="flex justify-end mt-10">
-                    <button onclick="nav('step5', document.querySelectorAll('.menu-item')[5])" class="px-8 py-4 bg-pRed text-white font-arcade text-lg pixel-btn">
+                    <button onclick="switchPage('step5', document.querySelectorAll('.menu-item')[5])" class="px-8 py-4 bg-pRed text-white font-arcade text-lg pixel-btn">
                         BOSS STAGE ►
                     </button>
                 </div>
@@ -448,13 +448,18 @@
 
     <!-- AUDIO ENGINE AND LOGIC -->
     <script>
-        function nav(sectionId, element = null) {
-            if (sectionId !== 'step2' && sim2IsPlaying) toggleSim2(); 
-            if (sectionId !== 'step3' && sim3IsPlaying) toggleSim3(); 
-            if (sectionId !== 'step5' && chIsPlaying) toggleCh(); 
+        // เปลี่ยนชื่อฟังก์ชันจาก nav เป็น switchPage ป้องกันชื่อชนกับ HTML Tags
+        function switchPage(sectionId, element = null) {
+            // สั่งหยุดการทำงานของลูปทุกหน้าก่อนเปลี่ยนหน้าจอ
+            if (typeof sim2IsPlaying !== 'undefined' && sim2IsPlaying) toggleSim2(); 
+            if (typeof sim3IsPlaying !== 'undefined' && sim3IsPlaying) toggleSim3(); 
+            if (typeof chIsPlaying !== 'undefined' && chIsPlaying) toggleCh(); 
 
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            setTimeout(() => { document.getElementById(`sec-${sectionId}`).classList.add('active'); }, 10); 
+            setTimeout(() => { 
+                const target = document.getElementById('sec-' + sectionId);
+                if (target) target.classList.add('active'); 
+            }, 10); 
             
             if(element) {
                 document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('menu-active'));
@@ -639,7 +644,7 @@
             gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4); osc.stop(audioCtx.currentTime + 0.4);
         }
 
-        /* ----- SIMULATOR 2 LOGIC (STAGE 2: RHYTHM) ----- */
+        // ================= SIM 2 =================
         let sim2Song = songs.ex1, sim2IsPlaying = false, sim2BeatIdx = -1, sim2TimerId, sim2BpmVal = 60;
 
         function loadSim2() {
@@ -663,7 +668,7 @@
                     if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
                 }
                 
-                // เคลียร์แสงนำสายตาของเก่าออกทั้งหมดก่อน
+                // คลีน Look-ahead ของเก่าทั้งหมดแบบปลอดภัย
                 document.querySelectorAll('#sim2Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
 
                 sim2BeatIdx++; 
@@ -686,7 +691,7 @@
                     }
                 }
                 
-                // แสงนำสายตาล่วงหน้า (Look-ahead 1 ห้องเต็ม = 4 จังหวะ)
+                // สร้าง Look-ahead ของใหม่
                 let currentRoom = Math.floor(sim2BeatIdx / 4);
                 let nextRoom = currentRoom + 1;
                 for (let i = 0; i < 4; i++) {
@@ -716,22 +721,21 @@
                 }
                 document.querySelectorAll('#sim2Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 sim2BeatIdx = -1; 
-                btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
-                window.speechSynthesis.cancel();
+                btn.innerText = 'START AUTO'; 
+                btn.classList.remove('bg-pYellow', 'text-black');
+                btn.classList.add('bg-pBlue', 'text-white');
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             } else { 
-                if (sim2BeatIdx >= 0) {
-                    let el = document.getElementById("sim2-beat-" + sim2BeatIdx);
-                    if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
-                }
-                document.querySelectorAll('#sim2Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 sim2BeatIdx = -1;
-                btn.innerText = 'STOP'; btn.classList.replace('bg-pBlue', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
+                btn.innerText = 'STOP'; 
+                btn.classList.remove('bg-pBlue', 'text-white');
+                btn.classList.add('bg-pYellow', 'text-black');
                 startSim2Loop(); 
             }
             sim2IsPlaying = !sim2IsPlaying;
         }
 
-        /* ----- SIMULATOR 3 LOGIC (STAGE 3: MELODY) ----- */
+        // ================= SIM 3 =================
         let sim3Song = songs.basic, sim3IsPlaying = false, sim3BeatIdx = -1, sim3TimerId, sim3BpmVal = 60;
 
         function loadSim3() {
@@ -755,7 +759,6 @@
                     if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
                 }
                 
-                // เคลียร์แสงนำสายตา
                 document.querySelectorAll('#sim3Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
 
                 sim3BeatIdx++; 
@@ -778,7 +781,6 @@
                     }
                 }
                 
-                // แสงนำสายตาล่วงหน้า 1 ห้องเต็ม
                 let currentRoom = Math.floor(sim3BeatIdx / 4);
                 let nextRoom = currentRoom + 1;
                 for (let i = 0; i < 4; i++) {
@@ -808,22 +810,21 @@
                 }
                 document.querySelectorAll('#sim3Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 sim3BeatIdx = -1; 
-                btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
-                window.speechSynthesis.cancel();
+                btn.innerText = 'START AUTO'; 
+                btn.classList.remove('bg-pYellow', 'text-black');
+                btn.classList.add('bg-pBlue', 'text-white');
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
             } else { 
-                if (sim3BeatIdx >= 0) {
-                    let el = document.getElementById("sim3-beat-" + sim3BeatIdx);
-                    if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
-                }
-                document.querySelectorAll('#sim3Table .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 sim3BeatIdx = -1;
-                btn.innerText = 'STOP'; btn.classList.replace('bg-pBlue', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
+                btn.innerText = 'STOP'; 
+                btn.classList.remove('bg-pBlue', 'text-white');
+                btn.classList.add('bg-pYellow', 'text-black');
                 startSim3Loop(); 
             }
             sim3IsPlaying = !sim3IsPlaying;
         }
 
-        /* ----- CHALLENGE LOGIC (STAGE 5) ----- */
+        // ================= CHALLENGE 5 =================
         let chSong = songs.jeanJaiYor, chIsPlaying = false, chTimerId, chBeatIdx = -1, chBpmVal = 200;
         let chTotalTargets = 0, chHits = 0, chMisses = 0;
         let hasClapped = false;
@@ -886,7 +887,8 @@
             clearInterval(chTimerId);
             chIsPlaying = false;
             document.getElementById("chBtn").innerText = 'RETRY';
-            document.getElementById("chBtn").classList.replace('bg-pYellow', 'bg-pRed'); document.getElementById("chBtn").classList.replace('text-black', 'text-white');
+            document.getElementById("chBtn").classList.remove('bg-pYellow', 'text-black');
+            document.getElementById("chBtn").classList.add('bg-pRed', 'text-white');
             document.getElementById("chFeedback").innerText = "STAGE CLEAR";
             document.getElementById("chFeedback").className = "h-8 mt-4 arcade text-center text-white text-lg";
             
@@ -964,7 +966,6 @@
                     }
                 }
                 
-                // แสงนำสายตาล่วงหน้า 1 ห้องเต็ม
                 let currentRoom = Math.floor(chBeatIdx / 4);
                 let nextRoom = currentRoom + 1;
                 for (let i = 0; i < 4; i++) {
@@ -992,17 +993,16 @@
                 }
                 document.querySelectorAll('#chTable .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 chBeatIdx = -1; 
-                btn.innerText = 'FIGHT!'; btn.classList.replace('bg-pYellow', 'bg-pRed'); btn.classList.replace('text-black', 'text-white');
+                btn.innerText = 'FIGHT!'; 
+                btn.classList.remove('bg-pYellow', 'text-black');
+                btn.classList.add('bg-pRed', 'text-white');
                 document.getElementById("chFeedback").innerText = "ABORTED";
                 document.getElementById("chFeedback").className = "h-8 mt-4 arcade text-center text-white text-lg";
             } else { 
-                if (chBeatIdx >= 0) {
-                    let el = document.getElementById("ch-beat-" + chBeatIdx);
-                    if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
-                }
-                document.querySelectorAll('#chTable .active-lookahead').forEach(el => el.classList.remove('active-lookahead'));
                 chBeatIdx = -1;
-                btn.innerText = 'STOP'; btn.classList.replace('bg-pRed', 'bg-pYellow'); btn.classList.replace('text-white', 'text-black');
+                btn.innerText = 'STOP'; 
+                btn.classList.remove('bg-pRed', 'text-white');
+                btn.classList.add('bg-pYellow', 'text-black');
                 document.getElementById("chFeedback").innerText = "GET READY...";
                 document.getElementById("chFeedback").className = "h-8 mt-4 arcade text-center text-pWhite text-xl blink";
                 startChLoop(); 
@@ -1020,4 +1020,14 @@
         });
         
         window.onload = () => { 
-            load
+            try {
+                loadSim2(); 
+                loadSim3();
+                loadCh();  
+            } catch (e) {
+                console.error("Initialization Error:", e);
+            }
+        };
+    </script>
+</body>
+</html>
