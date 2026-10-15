@@ -38,6 +38,7 @@
         body {
             font-family: 'Chakra Petch', sans-serif;
             background-color: #5b6ee1;
+            /* ลายตาราง Pixel */
             background-image: 
                 linear-gradient(45deg, #4f61cc 25%, transparent 25%, transparent 75%, #4f61cc 75%, #4f61cc), 
                 linear-gradient(45deg, #4f61cc 25%, transparent 25%, transparent 75%, #4f61cc 75%, #4f61cc);
@@ -186,6 +187,30 @@
             <!-- Step 1 -->
             <div id="sec-step1" class="view-section">
                 <h2 class="text-2xl mb-4 arcade text-pNavy">STAGE 1: DEMO</h2>
+                <p class="mb-4 text-pNavy text-xl font-bold">สัญลักษณ์ตัวโน้ตและจังหวะของดนตรีไทย</p>
+
+                <!-- เพิ่มส่วนอธิบายสัญลักษณ์โน้ตดนตรีไทย -->
+                <div class="bg-pNavy text-white p-6 border-4 border-black mb-8">
+                    <h3 class="arcade text-pYellow text-lg mb-4">NOTE SYMBOLS (สัญลักษณ์โน้ต)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-black border-2 border-pGray p-4 text-center">
+                            <span class="text-3xl font-thai font-bold dot-above block mb-4 mt-2">ด</span>
+                            <p class="font-thai font-bold text-lg text-pGreen">มีจุดด้านบน</p>
+                            <p class="font-thai text-sm text-gray-300">โน้ตระดับเสียงสูง</p>
+                        </div>
+                        <div class="bg-black border-2 border-pGray p-4 text-center">
+                            <span class="text-3xl font-thai font-bold dot-below block mb-4 mt-2">ด</span>
+                            <p class="font-thai font-bold text-lg text-pBlue">มีจุดด้านล่าง</p>
+                            <p class="font-thai text-sm text-gray-300">โน้ตระดับเสียงต่ำ</p>
+                        </div>
+                        <div class="bg-black border-2 border-pGray p-4 text-center flex flex-col justify-between">
+                            <span class="text-3xl font-thai font-bold block mb-4 mt-2">-</span>
+                            <p class="font-thai font-bold text-lg text-pRed">เครื่องหมายขีด</p>
+                            <p class="font-thai text-sm text-gray-300">ให้ลากเสียงยาว หรือ เว้นว่าง</p>
+                        </div>
+                    </div>
+                </div>
+
                 <p class="mb-6 text-pNavy text-xl font-bold">1 ห้องเพลงมี 4 จังหวะย่อย เน้นที่ <b>ตำแหน่ง 2 (ยกมือ)</b> และ <b>ตำแหน่ง 4 (ปรบมือ)</b></p>
                 
                 <div class="bg-pGray p-8 border-4 border-pBlack flex justify-center items-center text-4xl mb-8">
@@ -619,7 +644,6 @@
                     let oldSpan = document.getElementById("sim2-beat-" + sim2BeatIdx);
                     if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
                     
-                    // ลบตัวนำสายตาอันเก่า
                     let oldLook = document.getElementById("sim2-beat-" + (sim2BeatIdx + 1));
                     if (oldLook) oldLook.classList.remove("active-lookahead");
                 }
@@ -639,13 +663,11 @@
                     else if (isUpbeat) span.classList.add("active-upbeat"); 
                     else span.classList.add("active-tracker"); 
 
-                    // Auto-scroll ล่วงหน้าแบบจัดให้อยู่กึ่งกลางเสมอ
                     if (pos === 0) {
                         span.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
                 
-                // แสงนำสายตาล่วงหน้า (Look-ahead Guide)
                 let nextSpan = document.getElementById("sim2-beat-" + (sim2BeatIdx + 1));
                 if (nextSpan) nextSpan.classList.add("active-lookahead");
 
@@ -728,13 +750,11 @@
                     else if (isUpbeat) span.classList.add("active-upbeat"); 
                     else span.classList.add("active-tracker"); 
 
-                    // Auto-scroll ตรงกลางจอ
                     if (pos === 0) {
                         span.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
                 
-                // แสงนำสายตา (Look-ahead Guide)
                 let nextSpan = document.getElementById("sim3-beat-" + (sim3BeatIdx + 1));
                 if (nextSpan) nextSpan.classList.add("active-lookahead");
 
@@ -786,7 +806,6 @@
             const key = document.getElementById("chSelect").value;
             chSong = songs[key];
             
-            // ปรับความเร็วอัตโนมัติแบบไต่ระดับ
             if (key === 'jeanJaiYor') {
                 document.getElementById('chBpm').value = 200;
             } else if (key === 'domKai') {
@@ -892,7 +911,6 @@
                     let oldSpan = document.getElementById("ch-beat-" + chBeatIdx);
                     if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
 
-                    // ลบตัวนำสายตาอันเก่า
                     let oldLook = document.getElementById("ch-beat-" + (chBeatIdx + 1));
                     if (oldLook) oldLook.classList.remove("active-lookahead");
                 }
@@ -914,13 +932,11 @@
                     else if (isUpbeat) span.classList.add("active-upbeat"); 
                     else span.classList.add("active-tracker"); 
 
-                    // Auto-scroll ล่วงหน้าแบบจัดให้อยู่กึ่งกลางเสมอ
                     if (pos === 0) {
                         span.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
                 
-                // แสงนำสายตาล่วงหน้า (Look-ahead Guide)
                 let nextSpan = document.getElementById("ch-beat-" + (chBeatIdx + 1));
                 if (nextSpan) nextSpan.classList.add("active-lookahead");
 
