@@ -38,7 +38,6 @@
         body {
             font-family: 'Chakra Petch', sans-serif;
             background-color: #5b6ee1;
-            /* ลายตาราง Pixel */
             background-image: 
                 linear-gradient(45deg, #4f61cc 25%, transparent 25%, transparent 75%, #4f61cc 75%, #4f61cc), 
                 linear-gradient(45deg, #4f61cc 25%, transparent 25%, transparent 75%, #4f61cc 75%, #4f61cc);
@@ -105,6 +104,13 @@
         .beat.active-tracker { background-color: #000000; color: #fbf236; } 
         .beat.active-upbeat { background-color: #fbf236; color: #000; border: 2px solid #000; } 
         .beat.active-clap { background-color: #ac3232; color: #fff; border: 2px solid #000; } 
+        
+        /* Look-ahead Guide (จุดกวาดสายตาล่วงหน้า 1 จังหวะ) */
+        .beat.active-lookahead { 
+            background-color: rgba(91, 110, 225, 0.15); 
+            border: 2px dashed #5b6ee1; 
+            color: #1a1c23;
+        } 
 
         .dot-above { position: relative; }
         .dot-above::after { content: '•'; position: absolute; top: -10px; font-size: 24px; }
@@ -132,7 +138,6 @@
             background-size: 100% 4px; pointer-events: none; z-index: 50; opacity: 0.4;
         }
 
-        /* คลาสใหม่สำหรับซ่อน Scrollbar แต่ยังเลื่อนได้ เพื่อความสวยงาม */
         .hide-scrollbar::-webkit-scrollbar { width: 8px; }
         .hide-scrollbar::-webkit-scrollbar-thumb { background-color: #000; border-radius: 0px; }
         .hide-scrollbar::-webkit-scrollbar-track { background-color: #fbf236; border-left: 2px solid #000; }
@@ -217,7 +222,7 @@
                 </div>
             </div>
 
-            <!-- Step 2: Practice of parts (Rhythm only) -->
+            <!-- Step 2: Practice of parts -->
             <div id="sec-step2" class="view-section">
                 <h2 class="text-2xl arcade text-pBlue mb-4">STAGE 2: SUB-SKILLS</h2>
                 <p class="mb-4 text-pNavy text-lg font-bold">ขั้นปฏิบัติทักษะย่อย: ฝึกความแม่นยำในการนับจังหวะ (1-2-3-4)</p>
@@ -256,7 +261,6 @@
                     </button>
                 </div>
                 
-                <!-- กล่อง Scrollable สำหรับตารางยาว -->
                 <div class="max-h-[35vh] md:max-h-[45vh] overflow-y-auto hide-scrollbar border-4 border-black p-3 bg-gray-50 mb-6">
                     <div id="sim2Table"></div>
                 </div>
@@ -268,7 +272,7 @@
                 </div>
             </div>
 
-            <!-- Step 3: Practice of whole (Melody) -->
+            <!-- Step 3: Practice of whole -->
             <div id="sec-step3" class="view-section">
                 <h2 class="text-2xl arcade text-pBlue mb-4">STAGE 3: WHOLE SKILL</h2>
                 <p class="mb-4 text-pNavy text-lg font-bold">ขั้นปฏิบัติทักษะรวม: นำจังหวะมาประกอบการอ่านโน้ตเพลงจริง</p>
@@ -305,7 +309,6 @@
                     </button>
                 </div>
                 
-                <!-- กล่อง Scrollable สำหรับตารางยาว -->
                 <div class="max-h-[35vh] md:max-h-[45vh] overflow-y-auto hide-scrollbar border-4 border-black p-3 bg-gray-50 mb-6">
                     <div id="sim3Table"></div>
                 </div>
@@ -332,7 +335,6 @@
                     </div>
                     <div class="bg-pGreen text-black p-6 border-4 border-black">
                         <h3 class="arcade text-lg mb-4 text-white">SOLUTIONS</h3>
-                        <!-- เพิ่มคลาส whitespace-nowrap ป้องกันคำฉีกตกบรรทัด -->
                         <ul class="list-disc ml-6 space-y-3 font-thai font-bold text-xl">
                             <li>ท่องในใจเบาๆ ว่า <b class="whitespace-nowrap">"หนึ่ง-ยก-สาม-ตก"</b></li>
                             <li>เครื่องหมาย "-" ให้ลากเสียง<span class="whitespace-nowrap">ตัวก่อนหน้า</span></li>
@@ -354,13 +356,12 @@
                     <h2 class="text-2xl arcade text-pRed drop-shadow-[2px_2px_0px_#000]">BOSS STAGE: SCORE ATTACK</h2>
                 </div>
                 
-                <!-- คำอธิบายวิธีการเล่น -->
                 <div class="bg-pNavy text-white p-4 border-4 border-black mb-6">
                     <h3 class="arcade text-pYellow text-sm mb-2">HOW TO PLAY (วิธีเล่น)</h3>
                     <ul class="list-disc ml-6 space-y-1 font-thai font-bold text-md">
                         <li>รอจังหวะตัววิ่งเคลื่อนที่มาถึง <span class="text-pRed">ตำแหน่งที่ 4 (จังหวะตก)</span></li>
-                        <li>กด <b>SPACEBAR</b> หรือปุ่ม <b>[ CLAP ]</b> ด้านล่างให้ตรงจังหวะพอดีเพื่อเก็บแต้ม!</li>
-                        <li>ตารางจะ <b>เลื่อนบรรทัดให้อัตโนมัติ</b> ให้โฟกัสที่การกดปุ่มได้เลย!</li>
+                        <li>มอง <span class="text-pBlue">กรอบประนำทาง (Look-ahead)</span> เพื่อเตรียมตัวกดล่วงหน้า</li>
+                        <li>กด <b>SPACEBAR</b> หรือปุ่ม <b>[ CLAP ]</b> ให้ตรงจังหวะพอดีเพื่อเก็บแต้ม!</li>
                     </ul>
                 </div>
                 
@@ -386,13 +387,11 @@
                         </button>
                     </div>
 
-                    <!-- กล่อง Scrollable แบบจำกัดความสูง พร้อม Auto-Scroll -->
                     <div class="max-h-[35vh] md:max-h-[40vh] overflow-y-auto hide-scrollbar border-4 border-black p-3 bg-gray-50 relative">
                         <div id="chTable"></div>
                     </div>
                 </div>
 
-                <!-- พื้นที่ปุ่มปรบมือเกม (Sticky ให้อยู่ด้านล่างตลอดเวลา) -->
                 <div class="sticky bottom-4 z-40 mt-4 bg-pNavy p-4 md:p-6 border-4 border-black shadow-[4px_4px_0px_#ac3232] w-full">
                     <button id="chClapBtn" onclick="chTap()" class="clap-btn-neutral pixel-btn w-full md:w-1/2 mx-auto block py-6 font-arcade text-xl focus:outline-none">
                         [ CLAP ]<br><span class="font-thai text-sm mt-2 block">(SPACEBAR)</span>
@@ -407,7 +406,6 @@
     <!-- AUDIO ENGINE AND LOGIC -->
     <script>
         function nav(sectionId, element = null) {
-            // หยุดการเล่นก่อนเปลี่ยนหน้าต่าง ป้องกันบั๊กค้าง
             if (sectionId !== 'step2' && sim2IsPlaying) toggleSim2(); 
             if (sectionId !== 'step3' && sim3IsPlaying) toggleSim3(); 
             if (sectionId !== 'step5' && chIsPlaying) toggleCh(); 
@@ -422,7 +420,6 @@
         }
         function showFeedback(text) { document.getElementById('demo-feedback').innerText = text; }
 
-        // รวมโน้ตเพลงทั้งหมด
         const songs = {
             ex1: ["1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4", "1","2","3","4"],
             ex2: ["-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4", "-","-","-","4"],
@@ -621,6 +618,10 @@
                 if (sim2BeatIdx >= 0) {
                     let oldSpan = document.getElementById("sim2-beat-" + sim2BeatIdx);
                     if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                    
+                    // ลบตัวนำสายตาอันเก่า
+                    let oldLook = document.getElementById("sim2-beat-" + (sim2BeatIdx + 1));
+                    if (oldLook) oldLook.classList.remove("active-lookahead");
                 }
                 
                 sim2BeatIdx++; 
@@ -638,12 +639,16 @@
                     else if (isUpbeat) span.classList.add("active-upbeat"); 
                     else span.classList.add("active-tracker"); 
 
-                    // เลื่อนหน้าจออัตโนมัติ (Auto-scroll) เพื่อให้เห็นโน้ตบรรทัดต่อไป
-                    if (sim2BeatIdx % 4 === 0) {
-                        span.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    // Auto-scroll ล่วงหน้าแบบจัดให้อยู่กึ่งกลางเสมอ
+                    if (pos === 0) {
+                        span.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
                 
+                // แสงนำสายตาล่วงหน้า (Look-ahead Guide)
+                let nextSpan = document.getElementById("sim2-beat-" + (sim2BeatIdx + 1));
+                if (nextSpan) nextSpan.classList.add("active-lookahead");
+
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
 
@@ -663,6 +668,8 @@
                 if (sim2BeatIdx >= 0) {
                     let el = document.getElementById("sim2-beat-" + sim2BeatIdx);
                     if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                    let lookEl = document.getElementById("sim2-beat-" + (sim2BeatIdx + 1));
+                    if (lookEl) lookEl.classList.remove("active-lookahead");
                 }
                 sim2BeatIdx = -1; 
                 btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
@@ -701,6 +708,9 @@
                 if (sim3BeatIdx >= 0) {
                     let oldSpan = document.getElementById("sim3-beat-" + sim3BeatIdx);
                     if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                    
+                    let oldLook = document.getElementById("sim3-beat-" + (sim3BeatIdx + 1));
+                    if (oldLook) oldLook.classList.remove("active-lookahead");
                 }
                 
                 sim3BeatIdx++; 
@@ -718,12 +728,16 @@
                     else if (isUpbeat) span.classList.add("active-upbeat"); 
                     else span.classList.add("active-tracker"); 
 
-                    // เลื่อนหน้าจออัตโนมัติ (Auto-scroll)
-                    if (sim3BeatIdx % 4 === 0) {
-                        span.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    // Auto-scroll ตรงกลางจอ
+                    if (pos === 0) {
+                        span.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
                 
+                // แสงนำสายตา (Look-ahead Guide)
+                let nextSpan = document.getElementById("sim3-beat-" + (sim3BeatIdx + 1));
+                if (nextSpan) nextSpan.classList.add("active-lookahead");
+
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
 
@@ -743,6 +757,8 @@
                 if (sim3BeatIdx >= 0) {
                     let el = document.getElementById("sim3-beat-" + sim3BeatIdx);
                     if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                    let lookEl = document.getElementById("sim3-beat-" + (sim3BeatIdx + 1));
+                    if (lookEl) lookEl.classList.remove("active-lookahead");
                 }
                 sim3BeatIdx = -1; 
                 btn.innerText = 'START AUTO'; btn.classList.replace('bg-pYellow', 'bg-pBlue'); btn.classList.replace('text-black', 'text-white');
@@ -875,6 +891,10 @@
                     }
                     let oldSpan = document.getElementById("ch-beat-" + chBeatIdx);
                     if (oldSpan) oldSpan.classList.remove("active-tracker", "active-upbeat", "active-clap");
+
+                    // ลบตัวนำสายตาอันเก่า
+                    let oldLook = document.getElementById("ch-beat-" + (chBeatIdx + 1));
+                    if (oldLook) oldLook.classList.remove("active-lookahead");
                 }
                 
                 hasClapped = false;
@@ -894,12 +914,16 @@
                     else if (isUpbeat) span.classList.add("active-upbeat"); 
                     else span.classList.add("active-tracker"); 
 
-                    // เลื่อนหน้าจออัตโนมัติ (Auto-scroll) เพื่อให้โน้ตโผล่มาตรงกลางกล่อง
-                    if (chBeatIdx % 4 === 0) {
-                        span.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    // Auto-scroll ล่วงหน้าแบบจัดให้อยู่กึ่งกลางเสมอ
+                    if (pos === 0) {
+                        span.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }
                 
+                // แสงนำสายตาล่วงหน้า (Look-ahead Guide)
+                let nextSpan = document.getElementById("ch-beat-" + (chBeatIdx + 1));
+                if (nextSpan) nextSpan.classList.add("active-lookahead");
+
                 if (!isClap) playMetronome(isUpbeat); 
                 if (isClap) playSyntheticClap();
 
@@ -917,6 +941,8 @@
                 if (chBeatIdx >= 0) {
                     let el = document.getElementById("ch-beat-" + chBeatIdx);
                     if (el) el.classList.remove("active-tracker", "active-upbeat", "active-clap");
+                    let lookEl = document.getElementById("ch-beat-" + (chBeatIdx + 1));
+                    if (lookEl) lookEl.classList.remove("active-lookahead");
                 }
                 chBeatIdx = -1; 
                 btn.innerText = 'FIGHT!'; btn.classList.replace('bg-pYellow', 'bg-pRed'); btn.classList.replace('text-black', 'text-white');
